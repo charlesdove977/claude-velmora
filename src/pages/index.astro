@@ -7,7 +7,8 @@ import TreatmentCard from "@/components/ui/TreatmentCard.astro";
 import BeforeAfter from "@/components/ui/BeforeAfter.astro";
 import Testimonials from "@/components/sections/Testimonials.astro";
 import ConcernSelector from "@/components/sections/ConcernSelector.astro";
-import { HeroSceneLoader } from "@/components/three/HeroScene";
+import HeroSlider from "@/components/islands/HeroSlider";
+import LiquidMetalLink from "@/components/islands/LiquidMetalLink";
 import MethodScene from "@/components/three/MethodScene";
 import { site } from "@/config/site";
 import { featuredTreatments } from "@/data/treatments";
@@ -18,6 +19,13 @@ import { getCollection } from "astro:content";
 const md = getProvider(site.medicalDirector.slug)!;
 const refine = memberships.find((m) => m.highlight)!;
 const posts = (await getCollection("journal")).sort((a, b) => b.data.date.valueOf() - a.data.date.valueOf()).slice(0, 3);
+const heroSlides = [
+  { image: "space-01", title: "Medical precision. Hotel calm.", description: `Injectables, skin, laser and wellness, planned by ${site.medicalDirector.name} and a team that would rather do less.`, nav: "Precision", alt: "Velmora reception with warm stone and linen textures" },
+  { image: "face-01", title: "Natural first, every visit.", description: "Conservative dosing, small amounts over time, and a two-week review. Results that read as rested, never done.", nav: "Natural first", alt: "Woman with natural skin in soft window light" },
+  { image: "desert-01", title: "Built for Scottsdale skin.", description: "Three hundred days of sun, treated when it is safe and protected the rest of the year.", nav: "Scottsdale skin", alt: "Warm Sonoran desert light at golden hour" },
+  { image: "treatment-01", title: "Every price, before you sit down.", description: "Starting prices on every treatment, and the exact number on your written plan before anything begins.", nav: "Transparent pricing", alt: "Provider gently marking injection points on a patient's brow" },
+  { image: "space-03", title: "A clinic that feels like a good hotel.", description: "Private rooms, linen and stone, a quiet lounge, and coordinators who remember your name.", nav: "The space", alt: "Quiet lounge chair beside a window" },
+];
 const methodSteps = [
   { n: "01", title: "Consult", body: "A movement map, your history, and honest options. Free by video or $50 in person, credited to treatment." },
   { n: "02", title: "Plan", body: "A written plan with exact pricing, sequenced so the skin is never asked to heal two things at once." },
@@ -27,39 +35,12 @@ const methodSteps = [
 ---
 
 <BaseLayout title={`${site.name} | Physician-led Med Spa in Scottsdale`} description={site.description} transparentNav>
-  <!-- 1. Hero -->
-  <section class="hero relative min-h-[100svh] overflow-hidden bg-bone">
-    <div class="absolute inset-0">
-      <div id="hero-poster" class="hero-poster absolute inset-0 transition-opacity duration-[1400ms] ease-out">
-        <Picture name="hero-texture-01" alt="" class="h-full w-full" imgClass="opacity-70" sizes="100vw" loading="eager" fetchpriority="high" width={1920} height={1080} />
-        <div class="absolute inset-0 bg-gradient-to-b from-bone/40 via-bone/20 to-bone"></div>
-      </div>
-      <div class="absolute inset-x-0 bottom-0 top-[var(--nav-h)] lg:left-[42%]">
-        <HeroSceneLoader client:idle />
-      </div>
-      <div class="pointer-events-none absolute inset-x-0 bottom-0 h-40 bg-gradient-to-t from-bone to-transparent"></div>
-      <div class="pointer-events-none absolute inset-x-0 top-0 h-28 bg-gradient-to-b from-bone to-transparent"></div>
-    </div>
-    <div class="relative mx-auto flex min-h-[100svh] max-w-content flex-col justify-end px-4 pb-20 pt-[calc(var(--nav-h)_+_2rem)] md:px-8 lg:justify-center lg:pb-0 xl:px-12">
-      <div class="max-w-2xl">
-        <p class="eyebrow hero-in">Physician-led · Old Town Scottsdale</p>
-        <h1 class="hero-in mt-5 text-fluid-4xl text-ink" style="animation-delay:80ms">
-          <span class="block">Medical precision.</span>
-          <span class="block italic text-gold-text">Hotel calm.</span>
-        </h1>
-        <p class="hero-in mt-6 max-w-lg text-fluid-md text-ink-soft" style="animation-delay:240ms">
-          Injectables, skin, laser and wellness, planned by {site.medicalDirector.name} and a team that would rather do less. Results that read as rested, never done.
-        </p>
-        <div class="hero-in mt-9 flex flex-col gap-3 sm:flex-row" style="animation-delay:360ms">
-          <Button href="/book" size="lg" magnetic>Book a consultation</Button>
-          <Button href="/quiz" variant="ghost" size="lg">Find your treatment</Button>
-        </div>
-        <p class="hero-in mt-5 text-fluid-xs text-ink-muted" style="animation-delay:460ms">{site.consult.virtualLabel}. {site.consult.inPersonLabel}.</p>
-      </div>
-    </div>
-    <a href="#trust" class="absolute bottom-6 right-6 hidden items-center gap-3 text-fluid-xs uppercase tracking-eyebrow text-ink-muted lg:flex" aria-label="Scroll to content">
-      <span>Scroll</span><span class="block h-10 w-px bg-champagne/70"></span>
-    </a>
+  <!-- 1. Hero: full-bleed glass-transition slider -->
+  <section class="hero relative min-h-[100svh] overflow-hidden bg-espresso text-bone">
+    <HeroSlider client:load slides={heroSlides} eyebrow="Physician-led · Old Town Scottsdale" note={`${site.consult.virtualLabel}. ${site.consult.inPersonLabel}.`}>
+      <LiquidMetalLink client:load href="/book" label="Book a consultation" variant="gold" size="lg" />
+      <LiquidMetalLink client:load href="/quiz" label="Find your treatment" variant="ghost-light" size="lg" />
+    </HeroSlider>
   </section>
 
   <!-- 2. Trust strip -->
@@ -184,15 +165,12 @@ const methodSteps = [
         <h2 class="reveal-line mt-4 text-fluid-3xl" data-delay="80"><span class="block">Not sure what you need?</span><span class="block italic text-champagne">Neither is most everyone.</span></h2>
         <p class="reveal mt-6 max-w-lg text-fluid-md text-stone" data-delay="200">Take the 60-second treatment match, or book a free virtual consultation and let a provider map it with you.</p>
         <div class="reveal mt-9 flex flex-col gap-3 sm:flex-row" data-delay="300">
-          <Button href="/quiz" variant="gold" size="lg" magnetic>Take the 60-second match</Button>
-          <Button href="/book" variant="ghost-light" size="lg">Book a consultation</Button>
+          <LiquidMetalLink client:visible href="/quiz" label="Take the 60-second match" variant="gold" size="lg" />
+          <LiquidMetalLink client:visible href="/book" label="Book a consultation" variant="ghost-light" size="lg" />
         </div>
       </div>
     </div>
   </section>
 </BaseLayout>
 
-<style>
-  .hero-poster.is-hidden { opacity: 0; }
-  @media (prefers-reduced-motion: reduce) { .hero-poster { transition: none; } }
-</style>
+

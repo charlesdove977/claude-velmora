@@ -83,7 +83,3 @@ See `verification/` for full-route screenshots at 1440 and 390, `verification/e2
 ## Compliance posture
 
 Medical copy never guarantees outcomes. Before/after images are stock and carry "Illustrative imagery. Not actual patient results." Testimonials are labeled illustrative. No PHI is stored on the server; form submissions are emailed and not written to disk. Minimum age 18. Medical disclaimer, privacy, terms and accessibility pages are linked from every footer.
-
-## About this repository
-
-Public export of the build. Left out on purpose: raw stock originals (the optimized AVIF/WebP set in `public/images/` is what the site uses), competitor screenshots and HTML from the research capture (their copyright; the written notes, scorecard and computed-style data are included), and the QA screenshot archive (the results files and Lighthouse reports are included).

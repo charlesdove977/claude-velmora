@@ -26,6 +26,24 @@
   --c-error: #9b3b2e;
   --c-success: #4f6b4a;
 
+  /* RGB triplets so Tailwind opacity modifiers (bg-espresso/60) work. */
+  --c-bone-rgb: 245 240 232;
+  --c-bone-deep-rgb: 237 230 218;
+  --c-sand-rgb: 231 221 207;
+  --c-stone-rgb: 191 179 163;
+  --c-espresso-rgb: 34 27 23;
+  --c-espresso-soft-rgb: 46 37 33;
+  --c-ink-rgb: 34 27 23;
+  --c-ink-soft-rgb: 90 79 71;
+  --c-ink-muted-rgb: 115 103 96;
+  --c-champagne-rgb: 184 148 106;
+  --c-gold-text-rgb: 122 92 54;
+  --c-sage-rgb: 142 154 134;
+  --c-sage-deep-rgb: 92 104 86;
+  --c-sage-mist-rgb: 227 231 223;
+  --c-error-rgb: 155 59 46;
+  --c-success-rgb: 79 107 74;
+
   /* Type */
   --font-display: "Fraunces", "Iowan Old Style", "Palatino Linotype", Georgia, serif;
   --font-body: "Manrope", "Avenir Next", "Segoe UI", system-ui, sans-serif;

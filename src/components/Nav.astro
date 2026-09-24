@@ -2,6 +2,7 @@
 import { site } from "@/config/site";
 import Logo from "@/components/Logo.astro";
 import Button from "@/components/ui/Button.astro";
+import LiquidMetalLink from "@/components/islands/LiquidMetalLink";
 
 interface Props {
   transparent?: boolean;
@@ -44,7 +45,7 @@ const isActive = (href: string) => path === href || (href !== "/" && path.starts
 
     <div class="hidden items-center gap-3 lg:flex">
       <a href={site.phoneHref} class="nav-link text-fluid-sm font-medium tracking-wide">{site.phone}</a>
-      <Button href="/book" size="sm" magnetic>Book</Button>
+      <LiquidMetalLink client:load href="/book" label="Book" size="sm" />
     </div>
 
     <button
@@ -105,9 +106,16 @@ const isActive = (href: string) => path === href || (href !== "/" && path.starts
     box-shadow: 0 1px 0 color-mix(in srgb, var(--c-stone) 45%, transparent);
   }
   .site-nav.is-transparent:not(.is-scrolled) {
-    color: var(--c-ink);
-    background: transparent;
+    color: var(--c-bone);
+    background: rgba(34, 27, 23, 0.62);
+    backdrop-filter: blur(14px);
+    -webkit-backdrop-filter: blur(14px);
+    box-shadow: 0 1px 0 rgba(245, 240, 232, 0.12);
   }
+  .site-nav.is-transparent:not(.is-scrolled) .nav-link { color: color-mix(in srgb, var(--c-bone) 78%, transparent); }
+  .site-nav.is-transparent:not(.is-scrolled) .nav-link:hover,
+  .site-nav.is-transparent:not(.is-scrolled) .nav-link.is-active { color: var(--c-bone); }
+  .site-nav.is-transparent:not(.is-scrolled) .nav-burger { color: var(--c-bone); }
   .nav-link { color: var(--c-ink-soft); }
   .nav-link:hover, .nav-link.is-active { color: var(--c-ink); }
   .nav-link::after {

@@ -75,6 +75,9 @@
   .prose-velmora li + li { margin-top: 0.4em; }
   .prose-velmora a { text-decoration: underline; text-underline-offset: 3px; text-decoration-color: var(--c-champagne); }
   .prose-velmora blockquote { border-left: 1px solid var(--c-champagne); padding-left: 1.25em; font-family: var(--font-display); font-size: var(--fs-md); font-style: italic; color: var(--c-ink-soft); margin: 1.5em 0; }
+  .lm-ring canvas { position: absolute; inset: 0; width: 100% !important; height: 100% !important; display: block; border-radius: 999px; }
+  @keyframes lm-ripple { 0% { transform: translate(-50%, -50%) scale(0); opacity: 0.6; } 100% { transform: translate(-50%, -50%) scale(4); opacity: 0; } }
+  .lm-ripple { background: radial-gradient(circle, rgba(255,255,255,0.45) 0%, rgba(255,255,255,0) 70%); animation: lm-ripple 600ms ease-out; }
   .grain::after {
     content: "";
     position: absolute; inset: 0; pointer-events: none;
