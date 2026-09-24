@@ -178,7 +178,7 @@ export default function HeroSlider({ slides, eyebrow, note, children }: Props) {
       <canvas ref={canvasRef} className="hero-canvas absolute inset-0 h-full w-full opacity-0 transition-opacity duration-700 [&.is-live]:opacity-100" aria-hidden="true" />
       <div className="pointer-events-none absolute inset-0 bg-espresso/35" aria-hidden="true" />
       <div className="pointer-events-none absolute inset-0 bg-gradient-to-t from-espresso/90 via-espresso/40 to-espresso/30" aria-hidden="true" />
-      <div className="pointer-events-none absolute inset-y-0 left-0 w-full bg-gradient-to-r from-espresso/80 via-espresso/45 to-transparent lg:w-3/5" aria-hidden="true" />
+      <div className="pointer-events-none absolute inset-y-0 left-0 w-full bg-gradient-to-r from-espresso/90 via-espresso/55 to-transparent lg:w-3/5" aria-hidden="true" />
 
       {/* Counter */}
       <div className="absolute right-4 top-[calc(var(--nav-h)+1.25rem)] z-10 font-body text-[0.6875rem] uppercase tracking-eyebrow text-bone/70 md:right-8 xl:right-12">
@@ -187,7 +187,7 @@ export default function HeroSlider({ slides, eyebrow, note, children }: Props) {
 
       {/* Content */}
       <div className="relative z-10 mx-auto flex min-h-[100svh] max-w-content flex-col justify-start px-4 pb-24 pt-[calc(var(--nav-h)_+_3rem)] md:px-8 lg:flex-row lg:items-start lg:justify-between lg:pb-16 lg:pt-[calc(var(--nav-h)_+_4.5rem)] xl:px-12">
-        <div className="max-w-2xl rounded-lg border border-bone/10 bg-espresso/75 p-6 shadow-lift backdrop-blur-md sm:p-8 lg:-ml-2 lg:p-10">
+        <div className="max-w-2xl">
           <p className="eyebrow text-champagne">{eyebrow}</p>
           <h1 ref={titleRef} key={index} className="mt-5 min-h-[3.15em] max-w-[13ch] text-fluid-4xl text-bone [perspective:800px]" aria-label={slide.title}>{split(slide.title)}</h1>
           <p ref={descRef} className="mt-6 min-h-[4.9em] max-w-lg text-fluid-md text-bone" style={{ opacity: 0 }}>{slide.description}</p>
