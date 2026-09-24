@@ -1,0 +1,57 @@
+---
+import BaseLayout from "@/layouts/BaseLayout.astro";
+import Picture from "@/components/ui/Picture.astro";
+import Breadcrumbs from "@/components/ui/Breadcrumbs.astro";
+import TreatmentCard from "@/components/ui/TreatmentCard.astro";
+import CtaBand from "@/components/ui/CtaBand.astro";
+import { getCollection, render } from "astro:content";
+import { getTreatment } from "@/data/treatments";
+import { getProvider } from "@/data/team";
+import { breadcrumbLd, articleLd } from "@/lib/seo";
+
+export async function getStaticPaths() {
+  const posts = await getCollection("journal");
+  return posts.map((p) => ({ params: { slug: p.id }, props: { post: p } }));
+}
+const { post } = Astro.props;
+const { Content } = await render(post);
+const author = getProvider(post.data.authorSlug);
+const related = post.data.relatedTreatments.map(getTreatment).filter(Boolean);
+const crumbs = [{ name: "Home", href: "/" }, { name: "Journal", href: "/journal" }, { name: post.data.title, href: `/journal/${post.id}` }];
+const fmt = (d: Date) => d.toLocaleDateString("en-US", { month: "long", day: "numeric", year: "numeric" });
+---
+<BaseLayout title={post.data.title} description={post.data.description} image={`/images/${post.data.image}-1200.webp`} jsonLd={[breadcrumbLd(crumbs), articleLd({ ...post.data, slug: post.id })]}>
+  <article class="pt-[calc(var(--nav-h)_+_2.5rem)] pb-section">
+    <div class="mx-auto max-w-content px-4 md:px-8 xl:px-12">
+      <div class="mx-auto max-w-3xl">
+        <Breadcrumbs items={crumbs.slice(0, 2)} class="mb-6" />
+        <p class="eyebrow">{post.data.category} · {post.data.readingMinutes} min read</p>
+        <h1 class="mt-3 text-fluid-3xl text-ink">{post.data.title}</h1>
+        <p class="mt-5 text-fluid-md text-ink-soft">{post.data.description}</p>
+        <div class="mt-6 flex items-center gap-4 border-y border-stone/40 py-4">
+          {author && <Picture name={author.image} alt={author.imageAlt} class="h-12 w-12 shrink-0 rounded-pill" sizes="48px" width={96} height={96} />}
+          <div class="text-fluid-sm">
+            <a href={author ? `/team/${author.slug}` : "/about"} class="font-semibold text-ink hover:text-gold-text">{post.data.author}</a>
+            <p class="text-ink-muted">{author?.role} · {fmt(post.data.date)}</p>
+          </div>
+        </div>
+      </div>
+      <div class="mx-auto mt-10 max-w-5xl"><Picture name={post.data.image} alt={post.data.imageAlt} ratio="16/9" class="rounded-md" sizes="(min-width: 1024px) 60vw, 100vw" loading="eager" fetchpriority="high" width={1600} height={900} /></div>
+      <div class="prose-velmora mx-auto mt-12 max-w-3xl text-fluid-md text-ink-soft [&>h2]:text-ink [&>h3]:text-ink">
+        <Content />
+      </div>
+      <div class="mx-auto mt-12 max-w-3xl rounded-md border border-stone/40 bg-bone-deep p-6 text-fluid-xs text-ink-muted">
+        This article is general information from a licensed provider and is not medical advice for your situation. Results vary. A consultation is required before any treatment.
+      </div>
+    </div>
+  </article>
+  {related.length > 0 && (
+    <section class="border-t border-stone/40 py-section-sm">
+      <div class="mx-auto max-w-content px-4 md:px-8 xl:px-12">
+        <p class="eyebrow reveal">Mentioned in this article</p>
+        <div class="mt-6 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">{related.map((t, i) => <TreatmentCard t={t!} index={i} compact />)}</div>
+      </div>
+    </section>
+  )}
+  <CtaBand />
+</BaseLayout>

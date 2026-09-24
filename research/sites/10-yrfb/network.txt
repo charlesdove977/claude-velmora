@@ -1,0 +1,12 @@
+### Result
+
+
+FLAGS:
+  three=no
+  spline=no
+  gsap=no
+  lenis=no
+  locomotive=no
+  framer=no
+  swiper=no
+  video=no

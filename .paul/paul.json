@@ -1,0 +1,25 @@
+{
+  "name": "Claude-Velmora",
+  "version": "1.0.0",
+  "milestone": {
+    "name": "v1.0 One-shot build",
+    "version": "1.0.0",
+    "status": "complete"
+  },
+  "phase": {
+    "number": 4,
+    "name": "Verify + fix + README",
+    "status": "complete"
+  },
+  "loop": {
+    "plan": "04-01",
+    "position": "COMPLETE"
+  },
+  "timestamps": {
+    "created_at": "2026-09-24T17:22:00Z",
+    "updated_at": "2026-09-24T20:00:00Z"
+  },
+  "satellite": {
+    "groom": true
+  }
+}

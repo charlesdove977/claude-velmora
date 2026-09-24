@@ -1,0 +1,80 @@
+---
+import BaseLayout from "@/layouts/BaseLayout.astro";
+import PageHero from "@/components/ui/PageHero.astro";
+import TreatmentCard from "@/components/ui/TreatmentCard.astro";
+import CtaBand from "@/components/ui/CtaBand.astro";
+import { treatments, categories, type TreatmentCategory } from "@/data/treatments";
+import { concerns } from "@/data/concerns";
+import { breadcrumbLd } from "@/lib/seo";
+
+const cats = Object.entries(categories) as [TreatmentCategory, { label: string; blurb: string }][];
+---
+<BaseLayout title="Treatments in Scottsdale: Injectables, Skin, Laser, Body, Wellness" description="Thirteen physician-supervised treatments with transparent starting prices. Filter by concern or category, then book a consultation." jsonLd={[breadcrumbLd([{ name: "Home", href: "/" }, { name: "Treatments", href: "/treatments" }])]}>
+  <PageHero eyebrow="Treatments" title="Thirteen treatments. One honest menu." lede="Every treatment lists duration, discomfort, downtime and a starting price. Filter by what you want to change or by category." crumbs={[{ name: "Home", href: "/" }, { name: "Treatments", href: "/treatments" }]} />
+
+  <section class="pb-section">
+    <div class="mx-auto max-w-content px-4 md:px-8 xl:px-12" data-treatment-filter>
+      <div class="reveal flex flex-col gap-4 border-y border-stone/40 py-5 md:flex-row md:items-center md:justify-between">
+        <div class="flex flex-wrap items-center gap-2" role="group" aria-label="Filter by category">
+          <span class="mr-2 text-fluid-xs uppercase tracking-eyebrow text-ink-muted">Category</span>
+          <button type="button" class="filter-chip is-active" data-cat="all">All</button>
+          {cats.map(([key, c]) => <button type="button" class="filter-chip" data-cat={key}>{c.label}</button>)}
+        </div>
+        <label class="flex items-center gap-3 text-fluid-xs uppercase tracking-eyebrow text-ink-muted">
+          <span>Concern</span>
+          <select class="h-10 rounded-pill border border-stone/70 bg-bone px-4 text-fluid-sm normal-case tracking-normal text-ink focus:border-espresso" data-concern-select>
+            <option value="all">Any concern</option>
+            {concerns.map((c) => <option value={c.slug}>{c.name}</option>)}
+          </select>
+        </label>
+      </div>
+      <p class="mt-4 text-fluid-sm text-ink-muted" data-count aria-live="polite">{treatments.length} treatments</p>
+      <div class="mt-8 grid gap-6 sm:grid-cols-2 lg:grid-cols-3" data-grid>
+        {treatments.map((t, i) => (
+          <div data-item data-cat={t.category} data-concerns={t.concerns.join(" ")}>
+            <TreatmentCard t={t} index={i % 3} />
+          </div>
+        ))}
+      </div>
+      <p class="mt-10 hidden text-fluid-base text-ink-soft" data-empty>Nothing matches that combination yet. Try a different concern, or <a href="/book" class="underline decoration-champagne underline-offset-4">book a consultation</a> and we will map it together.</p>
+    </div>
+  </section>
+  <CtaBand />
+</BaseLayout>
+
+<style>
+  .filter-chip { height: 2.5rem; padding: 0 1.1rem; border-radius: 999px; border: 1px solid color-mix(in srgb, var(--c-stone) 70%, transparent); font-size: var(--fs-sm); font-weight: 600; color: var(--c-ink-soft); transition: all 250ms var(--ease-out); }
+  .filter-chip:hover { border-color: var(--c-espresso); color: var(--c-ink); }
+  .filter-chip.is-active { background: var(--c-espresso); border-color: var(--c-espresso); color: var(--c-bone); }
+</style>
+<script>
+  document.querySelectorAll<HTMLElement>("[data-treatment-filter]").forEach((root) => {
+    const chips = root.querySelectorAll<HTMLButtonElement>(".filter-chip");
+    const select = root.querySelector<HTMLSelectElement>("[data-concern-select]")!;
+    const items = root.querySelectorAll<HTMLElement>("[data-item]");
+    const count = root.querySelector<HTMLElement>("[data-count]")!;
+    const empty = root.querySelector<HTMLElement>("[data-empty]")!;
+    let cat = "all";
+    const apply = () => {
+      const concern = select.value;
+      let n = 0;
+      items.forEach((it) => {
+        const ok = (cat === "all" || it.dataset.cat === cat) && (concern === "all" || (it.dataset.concerns || "").split(" ").includes(concern));
+        it.classList.toggle("hidden", !ok);
+        if (ok) n++;
+      });
+      count.textContent = `${n} treatment${n === 1 ? "" : "s"}`;
+      empty.classList.toggle("hidden", n > 0);
+      const url = new URL(location.href);
+      cat === "all" ? url.searchParams.delete("category") : url.searchParams.set("category", cat);
+      concern === "all" ? url.searchParams.delete("concern") : url.searchParams.set("concern", concern);
+      history.replaceState(null, "", url);
+    };
+    chips.forEach((c) => c.addEventListener("click", () => { cat = c.dataset.cat!; chips.forEach((x) => x.classList.toggle("is-active", x === c)); apply(); }));
+    select.addEventListener("change", apply);
+    const params = new URLSearchParams(location.search);
+    if (params.get("category")) { cat = params.get("category")!; chips.forEach((x) => x.classList.toggle("is-active", x.dataset.cat === cat)); }
+    if (params.get("concern")) select.value = params.get("concern")!;
+    apply();
+  });
+</script>

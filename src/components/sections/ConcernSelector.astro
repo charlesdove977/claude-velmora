@@ -1,0 +1,57 @@
+---
+import Picture from "@/components/ui/Picture.astro";
+import SectionHead from "@/components/ui/SectionHead.astro";
+import { concerns } from "@/data/concerns";
+import { treatmentsForConcern, formatPrice } from "@/data/treatments";
+---
+<section class="bg-espresso text-bone">
+  <div class="mx-auto max-w-content px-4 py-section md:px-8 xl:px-12">
+    <SectionHead eyebrow="Start with the concern" title="What would you like to change?" lede="Hover or tap a concern. The treatments that address it appear on the right." dark size="md" />
+    <div class="mt-12 grid gap-10 lg:grid-cols-12" data-concern-selector>
+      <ul class="lg:col-span-5" role="list">
+        {concerns.map((c, i) => (
+          <li>
+            <button type="button" class:list={["concern-btn group flex w-full items-baseline justify-between gap-6 border-b border-bone/15 py-5 text-left transition-colors", i === 0 && "is-active"]} data-concern={c.slug} aria-pressed={i === 0 ? "true" : "false"}>
+              <span class="font-display text-fluid-xl text-bone/70 transition-colors group-hover:text-bone group-[.is-active]:text-bone">{c.name}</span>
+              <span class="hidden shrink-0 text-fluid-xs uppercase tracking-eyebrow text-stone sm:inline">{c.short}</span>
+            </button>
+          </li>
+        ))}
+      </ul>
+      <div class="relative lg:col-span-6 lg:col-start-7">
+        {concerns.map((c, i) => (
+          <div class:list={["concern-panel", i !== 0 && "hidden"]} data-panel={c.slug}>
+            <Picture name={c.image} alt={c.imageAlt} ratio="16/10" class="rounded-md" sizes="(min-width: 1024px) 50vw, 100vw" />
+            <p class="mt-6 text-fluid-base text-stone">{c.intro}</p>
+            <ul class="mt-5 divide-y divide-bone/15 border-y border-bone/15">
+              {treatmentsForConcern(c.slug).map((t) => (
+                <li>
+                  <a href={`/treatments/${t.slug}`} class="flex items-center justify-between gap-4 py-3 text-fluid-sm transition-colors hover:text-champagne">
+                    <span>{t.name}</span>
+                    <span class="text-stone">from {formatPrice(t.priceFrom)}</span>
+                  </a>
+                </li>
+              ))}
+            </ul>
+            <a href={`/concerns/${c.slug}`} class="mt-5 inline-block text-fluid-sm font-semibold text-champagne underline-offset-[6px] hover:underline">How we approach {c.name.toLowerCase()}</a>
+          </div>
+        ))}
+      </div>
+    </div>
+  </div>
+</section>
+<script>
+  document.querySelectorAll<HTMLElement>("[data-concern-selector]").forEach((root) => {
+    const btns = root.querySelectorAll<HTMLButtonElement>(".concern-btn");
+    const panels = root.querySelectorAll<HTMLElement>(".concern-panel");
+    const activate = (slug: string) => {
+      btns.forEach((b) => { const on = b.dataset.concern === slug; b.classList.toggle("is-active", on); b.setAttribute("aria-pressed", String(on)); });
+      panels.forEach((p) => p.classList.toggle("hidden", p.dataset.panel !== slug));
+    };
+    const fine = window.matchMedia("(hover: hover)").matches;
+    btns.forEach((b) => {
+      b.addEventListener("click", () => activate(b.dataset.concern!));
+      if (fine) b.addEventListener("mouseenter", () => activate(b.dataset.concern!));
+    });
+  });
+</script>

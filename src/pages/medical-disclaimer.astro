@@ -1,0 +1,21 @@
+---
+import LegalPage from "@/components/ui/LegalPage.astro";
+import { site } from "@/config/site";
+const sections = [
+  { h: "Information, not advice", p: [
+    "Everything on this website, including treatment pages, journal articles, aftercare guides and the treatment quiz, is general information. It is not medical advice for you and does not replace a consultation with a licensed provider who has examined you.",
+  ]},
+  { h: "Results vary", p: [
+    "Aesthetic treatments produce different results in different people. Words such as typically, may and often describe common experiences, not promises. No outcome is guaranteed, and no provider can guarantee one.",
+  ]},
+  { h: "Imagery", p: [
+    "Before and after images on this site are illustrative stock photographs, labeled as such. They do not depict actual patients of this practice and are not evidence of any result.",
+  ]},
+  { h: "Testimonials", p: ["Testimonials on this site are illustrative for this demonstration. A live practice would show only consented reviews from real patients."] },
+  { h: "Risks", p: [
+    "Every treatment carries risks and possible side effects. These are explained in person before treatment, and written consent is obtained. If you experience an urgent problem after a treatment, call us right away or, in an emergency, call 911.",
+  ]},
+  { h: "Supervision", p: [`Treatments at ${site.name} are performed by licensed providers under the supervision of ${site.medicalDirector.name}, ${site.medicalDirector.title}.`] },
+];
+---
+<LegalPage title="Medical Disclaimer" slug="medical-disclaimer" description="Content on this site is general information, not medical advice. Results vary and are never guaranteed. Imagery is illustrative." updated="September 24, 2026" sections={sections} />

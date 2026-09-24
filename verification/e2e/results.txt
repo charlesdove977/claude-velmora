@@ -1,0 +1,13 @@
+PASS booking flow desktop: RESULT invalid-errors=4 ref=VA-YQ0USKPB ics=blob
+PASS booking flow mobile: RESULT invalid-errors=4 ref=VA-YQ6BTJE3 ics=blob
+PASS contact form: RESULT errors=3 success=Message sent
+PASS support form: RESULT errors=4 success=Message sent
+PASS gift card form (rerun after rebuild): RESULT errors=3 success=Request received
+PASS newsletter: RESULT invalid=Enter a valid email. | valid=You are on the list. Welcome.
+PASS support search: RESULT hits=3 first=/faq#prep-general
+PASS quiz: RESULT book=/book?treatment=hydrafacial
+PASS mobile menu + sticky bar: RESULT open=1 closed=1 stickybar=true
+PASS hero 3D: RESULT canvas=1 posterHidden=1
+PASS reduced motion poster fallback: RESULT canvas=0 posterVisible=1
+PASS rate limit after 5/min: 200 200 200 200 429 429 
+PASS honeypot silently accepted: {"ok":true,"ref":"SP-YR8X1SY2"}

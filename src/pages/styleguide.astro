@@ -1,0 +1,130 @@
+---
+import BaseLayout from "@/layouts/BaseLayout.astro";
+import Button from "@/components/ui/Button.astro";
+import Badge from "@/components/ui/Badge.astro";
+import Breadcrumbs from "@/components/ui/Breadcrumbs.astro";
+import SpecStrip from "@/components/ui/SpecStrip.astro";
+import Accordion from "@/components/ui/Accordion.astro";
+import TreatmentCard from "@/components/ui/TreatmentCard.astro";
+import BeforeAfter from "@/components/ui/BeforeAfter.astro";
+import FormField from "@/components/ui/FormField.astro";
+import Picture from "@/components/ui/Picture.astro";
+import { treatments } from "@/data/treatments";
+import { memberships } from "@/data/memberships";
+
+const colors = [
+  ["bone", "#f5f0e8"], ["bone-deep", "#ede6da"], ["sand", "#e7ddcf"], ["stone", "#bfb3a3"], ["espresso", "#221b17"], ["ink-soft", "#5a4f47"], ["ink-muted", "#736760"], ["champagne", "#b8946a"], ["gold-text", "#7a5c36"], ["sage", "#8e9a86"], ["sage-deep", "#5c6856"], ["sage-mist", "#e3e7df"], ["error", "#9b3b2e"], ["success", "#4f6b4a"],
+];
+const sizes = ["fluid-xs", "fluid-sm", "fluid-base", "fluid-md", "fluid-lg", "fluid-xl", "fluid-2xl", "fluid-3xl", "fluid-4xl", "fluid-5xl"];
+const t = treatments[0];
+---
+<BaseLayout title="Styleguide" description="Design system reference for Velmora Aesthetics." noindex stickyBook={false}>
+  <div class="pt-[calc(var(--nav-h)_+_2rem)] pb-section">
+    <div class="mx-auto max-w-content space-y-20 px-4 md:px-8 xl:px-12">
+      <header>
+        <p class="eyebrow">Styleguide</p>
+        <h1 class="mt-3 text-fluid-3xl text-ink">Velmora design system</h1>
+        <p class="mt-4 max-w-2xl text-fluid-md text-ink-soft">Every token and component on one page. Source of truth: src/styles/tokens.css, mirrored in tailwind.config.mjs. No ad-hoc colors or sizes anywhere else.</p>
+      </header>
+
+      <section>
+        <h2 class="font-display text-fluid-2xl text-ink">Color</h2>
+        <div class="mt-6 grid grid-cols-2 gap-3 sm:grid-cols-4 lg:grid-cols-7">
+          {colors.map(([n, hex]) => (
+            <div class="rounded-md border border-stone/40 p-2">
+              <div class="h-16 rounded-sm" style={`background:${hex}`}></div>
+              <p class="mt-2 text-fluid-xs font-semibold text-ink">{n}</p>
+              <p class="text-fluid-xs text-ink-muted">{hex}</p>
+            </div>
+          ))}
+        </div>
+        <p class="mt-4 text-fluid-xs text-ink-muted">Text on bone: espresso 14.96:1, ink-soft 7.00:1, ink-muted 4.82:1, gold-text 5.43:1, sage-deep 5.19:1. Champagne on bone is 2.47:1 and is decorative only. On espresso: champagne 6.05:1, sage 5.75:1, stone 8.24:1.</p>
+      </section>
+
+      <section>
+        <h2 class="font-display text-fluid-2xl text-ink">Type</h2>
+        <p class="mt-2 text-fluid-sm text-ink-soft">Fraunces (variable weight axis, 36 KB latin subset) for display. Manrope (variable) for body and UI. Fluid clamp scale.</p>
+        <div class="mt-6 space-y-3">
+          {sizes.map((s) => <p class={`font-display text-${s} leading-tight text-ink`}>Hotel calm, medical precision <span class="font-body text-fluid-xs text-ink-muted">{s}</span></p>)}
+        </div>
+        <div class="mt-8 grid gap-6 md:grid-cols-2">
+          <div><p class="eyebrow">Eyebrow label</p><p class="mt-2 font-body text-fluid-base text-ink">Body, Manrope 400, 1.6 line height. Grade 8 to 9 reading level, short sentences, no exclamation points, no em dashes.</p></div>
+          <div><p class="font-display text-fluid-lg italic text-gold-text">Italic display, weight axis only (36 KB file)</p></div>
+        </div>
+      </section>
+
+      <section>
+        <h2 class="font-display text-fluid-2xl text-ink">Buttons</h2>
+        <div class="mt-6 flex flex-wrap items-center gap-3">
+          <Button>Primary</Button><Button variant="ghost">Ghost</Button><Button variant="link">Link</Button><Button size="sm">Small</Button><Button size="lg" magnetic>Large magnetic</Button>
+        </div>
+        <div class="mt-4 flex flex-wrap items-center gap-3 rounded-md bg-espresso p-5"><Button variant="gold">Gold</Button><Button variant="ghost-light">Ghost light</Button></div>
+        <div class="mt-4 flex flex-wrap gap-2"><Badge>Gold badge</Badge><Badge tone="sage">Sage</Badge><Badge tone="ink">Ink</Badge></div>
+      </section>
+
+      <section>
+        <h2 class="font-display text-fluid-2xl text-ink">Breadcrumbs, spec strip, accordion</h2>
+        <div class="mt-6"><Breadcrumbs items={[{ name: "Home", href: "/" }, { name: "Treatments", href: "/treatments" }, { name: t.name, href: `/treatments/${t.slug}` }]} /></div>
+        <div class="mt-6"><SpecStrip spec={t.spec} /></div>
+        <div class="mt-6 rounded-md bg-espresso p-5"><SpecStrip spec={t.spec} dark /></div>
+        <div class="mt-6 max-w-2xl"><Accordion items={t.faqs.slice(0, 3)} name="sg" /></div>
+      </section>
+
+      <section>
+        <h2 class="font-display text-fluid-2xl text-ink">Cards</h2>
+        <div class="mt-6 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+          <TreatmentCard t={treatments[0]} /><TreatmentCard t={treatments[4]} index={1} /><TreatmentCard t={treatments[5]} index={2} compact />
+        </div>
+        <div class="mt-6 grid gap-5 md:grid-cols-3">
+          {memberships.map((m) => (
+            <div class:list={["rounded-md border p-6", m.highlight ? "border-champagne bg-espresso text-bone" : "border-stone/40"]}>
+              <p class:list={["eyebrow", m.highlight && "text-champagne"]}>{m.name}</p>
+              <p class="mt-2 font-display text-fluid-xl">${m.monthly}<span class="text-fluid-xs opacity-70">/mo</span></p>
+              <p class:list={["mt-2 text-fluid-sm", m.highlight ? "text-stone" : "text-ink-soft"]}>{m.tagline}</p>
+            </div>
+          ))}
+        </div>
+      </section>
+
+      <section>
+        <h2 class="font-display text-fluid-2xl text-ink">Before / after slider</h2>
+        <div class="mt-6 grid gap-6 md:grid-cols-2"><BeforeAfter before="ba-01-before" after="ba-01-after" label="Slider component" /></div>
+      </section>
+
+      <section>
+        <h2 class="font-display text-fluid-2xl text-ink">Form fields and toast</h2>
+        <form class="mt-6 grid max-w-2xl gap-5 sm:grid-cols-2" novalidate onsubmit="return false">
+          <FormField name="sg-name" label="Name" required />
+          <FormField name="sg-email" label="Email" type="email" required />
+          <FormField name="sg-topic" label="Topic" type="select" options={["Booking", "Aftercare"]} />
+          <FormField name="sg-phone" label="Phone" type="tel" />
+          <FormField name="sg-msg" label="Message" type="textarea" class="sm:col-span-2" />
+          <div class="sm:col-span-2 flex gap-3"><Button type="button" id="sg-toast">Show toast</Button><Button type="button" variant="ghost" id="sg-toast-err">Show error toast</Button></div>
+        </form>
+      </section>
+
+      <section>
+        <h2 class="font-display text-fluid-2xl text-ink">Imagery grade</h2>
+        <p class="mt-2 text-fluid-sm text-ink-soft">One warm grade across every stock image: saturation 0.9, slight red lift, blue pull-down, gamma 1.05.</p>
+        <div class="mt-6 grid grid-cols-2 gap-3 md:grid-cols-4">
+          {["space-01", "face-01", "hands-01", "desert-01"].map((n) => <Picture name={n} alt={`Sample ${n}`} ratio="4/3" class="rounded-md" sizes="25vw" />)}
+        </div>
+      </section>
+
+      <section>
+        <h2 class="font-display text-fluid-2xl text-ink">Motion</h2>
+        <p class="mt-2 max-w-2xl text-fluid-sm text-ink-soft">Lenis smooth scroll (lerp 0.09). Reveals: fade-up 800ms, clip-path 1200ms expo-out, staggered line reveals 90ms apart. Magnetic CTAs on fine pointers only. Everything is disabled under prefers-reduced-motion; the 3D hero shows its AVIF poster instead.</p>
+        <div class="mt-6 grid gap-4 md:grid-cols-3">
+          <div class="reveal rounded-md border border-stone/40 p-6">.reveal</div>
+          <div class="reveal-clip rounded-md bg-sand p-6">.reveal-clip</div>
+          <div class="reveal-line rounded-md border border-stone/40 p-6"><span class="block">.reveal-line</span><span class="block">line two</span><span class="block">line three</span></div>
+        </div>
+      </section>
+    </div>
+  </div>
+</BaseLayout>
+<script>
+  import { toast } from "@/scripts/motion";
+  document.getElementById("sg-toast")?.addEventListener("click", () => toast("Saved. This is a success toast."));
+  document.getElementById("sg-toast-err")?.addEventListener("click", () => toast("Something went wrong. This is an error toast.", "error"));
+</script>

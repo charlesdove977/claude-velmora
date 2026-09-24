@@ -1,0 +1,37 @@
+---
+import SectionHead from "@/components/ui/SectionHead.astro";
+import { testimonials } from "@/data/testimonials";
+---
+<section class="bg-bone-deep py-section-sm">
+  <div class="mx-auto max-w-content px-4 md:px-8 xl:px-12">
+    <div class="flex flex-col gap-6 md:flex-row md:items-end md:justify-between">
+      <SectionHead eyebrow="In their words" title="What patients notice" lede="Illustrative testimonials for this demo. A real clinic replaces these with consented reviews and never invents a platform badge." size="sm" />
+      <div class="reveal flex gap-2">
+        <button type="button" class="carousel-prev flex h-11 w-11 items-center justify-center rounded-pill border border-stone text-ink transition-colors hover:border-espresso" aria-label="Previous testimonial"><svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M13 8H3M7 4L3 8l4 4" /></svg></button>
+        <button type="button" class="carousel-next flex h-11 w-11 items-center justify-center rounded-pill border border-stone text-ink transition-colors hover:border-espresso" aria-label="Next testimonial"><svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M3 8h10M9 4l4 4-4 4" /></svg></button>
+      </div>
+    </div>
+    <div class="testimonial-track mt-10 flex snap-x snap-mandatory gap-5 overflow-x-auto pb-4 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden" data-carousel tabindex="0" aria-label="Testimonials">
+      {testimonials.map((t) => (
+        <figure class="reveal flex w-[85vw] shrink-0 snap-start flex-col justify-between rounded-md border border-stone/40 bg-bone p-7 sm:w-[420px]">
+          <blockquote class="font-display text-fluid-md leading-snug text-ink">“{t.quote}”</blockquote>
+          <figcaption class="mt-6 flex items-center justify-between gap-4 text-fluid-xs">
+            <div>
+              <p class="font-semibold text-ink">{t.name}</p>
+              <p class="text-ink-muted">{t.since} · {t.provider}</p>
+            </div>
+            <a href={`/treatments/${t.treatmentSlug}`} class="shrink-0 rounded-pill border border-champagne/50 px-3 py-1 font-semibold uppercase tracking-eyebrow text-gold-text hover:bg-champagne/10">{t.treatment}</a>
+          </figcaption>
+        </figure>
+      ))}
+    </div>
+  </div>
+</section>
+<script>
+  document.querySelectorAll<HTMLElement>("[data-carousel]").forEach((track) => {
+    const section = track.closest("section");
+    const step = () => (track.firstElementChild as HTMLElement | null)?.getBoundingClientRect().width ?? 400;
+    section?.querySelector(".carousel-prev")?.addEventListener("click", () => track.scrollBy({ left: -step() - 20, behavior: "smooth" }));
+    section?.querySelector(".carousel-next")?.addEventListener("click", () => track.scrollBy({ left: step() + 20, behavior: "smooth" }));
+  });
+</script>

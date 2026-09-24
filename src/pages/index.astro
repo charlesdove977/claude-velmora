@@ -1,0 +1,198 @@
+---
+import BaseLayout from "@/layouts/BaseLayout.astro";
+import Button from "@/components/ui/Button.astro";
+import Picture from "@/components/ui/Picture.astro";
+import SectionHead from "@/components/ui/SectionHead.astro";
+import TreatmentCard from "@/components/ui/TreatmentCard.astro";
+import BeforeAfter from "@/components/ui/BeforeAfter.astro";
+import Testimonials from "@/components/sections/Testimonials.astro";
+import ConcernSelector from "@/components/sections/ConcernSelector.astro";
+import { HeroSceneLoader } from "@/components/three/HeroScene";
+import MethodScene from "@/components/three/MethodScene";
+import { site } from "@/config/site";
+import { featuredTreatments } from "@/data/treatments";
+import { memberships } from "@/data/memberships";
+import { getProvider } from "@/data/team";
+import { getCollection } from "astro:content";
+
+const md = getProvider(site.medicalDirector.slug)!;
+const refine = memberships.find((m) => m.highlight)!;
+const posts = (await getCollection("journal")).sort((a, b) => b.data.date.valueOf() - a.data.date.valueOf()).slice(0, 3);
+const methodSteps = [
+  { n: "01", title: "Consult", body: "A movement map, your history, and honest options. Free by video or $50 in person, credited to treatment." },
+  { n: "02", title: "Plan", body: "A written plan with exact pricing, sequenced so the skin is never asked to heal two things at once." },
+  { n: "03", title: "Treat", body: "Conservative dosing by licensed providers under physician oversight. Numbing, calm rooms, no rush." },
+  { n: "04", title: "Maintain", body: "A two-week review, then a rhythm that fits your calendar and the Scottsdale sun." },
+];
+---
+
+<BaseLayout title={`${site.name} | Physician-led Med Spa in Scottsdale`} description={site.description} transparentNav>
+  <!-- 1. Hero -->
+  <section class="hero relative min-h-[100svh] overflow-hidden bg-bone">
+    <div class="absolute inset-0">
+      <div id="hero-poster" class="hero-poster absolute inset-0 transition-opacity duration-[1400ms] ease-out">
+        <Picture name="hero-texture-01" alt="" class="h-full w-full" imgClass="opacity-70" sizes="100vw" loading="eager" fetchpriority="high" width={1920} height={1080} />
+        <div class="absolute inset-0 bg-gradient-to-b from-bone/40 via-bone/20 to-bone"></div>
+      </div>
+      <div class="absolute inset-x-0 bottom-0 top-[var(--nav-h)] lg:left-[42%]">
+        <HeroSceneLoader client:idle />
+      </div>
+      <div class="pointer-events-none absolute inset-x-0 bottom-0 h-40 bg-gradient-to-t from-bone to-transparent"></div>
+      <div class="pointer-events-none absolute inset-x-0 top-0 h-28 bg-gradient-to-b from-bone to-transparent"></div>
+    </div>
+    <div class="relative mx-auto flex min-h-[100svh] max-w-content flex-col justify-end px-4 pb-20 pt-[calc(var(--nav-h)_+_2rem)] md:px-8 lg:justify-center lg:pb-0 xl:px-12">
+      <div class="max-w-2xl">
+        <p class="eyebrow hero-in">Physician-led · Old Town Scottsdale</p>
+        <h1 class="hero-in mt-5 text-fluid-4xl text-ink" style="animation-delay:80ms">
+          <span class="block">Medical precision.</span>
+          <span class="block italic text-gold-text">Hotel calm.</span>
+        </h1>
+        <p class="hero-in mt-6 max-w-lg text-fluid-md text-ink-soft" style="animation-delay:240ms">
+          Injectables, skin, laser and wellness, planned by {site.medicalDirector.name} and a team that would rather do less. Results that read as rested, never done.
+        </p>
+        <div class="hero-in mt-9 flex flex-col gap-3 sm:flex-row" style="animation-delay:360ms">
+          <Button href="/book" size="lg" magnetic>Book a consultation</Button>
+          <Button href="/quiz" variant="ghost" size="lg">Find your treatment</Button>
+        </div>
+        <p class="hero-in mt-5 text-fluid-xs text-ink-muted" style="animation-delay:460ms">{site.consult.virtualLabel}. {site.consult.inPersonLabel}.</p>
+      </div>
+    </div>
+    <a href="#trust" class="absolute bottom-6 right-6 hidden items-center gap-3 text-fluid-xs uppercase tracking-eyebrow text-ink-muted lg:flex" aria-label="Scroll to content">
+      <span>Scroll</span><span class="block h-10 w-px bg-champagne/70"></span>
+    </a>
+  </section>
+
+  <!-- 2. Trust strip -->
+  <section id="trust" class="border-y border-stone/40 bg-bone">
+    <div class="mx-auto grid max-w-content grid-cols-2 divide-stone/40 px-4 md:grid-cols-4 md:divide-x md:px-8 xl:px-12">
+      {site.stats.map((s, i) => (
+        <div class="reveal py-8 md:px-8 md:py-10" data-delay={i * 80}>
+          <p class="font-display text-fluid-2xl leading-none text-ink">{s.value}<span class="text-gold-text">{s.suffix}</span></p>
+          <p class="mt-2 text-fluid-xs uppercase tracking-eyebrow text-ink-muted">{s.label}</p>
+        </div>
+      ))}
+    </div>
+  </section>
+
+  <!-- 3. Signature treatments -->
+  <section class="py-section">
+    <div class="mx-auto max-w-content px-4 md:px-8 xl:px-12">
+      <div class="flex flex-col gap-6 md:flex-row md:items-end md:justify-between">
+        <SectionHead eyebrow="Signature treatments" title="Six ways to start" lede="Transparent starting prices on every treatment. The exact number is on your written plan before anything begins." />
+        <Button href="/treatments" variant="link" class="reveal shrink-0">See all thirteen treatments</Button>
+      </div>
+      <div class="mt-12 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+        {featuredTreatments.map((t, i) => <TreatmentCard t={t} index={i} />)}
+      </div>
+    </div>
+  </section>
+
+  <!-- 4. Shop by concern -->
+  <ConcernSelector />
+
+  <!-- 5. The Velmora Method (3D scroll interlude) -->
+  <section aria-label="The Velmora Method" class="bg-espresso">
+    <MethodScene client:visible steps={methodSteps} />
+  </section>
+
+  <!-- 6. Results preview -->
+  <section class="py-section">
+    <div class="mx-auto max-w-content px-4 md:px-8 xl:px-12">
+      <SectionHead eyebrow="Results" title="Subtle is the point" lede="Drag to compare. Illustrative imagery, not actual patient results; a real gallery requires consented photos." align="center" />
+      <div class="mt-12 grid gap-6 md:grid-cols-2">
+        <BeforeAfter before="ba-01-before" after="ba-01-after" label="Skin tone and texture, illustrative" />
+        <BeforeAfter before="ba-02-before" after="ba-02-after" label="Clarity and hydration, illustrative" />
+      </div>
+      <div class="mt-10 text-center"><Button href="/results" variant="ghost">View the results gallery</Button></div>
+    </div>
+  </section>
+
+  <!-- 7. Membership teaser -->
+  <section class="bg-sand">
+    <div class="mx-auto grid max-w-content gap-10 px-4 py-section-sm md:grid-cols-2 md:items-center md:px-8 xl:px-12">
+      <SectionHead eyebrow="Membership" title="Maintenance, already paid for" lede={`${refine.name} banks $200 a month toward injectables and laser, includes a monthly facial, and takes 15% off everything else.`} />
+      <div class="reveal rounded-lg border border-champagne/40 bg-bone p-7 shadow-soft md:p-9">
+        <p class="eyebrow">The math</p>
+        <p class="mt-3 font-display text-fluid-lg text-ink">{refine.savingsMath}</p>
+        <p class="mt-4 font-display text-fluid-2xl text-gold-text">{refine.savings}</p>
+        <div class="mt-6"><Button href="/membership">Compare the three tiers</Button></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 8. Medical director -->
+  <section class="py-section">
+    <div class="mx-auto grid max-w-content gap-10 px-4 md:grid-cols-12 md:items-center md:px-8 xl:px-12">
+      <div class="reveal-clip md:col-span-5">
+        <Picture name={md.image} alt={md.imageAlt} ratio="4/5" class="rounded-md" sizes="(min-width: 768px) 40vw, 100vw" width={800} height={1000} />
+      </div>
+      <div class="md:col-span-6 md:col-start-7">
+        <p class="eyebrow reveal">Medical director</p>
+        <blockquote class="reveal mt-4 font-display text-fluid-xl leading-snug text-ink" data-delay="100">“{md.quote}”</blockquote>
+        <p class="reveal mt-6 text-fluid-base text-ink-soft" data-delay="200">{md.bio[0]}</p>
+        <p class="reveal mt-5 font-semibold text-ink" data-delay="260">{md.name}, {md.credentials} <span class="font-normal text-ink-muted">· {md.role}</span></p>
+        <div class="reveal mt-6 flex gap-3" data-delay="320">
+          <Button href={`/team/${md.slug}`} variant="ghost">Meet Dr. Marsh</Button>
+          <Button href="/about" variant="link">The whole team</Button>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 9. Testimonials -->
+  <Testimonials />
+
+  <!-- 10. The space -->
+  <section class="py-section">
+    <div class="mx-auto max-w-content px-4 md:px-8 xl:px-12">
+      <SectionHead eyebrow="The space" title="A clinic that feels like a good hotel" lede="Private rooms, linen and stone, a quiet lounge for IV drips, and coordinators who remember your name." />
+      <div class="mt-12 grid grid-cols-2 gap-3 md:grid-cols-12 md:gap-5">
+        <div class="reveal-clip col-span-2 md:col-span-7"><Picture name="space-01" alt="Velmora reception with warm stone and linen textures" ratio="16/10" class="rounded-md" sizes="(min-width: 768px) 58vw, 100vw" /></div>
+        <div class="reveal-clip md:col-span-5" data-delay="120"><Picture name="space-02" alt="Private treatment room with soft daylight" ratio="4/5" class="rounded-md h-full" sizes="(min-width: 768px) 42vw, 50vw" width={800} height={1000} /></div>
+        <div class="reveal-clip md:col-span-5" data-delay="200"><Picture name="space-03" alt="Quiet lounge chair beside a window" ratio="4/5" class="rounded-md h-full" sizes="(min-width: 768px) 42vw, 50vw" width={800} height={1000} /></div>
+        <div class="reveal-clip col-span-2 md:col-span-7" data-delay="280"><Picture name="space-04" alt="Hallway with warm light and a linen curtain" ratio="16/10" class="rounded-md" sizes="(min-width: 768px) 58vw, 100vw" /></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 11. Journal preview -->
+  <section class="border-t border-stone/40 py-section-sm">
+    <div class="mx-auto max-w-content px-4 md:px-8 xl:px-12">
+      <div class="flex items-end justify-between gap-6">
+        <SectionHead eyebrow="Journal" title="Notes from the clinic" size="sm" />
+        <Button href="/journal" variant="link" class="reveal shrink-0">All articles</Button>
+      </div>
+      <div class="mt-10 grid gap-8 md:grid-cols-3">
+        {posts.map((p, i) => (
+          <a href={`/journal/${p.id}`} class="reveal group" data-delay={i * 90}>
+            <Picture name={p.data.image} alt={p.data.imageAlt} ratio="3/2" class="rounded-md" imgClass="transition-transform duration-[1200ms] ease-out-expo group-hover:scale-[1.03]" sizes="(min-width: 768px) 33vw, 100vw" width={900} height={600} />
+            <p class="eyebrow mt-5">{p.data.category} · {p.data.readingMinutes} min</p>
+            <h3 class="mt-2 font-display text-fluid-lg leading-snug text-ink group-hover:text-gold-text">{p.data.title}</h3>
+            <p class="mt-2 text-fluid-sm text-ink-soft">{p.data.description}</p>
+          </a>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- 12. Final CTA band -->
+  <section class="relative overflow-hidden bg-espresso text-bone">
+    <div class="grain absolute inset-0"></div>
+    <div class="relative mx-auto max-w-content px-4 py-section md:px-8 xl:px-12">
+      <div class="max-w-2xl">
+        <p class="eyebrow reveal text-champagne">Start here</p>
+        <h2 class="reveal-line mt-4 text-fluid-3xl" data-delay="80"><span class="block">Not sure what you need?</span><span class="block italic text-champagne">Neither is most everyone.</span></h2>
+        <p class="reveal mt-6 max-w-lg text-fluid-md text-stone" data-delay="200">Take the 60-second treatment match, or book a free virtual consultation and let a provider map it with you.</p>
+        <div class="reveal mt-9 flex flex-col gap-3 sm:flex-row" data-delay="300">
+          <Button href="/quiz" variant="gold" size="lg" magnetic>Take the 60-second match</Button>
+          <Button href="/book" variant="ghost-light" size="lg">Book a consultation</Button>
+        </div>
+      </div>
+    </div>
+  </section>
+</BaseLayout>
+
+<style>
+  .hero-poster.is-hidden { opacity: 0; }
+  @media (prefers-reduced-motion: reduce) { .hero-poster { transition: none; } }
+</style>

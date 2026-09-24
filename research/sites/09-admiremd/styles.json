@@ -1,0 +1,80 @@
+{
+  "url": "https://www.admireplasticsurgery.com/med-spa/",
+  "title": "Medspa Scottsdale | AdmireMD Skin Care Clinic",
+  "h1": {
+    "tag": "H1",
+    "text": "Premier Medspa in Scottsdale and Arcadia",
+    "fontFamily": "freight-big-pro",
+    "fontSize": "70px",
+    "fontWeight": "400",
+    "lineHeight": "73.5px",
+    "letterSpacing": "1.5px",
+    "textTransform": "capitalize",
+    "color": "rgb(255, 255, 255)",
+    "background": "rgba(0, 0, 0, 0)",
+    "borderRadius": "0px",
+    "padding": "0px 0px 10px"
+  },
+  "h2": {
+    "tag": "H2",
+    "text": "Where Aesthetic Expertise Meets Personalized Wellness Care",
+    "fontFamily": "freight-big-pro",
+    "fontSize": "60px",
+    "fontWeight": "300",
+    "lineHeight": "60px",
+    "letterSpacing": "normal",
+    "textTransform": "capitalize",
+    "color": "rgb(32, 57, 51)",
+    "background": "rgba(0, 0, 0, 0)",
+    "borderRadius": "0px",
+    "padding": "0px"
+  },
+  "body": {
+    "tag": "BODY",
+    "text": "Accessibility Menu (Ctrl + A)\n                \n                \n                ",
+    "fontFamily": "poppins",
+    "fontSize": "16px",
+    "fontWeight": "400",
+    "lineHeight": "16px",
+    "letterSpacing": "normal",
+    "textTransform": "none",
+    "color": "rgb(42, 42, 42)",
+    "background": "rgb(255, 255, 255)",
+    "borderRadius": "0px",
+    "padding": "0px"
+  },
+  "navLink": {
+    "tag": "A",
+    "text": "",
+    "fontFamily": "poppins",
+    "fontSize": "16px",
+    "fontWeight": "400",
+    "lineHeight": "16px",
+    "letterSpacing": "normal",
+    "textTransform": "none",
+    "color": "rgb(0, 0, 0)",
+    "background": "rgba(0, 0, 0, 0)",
+    "borderRadius": "0px",
+    "padding": "0px"
+  },
+  "primaryButton": {
+    "tag": "A",
+    "text": "Book Our Skin Clinic Services",
+    "fontFamily": "poppins",
+    "fontSize": "12px",
+    "fontWeight": "300",
+    "lineHeight": "14px",
+    "letterSpacing": "1.2px",
+    "textTransform": "uppercase",
+    "color": "rgb(255, 255, 255)",
+    "background": "rgba(0, 0, 0, 0)",
+    "borderRadius": "0px",
+    "padding": "35px 30px"
+  },
+  "bodyBg": "rgb(255, 255, 255)",
+  "fontsLoaded": [
+    "freight-big-pro",
+    "poppins",
+    "fontello"
+  ]
+}

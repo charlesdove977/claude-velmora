@@ -1,0 +1,19 @@
+### Result
+[GET] https://lovebeautify.com/wp-content/uploads/2026/01/featured-products-bg-img.png => [404] 
+[POST] https://www.google-analytics.com/g/collect?v=2&tid=G-JK1NW1HG92&gtm=45je69n0h1v9239961255z89239950367za20gzb9239950367zd9239950367xf1&_p=1790277033734&gcd=13l3l3l3l1l1&npa=0&dma=0&cid=1927339573.1790277034&frm=0&ngs=1&pscdl=noapi&rcb=2&sr=1280x720&uaa=arm&uab=64&uafvl=Google%2520Chrome%3B153.0.8010.53%7CNot_A%2520Brand%3B8.0.0.0%7CChromium%3B153.0.8010.53&uam=&uamb=0&uap=macOS&uapv=26.6.2&uaw=0&ul=en-us&_s=1&tag_exp=115616985~115938465~115938468~118897920~118897930~120213116~120385423~120469145~120469153~121280969&sid=1790277034&sct=1&seg=0&dl=https%3A%2F%2Flovebeautify.com%2F&dt=Medspa%20in%20Scottsdale%2C%20AZ%20-%2010%2C000%205-Star%20Reviews%20%7C%20Beautify%20Spa&en=page_view&_fv=1&_nsi=1&_ss=1&gap.plf=5&tfd=4090 => [204] 
+[POST] https://www.google-analytics.com/g/collect?v=2&tid=G-JK1NW1HG92&gtm=45je69n0h1v9239961255z89239950367za20gzb9239950367zd9239950367xf1&_p=1790277033734&gcd=13l3l3l3l1l1&npa=0&dma=0&cid=1927339573.1790277034&frm=0&ngs=1&pscdl=noapi&rcb=2&sr=1280x720&uaa=arm&uab=64&uafvl=Google%2520Chrome%3B153.0.8010.53%7CNot_A%2520Brand%3B8.0.0.0%7CChromium%3B153.0.8010.53&uam=&uamb=0&uap=macOS&uapv=26.6.2&uaw=0&ul=en-us&_s=1&tag_exp=115616985~115938465~115938468~118897920~118897930~120213116~120385423~120469145~120469153~121280969&sid=1790277034&sct=1&seg=0&dl=https%3A%2F%2Flovebeautify.com%2F&dt=Medspa%20in%20Scottsdale%2C%20AZ%20-%2010%2C000%205-Star%20Reviews%20%7C%20Beautify%20Spa&en=page_view&_fv=1&_nsi=1&_ss=1&gap.plf=5&tfd=4090 => [204] 
+[GET] https://lovebeautify.com/wp-content/uploads/2026/01/tox-club-membership-bg-img.png => [404] 
+[GET] https://lovebeautify.com/wp-content/uploads/2026/01/tox-club-membership-bg-img.png => [404] 
+[GET] https://lovebeautify.com/wp-content/uploads/2026/01/featured-products-bg-img.png => [404] 
+[POST] https://www.google-analytics.com/g/collect?v=2&tid=G-JK1NW1HG92&gtm=45je69n0h1v9239961255za20gzb9239950367zd9239950367xf1&_p=1790277033734&gcd=13l3l3l3l1l1&npa=0&dma=0&_eu=AEAAAAQ&ae=a&cid=1927339573.1790277034&frm=0&ngs=1&pscdl=noapi&rcb=2&sr=1440x900&uaa=arm&uab=64&uafvl=Google%2520Chrome%3B153.0.8010.53%7CNot_A%2520Brand%3B8.0.0.0%7CChromium%3B153.0.8010.53&uam=&uamb=0&uap=macOS&uapv=26.6.2&uaw=0&ul=en-us&_s=2&tag_exp=115616985~115938465~115938468~118897920~118897930~120213116~120385423~120469145~120469153~121280969&sid=1790277034&sct=1&seg=0&dl=https%3A%2F%2Flovebeautify.com%2F&dt=Medspa%20in%20Scottsdale%2C%20AZ%20-%2010%2C000%205-Star%20Reviews%20%7C%20Beautify%20Spa&en=scroll&gap.plf=5&epn.percent_scrolled=90&_et=7032&tfd=16125 => [204] 
+[POST] https://www.google-analytics.com/g/collect?v=2&tid=G-JK1NW1HG92&gtm=45je69n0h1v9239961255za20gzb9239950367zd9239950367xf1&_p=1790277033734&gcd=13l3l3l3l1l1&npa=0&dma=0&_eu=AEAAAAQ&ae=a&cid=1927339573.1790277034&frm=0&ngs=1&pscdl=noapi&rcb=2&sr=1440x900&uaa=arm&uab=64&uafvl=Google%2520Chrome%3B153.0.8010.53%7CNot_A%2520Brand%3B8.0.0.0%7CChromium%3B153.0.8010.53&uam=&uamb=0&uap=macOS&uapv=26.6.2&uaw=0&ul=en-us&_s=2&tag_exp=115616985~115938465~115938468~118897920~118897930~120213116~120385423~120469145~120469153~121280969&sid=1790277034&sct=1&seg=0&dl=https%3A%2F%2Flovebeautify.com%2F&dt=Medspa%20in%20Scottsdale%2C%20AZ%20-%2010%2C000%205-Star%20Reviews%20%7C%20Beautify%20Spa&en=scroll&gap.plf=5&epn.percent_scrolled=90&_et=7032&tfd=16125 => [204] 
+
+FLAGS:
+  three=no
+  spline=no
+  gsap=no
+  lenis=no
+  locomotive=no
+  framer=no
+  swiper=yes
+  video=no

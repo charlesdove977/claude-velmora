@@ -1,0 +1,95 @@
+---
+import "@/styles/global.css";
+import { site } from "@/config/site";
+import { businessLd, websiteLd } from "@/lib/seo";
+import { ogImage } from "@/lib/images";
+import Nav from "@/components/Nav.astro";
+import Footer from "@/components/Footer.astro";
+import StickyBookBar from "@/components/StickyBookBar.astro";
+
+interface Props {
+  title: string;
+  description: string;
+  image?: string;
+  noindex?: boolean;
+  jsonLd?: unknown[];
+  transparentNav?: boolean;
+  stickyBook?: boolean;
+  bookHref?: string;
+  bookLabel?: string;
+  bodyClass?: string;
+}
+
+const {
+  title,
+  description,
+  image = ogImage(),
+  noindex = false,
+  jsonLd = [],
+  transparentNav = false,
+  stickyBook = true,
+  bookHref = "/book",
+  bookLabel = "Book a consultation",
+  bodyClass = "",
+} = Astro.props;
+
+const canonical = new URL(Astro.url.pathname, site.url).toString().replace(/\/$/, "") || site.url;
+const fullTitle = title.includes(site.name) ? title : `${title} | ${site.name}`;
+const ogUrl = new URL(image, site.url).toString();
+const ld = [businessLd(), websiteLd(), ...jsonLd];
+---
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>{fullTitle}</title>
+    <meta name="description" content={description} />
+    <link rel="canonical" href={canonical} />
+    {noindex && <meta name="robots" content="noindex, nofollow" />}
+    <meta name="theme-color" content={site.colors.bone} />
+    <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+    <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
+    <link rel="sitemap" href="/sitemap-index.xml" />
+    <link rel="preload" href="/fonts/fraunces-latin-normal.woff2" as="font" type="font/woff2" crossorigin />
+    <link rel="preload" href="/fonts/manrope-latin.woff2" as="font" type="font/woff2" crossorigin />
+    <meta property="og:type" content="website" />
+    <meta property="og:site_name" content={site.name} />
+    <meta property="og:title" content={fullTitle} />
+    <meta property="og:description" content={description} />
+    <meta property="og:url" content={canonical} />
+    <meta property="og:image" content={ogUrl} />
+    <meta property="og:locale" content="en_US" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content={fullTitle} />
+    <meta name="twitter:description" content={description} />
+    <meta name="twitter:image" content={ogUrl} />
+    <script is:inline>document.documentElement.classList.replace("no-js", "js");</script>
+    {ld.map((obj) => <script type="application/ld+json" set:html={JSON.stringify(obj)} />)}
+  </head>
+  <body class={bodyClass}>
+    <a href="#main" class="sr-only focus:not-sr-only focus:fixed focus:left-4 focus:top-4 focus:z-[100] focus:rounded-sm focus:bg-espresso focus:px-4 focus:py-2 focus:text-bone">Skip to content</a>
+    <Nav transparent={transparentNav} />
+    <main id="main" tabindex="-1">
+      <slot />
+    </main>
+    <Footer />
+    {stickyBook && <StickyBookBar href={bookHref} label={bookLabel} />}
+    <div id="toast-root" class="pointer-events-none fixed inset-x-0 bottom-24 z-[80] flex justify-center px-4 md:bottom-8" aria-live="polite"></div>
+    <script>
+      // Motion (Lenis + GSAP) loads after the page is interactive so it never
+      // sits on the critical path for first paint.
+      const showAll = () => document.querySelectorAll(".reveal, .reveal-clip, .reveal-line").forEach((el) => el.classList.add("is-in"));
+      const start = () => import("@/scripts/motion").then((m) => m.initMotion()).catch(showAll);
+      if (document.readyState === "complete") start();
+      else window.addEventListener("load", start, { once: true });
+      // Safety net: nothing on the page may stay hidden if motion never runs.
+      window.setTimeout(() => {
+        document.querySelectorAll(".reveal:not(.is-in), .reveal-clip:not(.is-in), .reveal-line:not(.is-in)").forEach((el) => {
+          if (el.getBoundingClientRect().top < window.innerHeight) el.classList.add("is-in");
+        });
+      }, 2500);
+    </script>
+  </body>
+</html>

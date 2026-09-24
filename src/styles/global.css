@@ -1,0 +1,102 @@
+@import "./tokens.css";
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@font-face {
+  font-family: "Fraunces";
+  src: url("/fonts/fraunces-latin-normal.woff2") format("woff2");
+  font-weight: 100 900;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: "Fraunces";
+  src: url("/fonts/fraunces-latin-italic.woff2") format("woff2");
+  font-weight: 100 900;
+  font-style: italic;
+  font-display: swap;
+}
+@font-face {
+  font-family: "Manrope";
+  src: url("/fonts/manrope-latin.woff2") format("woff2");
+  font-weight: 200 800;
+  font-style: normal;
+  font-display: swap;
+}
+
+@layer base {
+  html {
+    scroll-behavior: smooth;
+    -webkit-text-size-adjust: 100%;
+    background: var(--c-bone);
+  }
+  html.lenis, html.lenis body { height: auto; }
+  .lenis.lenis-smooth { scroll-behavior: auto; }
+  body {
+    font-family: var(--font-body);
+    font-size: var(--fs-base);
+    line-height: var(--lh-body);
+    color: var(--c-ink);
+    background: var(--c-bone);
+    -webkit-font-smoothing: antialiased;
+    text-rendering: optimizeLegibility;
+    overflow-x: clip;
+  }
+  h1, h2, h3, .display {
+    font-family: var(--font-display);
+    font-weight: 400;
+    letter-spacing: -0.02em;
+    line-height: var(--lh-snug);
+  }
+  h1 { line-height: var(--lh-tight); }
+  ::selection { background: var(--c-champagne); color: var(--c-bone); }
+  :focus-visible { outline: 2px solid var(--c-gold-text); outline-offset: 3px; border-radius: 2px; }
+  a, button, [role="button"], label[for], summary { cursor: pointer; }
+  img, video { max-width: 100%; height: auto; display: block; }
+}
+
+@layer components {
+  .eyebrow {
+    font-family: var(--font-body);
+    font-size: var(--fs-xs);
+    font-weight: 600;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--c-gold-text);
+  }
+  .hairline { height: 1px; background: var(--c-champagne); opacity: 0.55; }
+  .prose-velmora { max-width: 68ch; }
+  .prose-velmora p + p { margin-top: 1.25em; }
+  .prose-velmora h2 { font-size: var(--fs-xl); margin: 2.2em 0 0.7em; }
+  .prose-velmora h3 { font-size: var(--fs-lg); margin: 1.8em 0 0.6em; }
+  .prose-velmora ul { list-style: disc; padding-left: 1.4em; margin: 1em 0; }
+  .prose-velmora ol { list-style: decimal; padding-left: 1.4em; margin: 1em 0; }
+  .prose-velmora li + li { margin-top: 0.4em; }
+  .prose-velmora a { text-decoration: underline; text-underline-offset: 3px; text-decoration-color: var(--c-champagne); }
+  .prose-velmora blockquote { border-left: 1px solid var(--c-champagne); padding-left: 1.25em; font-family: var(--font-display); font-size: var(--fs-md); font-style: italic; color: var(--c-ink-soft); margin: 1.5em 0; }
+  .grain::after {
+    content: "";
+    position: absolute; inset: 0; pointer-events: none;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.05'/%3E%3C/svg%3E");
+    mix-blend-mode: multiply;
+  }
+  /* Above-the-fold entrances: pure CSS so LCP never waits for JS. */
+  @keyframes hero-in { from { opacity: 0.35; transform: translateY(14px); } to { opacity: 1; transform: none; } }
+  .hero-in { animation: hero-in 700ms var(--ease-out) both; }
+  /* Reveal primitives driven by GSAP; static fallback is fully visible. */
+  .reveal { opacity: 1; }
+  html.js .reveal { opacity: 0; transform: translateY(18px); }
+  html.js .reveal.is-in { opacity: 1; transform: none; transition: opacity var(--dur-slow) var(--ease-out), transform var(--dur-slow) var(--ease-out); }
+  html.js .reveal-clip { clip-path: inset(0 0 100% 0); }
+  html.js .reveal-clip.is-in { clip-path: inset(0 0 0 0); transition: clip-path var(--dur-slower) var(--ease-out-expo); }
+  html.js .reveal-line > * { opacity: 0; transform: translateY(1em); }
+  html.js .reveal-line.is-in > * { opacity: 1; transform: none; transition: opacity var(--dur-slow) var(--ease-out), transform var(--dur-slow) var(--ease-out); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+  html.js .reveal, html.js .reveal-clip, html.js .reveal-line > * { opacity: 1; transform: none; clip-path: none; transition: none; }
+  .hero-in { animation: none; }
+  *, *::before, *::after { animation-duration: 0.01ms !important; animation-iteration-count: 1 !important; transition-duration: 0.01ms !important; }
+}

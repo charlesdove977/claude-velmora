@@ -1,0 +1,83 @@
+---
+import { site } from "@/config/site";
+import Logo from "@/components/Logo.astro";
+import NewsletterForm from "@/components/NewsletterForm.astro";
+const year = new Date().getFullYear();
+const cols = [
+  { title: "Treatments", links: [
+    { label: "Botox & Dysport", href: "/treatments/neuromodulators" },
+    { label: "Dermal Fillers", href: "/treatments/dermal-fillers" },
+    { label: "RF Microneedling", href: "/treatments/microneedling-rf" },
+    { label: "IPL Photofacial", href: "/treatments/ipl-photofacial" },
+    { label: "All treatments", href: "/treatments" },
+  ]},
+  { title: "Visit", links: [
+    { label: "Book a consultation", href: "/book" },
+    { label: "Treatment quiz", href: "/quiz" },
+    { label: "Pricing", href: "/pricing" },
+    { label: "Membership", href: "/membership" },
+    { label: "Gift cards", href: "/gift-cards" },
+  ]},
+  { title: "Clinic", links: [
+    { label: "About", href: "/about" },
+    { label: "Results", href: "/results" },
+    { label: "Journal", href: "/journal" },
+    { label: "Support", href: "/support" },
+    { label: "Contact", href: "/contact" },
+  ]},
+];
+---
+<footer class="relative border-t border-stone/40 bg-bone-deep pb-24 md:pb-0">
+  <div class="mx-auto max-w-content px-4 py-16 md:px-8 md:py-20 xl:px-12">
+    <div class="grid gap-12 lg:grid-cols-12">
+      <div class="lg:col-span-4">
+        <Logo class="text-espresso" />
+        <p class="mt-5 max-w-sm text-fluid-sm text-ink-soft">{site.description}</p>
+        <address class="mt-6 not-italic text-fluid-sm text-ink-soft">
+          <a href={site.address.mapsUrl} target="_blank" rel="noopener" class="block hover:text-ink">{site.address.street}<br />{site.address.city}, {site.address.region} {site.address.postalCode}</a>
+          <a href={site.phoneHref} class="mt-2 inline-block py-1.5 hover:text-ink">{site.phone}</a>
+          <br /><a href={`mailto:${site.email}`} class="inline-block py-1.5 hover:text-ink">{site.email}</a>
+        </address>
+        <ul class="mt-6 flex gap-5">
+          {site.socials.map((s) => (
+            <li><a href={s.href} target="_blank" rel="noopener" class="text-fluid-xs font-semibold uppercase tracking-eyebrow text-gold-text hover:text-ink">{s.label}</a></li>
+          ))}
+        </ul>
+      </div>
+      <div class="grid grid-cols-2 gap-8 sm:grid-cols-3 lg:col-span-5">
+        {cols.map((c) => (
+          <div>
+            <p class="eyebrow">{c.title}</p>
+            <ul class="mt-4 space-y-2.5">
+              {c.links.map((l) => <li><a href={l.href} class="text-fluid-sm text-ink-soft transition-colors hover:text-ink">{l.label}</a></li>)}
+            </ul>
+          </div>
+        ))}
+      </div>
+      <div class="lg:col-span-3">
+        <p class="eyebrow">Hours</p>
+        <ul class="mt-4 space-y-1.5 text-fluid-sm text-ink-soft">
+          {site.hours.map((h) => (
+            <li class="flex justify-between gap-4"><span>{h.day.slice(0, 3)}</span><span>{h.open ? `${h.open.replace(/^0/, "")} to ${h.close?.replace(/^0/, "")}` : "Closed"}</span></li>
+          ))}
+        </ul>
+        <div class="mt-8">
+          <p class="eyebrow">Skin notes</p>
+          <p class="mt-2 text-fluid-sm text-ink-soft">One short letter a month. Seasonal skin advice from our providers, no promotions.</p>
+          <NewsletterForm id="footer" />
+        </div>
+      </div>
+    </div>
+    <div class="mt-14 border-t border-stone/40 pt-6 text-fluid-xs text-ink-soft">
+      <p class="max-w-3xl">Medical disclaimer: content on this site is for information only and is not medical advice. Results vary and are not guaranteed. Before/after imagery is illustrative and does not depict actual patients. Treatments are performed by licensed providers under the supervision of {site.medicalDirector.name}.</p>
+      <div class="mt-4 flex flex-wrap items-center gap-x-5 gap-y-1">
+        <span>&copy; {year} {site.legalName}</span>
+        <a href="/privacy" class="inline-block py-2 hover:text-ink">Privacy</a>
+        <a href="/terms" class="inline-block py-2 hover:text-ink">Terms</a>
+        <a href="/medical-disclaimer" class="inline-block py-2 hover:text-ink">Medical disclaimer</a>
+        <a href="/accessibility" class="inline-block py-2 hover:text-ink">Accessibility</a>
+        <a href="/support/policies" class="inline-block py-2 hover:text-ink">Policies</a>
+      </div>
+    </div>
+  </div>
+</footer>

@@ -1,0 +1,53 @@
+---
+interface Props { id: string; dark?: boolean }
+const { id, dark = false } = Astro.props;
+---
+<form class="newsletter-form mt-4" data-newsletter action="/api/newsletter" method="post" novalidate>
+  <div class="flex gap-2">
+    <label for={`nl-${id}`} class="sr-only">Email address</label>
+    <input
+      id={`nl-${id}`}
+      name="email"
+      type="email"
+      required
+      autocomplete="email"
+      class:list={["h-11 min-w-0 flex-1 rounded-pill border px-4 text-fluid-sm outline-none transition-colors", dark ? "border-bone/30 bg-transparent text-bone focus:border-champagne" : "border-stone/70 bg-bone text-ink focus:border-espresso"]}
+    />
+    <input type="text" name="company_website" tabindex="-1" autocomplete="off" class="hidden" aria-hidden="true" />
+    <button type="submit" class:list={["h-11 shrink-0 rounded-pill px-5 text-[0.8125rem] font-semibold transition-colors", dark ? "bg-champagne text-espresso" : "bg-espresso text-bone hover:bg-espresso-soft"]}>Join</button>
+  </div>
+  <p class="form-msg mt-2 min-h-[1.25rem] text-fluid-xs" aria-live="polite"></p>
+</form>
+<script>
+  import { toast } from "@/scripts/motion";
+  document.querySelectorAll<HTMLFormElement>("form[data-newsletter]").forEach((form) => {
+    form.addEventListener("submit", async (e) => {
+      e.preventDefault();
+      const input = form.querySelector<HTMLInputElement>('input[name="email"]');
+      const msg = form.querySelector<HTMLElement>(".form-msg");
+      const btn = form.querySelector<HTMLButtonElement>("button");
+      const email = input?.value.trim() ?? "";
+      if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+        if (msg) { msg.textContent = "Enter a valid email."; msg.className = "form-msg mt-2 min-h-[1.25rem] text-fluid-xs text-error"; }
+        input?.focus();
+        return;
+      }
+      btn && (btn.disabled = true);
+      try {
+        const res = await fetch("/api/newsletter", { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ email, company_website: form.querySelector<HTMLInputElement>('input[name="company_website"]')?.value ?? "" }) });
+        const data = await res.json();
+        if (res.ok && data.ok) {
+          if (msg) { msg.textContent = "You are on the list. Welcome."; msg.className = "form-msg mt-2 min-h-[1.25rem] text-fluid-xs text-success"; }
+          form.reset();
+          toast("Subscribed. Your first note arrives with the season.");
+        } else {
+          if (msg) { msg.textContent = data.error || "Something went wrong. Try again."; msg.className = "form-msg mt-2 min-h-[1.25rem] text-fluid-xs text-error"; }
+        }
+      } catch {
+        if (msg) { msg.textContent = "Network error. Try again."; msg.className = "form-msg mt-2 min-h-[1.25rem] text-fluid-xs text-error"; }
+      } finally {
+        btn && (btn.disabled = false);
+      }
+    });
+  });
+</script>

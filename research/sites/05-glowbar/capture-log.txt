@@ -1,0 +1,2 @@
+menu selector used: - New console entries: .playwright-cli/console-2026-09-24T19-43-56-029Z.log#L154-L156
+inner url: https://glowbar.com/products/spot-service-1

@@ -1,0 +1,81 @@
+{
+  "url": "https://alchemy43.com/",
+  "title": "Alchemy 43 | Aesthetics and Wellness",
+  "h1": {
+    "tag": "H1",
+    "text": "Medical Aesthetics + Wellness",
+    "fontFamily": "work-sans",
+    "fontSize": "18px",
+    "fontWeight": "400",
+    "lineHeight": "18px",
+    "letterSpacing": "5.4px",
+    "textTransform": "uppercase",
+    "color": "rgb(255, 255, 255)",
+    "background": "rgba(0, 0, 0, 0)",
+    "borderRadius": "0px",
+    "padding": "0px"
+  },
+  "h2": {
+    "tag": "H2",
+    "text": "The Best Work Goes Unnoticed",
+    "fontFamily": "freight-neo-pro",
+    "fontSize": "55px",
+    "fontWeight": "400",
+    "lineHeight": "55px",
+    "letterSpacing": "normal",
+    "textTransform": "uppercase",
+    "color": "rgb(255, 255, 255)",
+    "background": "rgba(0, 0, 0, 0)",
+    "borderRadius": "0px",
+    "padding": "0px"
+  },
+  "body": {
+    "tag": "BODY",
+    "text": "Get $50 for each referral • refer a Friend and earn! • Find out more...\n      do",
+    "fontFamily": "work-sans",
+    "fontSize": "16px",
+    "fontWeight": "400",
+    "lineHeight": "26.88px",
+    "letterSpacing": "normal",
+    "textTransform": "none",
+    "color": "rgb(18, 24, 31)",
+    "background": "rgba(0, 0, 0, 0)",
+    "borderRadius": "0px",
+    "padding": "0px"
+  },
+  "navLink": {
+    "tag": "A",
+    "text": "(866) 778-0043",
+    "fontFamily": "work-sans",
+    "fontSize": "13px",
+    "fontWeight": "500",
+    "lineHeight": "13px",
+    "letterSpacing": "0.45px",
+    "textTransform": "uppercase",
+    "color": "rgb(18, 24, 31)",
+    "background": "rgba(0, 0, 0, 0)",
+    "borderRadius": "0px",
+    "padding": "0px"
+  },
+  "primaryButton": {
+    "tag": "A",
+    "text": "Book Now",
+    "fontFamily": "work-sans",
+    "fontSize": "12px",
+    "fontWeight": "500",
+    "lineHeight": "12px",
+    "letterSpacing": "0.8px",
+    "textTransform": "uppercase",
+    "color": "rgb(255, 255, 255)",
+    "background": "rgb(211, 211, 211)",
+    "borderRadius": "50px",
+    "padding": "12px 18px 11px"
+  },
+  "bodyBg": "rgba(0, 0, 0, 0)",
+  "fontsLoaded": [
+    "nunito",
+    "freight-neo-pro",
+    "work-sans",
+    "swiper-icons"
+  ]
+}

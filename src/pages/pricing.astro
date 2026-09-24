@@ -1,0 +1,77 @@
+---
+import BaseLayout from "@/layouts/BaseLayout.astro";
+import PageHero from "@/components/ui/PageHero.astro";
+import Button from "@/components/ui/Button.astro";
+import CtaBand from "@/components/ui/CtaBand.astro";
+import { treatments, categories, type TreatmentCategory } from "@/data/treatments";
+import { memberships } from "@/data/memberships";
+import { site } from "@/config/site";
+import { breadcrumbLd } from "@/lib/seo";
+
+const cats = Object.keys(categories) as TreatmentCategory[];
+const crumbs = [{ name: "Home", href: "/" }, { name: "Pricing", href: "/pricing" }];
+---
+<BaseLayout title="Pricing: Full Price List and Financing" description="Every Velmora treatment price in one place, plus membership savings and monthly financing through Cherry and PatientFi. No hidden fees." jsonLd={[breadcrumbLd(crumbs)]}>
+  <PageHero eyebrow="Pricing" title="Every price, in one place" lede="Starting prices and typical ranges for every treatment. Your written plan shows the exact figure before treatment, and nothing is added without asking." crumbs={crumbs}>
+    <nav class="reveal mt-8 flex flex-wrap gap-2" aria-label="Jump to category" data-delay="240">
+      {cats.map((c) => <a href={`#${c}`} class="rounded-pill border border-stone/60 px-4 py-2 text-fluid-sm text-ink-soft transition-colors hover:border-espresso hover:text-ink">{categories[c].label}</a>)}
+      <a href="#financing" class="rounded-pill border border-champagne/60 px-4 py-2 text-fluid-sm text-gold-text transition-colors hover:border-espresso">Financing</a>
+    </nav>
+  </PageHero>
+
+  <section class="pb-section">
+    <div class="mx-auto max-w-content px-4 md:px-8 xl:px-12">
+      {cats.map((c) => (
+        <div id={c} class="scroll-mt-28 border-t border-stone/40 py-12">
+          <div class="grid gap-8 lg:grid-cols-12">
+            <div class="lg:col-span-4">
+              <h2 class="reveal font-display text-fluid-2xl text-ink">{categories[c].label}</h2>
+              <p class="reveal mt-3 text-fluid-base text-ink-soft" data-delay="80">{categories[c].blurb}</p>
+            </div>
+            <div class="space-y-10 lg:col-span-8">
+              {treatments.filter((t) => t.category === c).map((t) => (
+                <div class="reveal">
+                  <div class="flex items-baseline justify-between gap-4">
+                    <a href={`/treatments/${t.slug}`} class="font-display text-fluid-lg text-ink hover:text-gold-text">{t.name}</a>
+                    <a href={`/book?treatment=${t.slug}`} class="shrink-0 text-fluid-xs font-semibold uppercase tracking-eyebrow text-gold-text hover:underline">Book</a>
+                  </div>
+                  <dl class="mt-3 divide-y divide-stone/40 border-y border-stone/40">
+                    {t.priceLines.map((l) => (
+                      <div class="flex items-baseline justify-between gap-6 py-3 text-fluid-sm">
+                        <dt class="text-ink-soft">{l.label}</dt>
+                        <dd class="shrink-0 font-semibold text-ink">{l.price}</dd>
+                      </div>
+                    ))}
+                  </dl>
+                </div>
+              ))}
+            </div>
+          </div>
+        </div>
+      ))}
+
+      <div id="financing" class="scroll-mt-28 grid gap-8 border-t border-stone/40 py-12 lg:grid-cols-12">
+        <div class="lg:col-span-4">
+          <h2 class="reveal font-display text-fluid-2xl text-ink">Financing and membership</h2>
+          <p class="reveal mt-3 text-fluid-base text-ink-soft" data-delay="80">Monthly plans through {site.financing.join(" and ")}, approval in minutes, and checking eligibility does not affect your credit score.</p>
+        </div>
+        <div class="grid gap-5 sm:grid-cols-3 lg:col-span-8">
+          {memberships.map((m, i) => (
+            <div class:list={["reveal rounded-md border p-6", m.highlight ? "border-champagne bg-bone-deep" : "border-stone/40"]} data-delay={i * 90}>
+              <p class="eyebrow">{m.name}</p>
+              <p class="mt-2 font-display text-fluid-xl text-ink">${m.monthly}<span class="text-fluid-xs text-ink-muted">/mo</span></p>
+              <p class="mt-2 text-fluid-sm text-ink-soft">{m.tagline}</p>
+              <p class="mt-3 text-fluid-xs font-semibold text-gold-text">{m.savings}</p>
+            </div>
+          ))}
+          <div class="sm:col-span-3"><Button href="/membership" variant="ghost">Compare memberships in detail</Button></div>
+        </div>
+      </div>
+
+      <div class="border-t border-stone/40 pt-8 text-fluid-xs text-ink-muted">
+        <p>Consultations: {site.consult.virtualLabel.toLowerCase()}, or {site.consult.inPersonLabel.toLowerCase()}. A $50 deposit holds treatment appointments over 30 minutes and is applied to your service. We accept major cards, HSA and FSA for eligible services. We do not accept insurance. Prices may change; the price on your written plan is the price you pay.</p>
+      </div>
+    </div>
+  </section>
+  <CtaBand />
+</BaseLayout>

@@ -1,0 +1,83 @@
+{
+  "url": "https://www.yrfb-scottsdale.com/",
+  "title": "Youth Renewal Face & Body | Scottsdale's Physician-led Med Spa",
+  "h1": {
+    "tag": "H1",
+    "text": "Youth Renewal",
+    "fontFamily": "\"Cormorant Garamond\", Georgia, \"Times New Roman\", serif",
+    "fontSize": "84px",
+    "fontWeight": "500",
+    "lineHeight": "84px",
+    "letterSpacing": "normal",
+    "textTransform": "none",
+    "color": "rgb(255, 255, 255)",
+    "background": "rgba(0, 0, 0, 0)",
+    "borderRadius": "0px",
+    "padding": "0px 0px 10px"
+  },
+  "h2": {
+    "tag": "H2",
+    "text": "Meet Dr. Brett Beloud, MD",
+    "fontFamily": "\"Cormorant Garamond\", Georgia, \"Times New Roman\", serif",
+    "fontSize": "46px",
+    "fontWeight": "500",
+    "lineHeight": "46px",
+    "letterSpacing": "normal",
+    "textTransform": "none",
+    "color": "rgb(66, 66, 66)",
+    "background": "rgba(0, 0, 0, 0)",
+    "borderRadius": "0px",
+    "padding": "0px 0px 10px"
+  },
+  "body": {
+    "tag": "BODY",
+    "text": "480.382.8234\n\t\t\t\t\n\t\t\t\t\n\t\t\t\t\n\n\t\n\t\t\n\t\t\tFacebook\n\t\t\n\t\n\t\n\t\t\n\t\t\tInstagram\n\t\t\n\t\n\n\t\t\t\t\n",
+    "fontFamily": "\"Open Sans\", Arial, sans-serif",
+    "fontSize": "14px",
+    "fontWeight": "500",
+    "lineHeight": "23.8px",
+    "letterSpacing": "normal",
+    "textTransform": "none",
+    "color": "rgb(232, 225, 213)",
+    "background": "rgb(0, 0, 0)",
+    "borderRadius": "0px",
+    "padding": "0px"
+  },
+  "navLink": {
+    "tag": "A",
+    "text": "",
+    "fontFamily": "Actor, Helvetica, Arial, Lucida, sans-serif",
+    "fontSize": "14px",
+    "fontWeight": "500",
+    "lineHeight": "23px",
+    "letterSpacing": "normal",
+    "textTransform": "none",
+    "color": "rgb(142, 17, 17)",
+    "background": "rgba(0, 0, 0, 0)",
+    "borderRadius": "0px",
+    "padding": "0px"
+  },
+  "primaryButton": {
+    "tag": "A",
+    "text": "Facebook",
+    "fontFamily": "\"Open Sans\", Arial, sans-serif",
+    "fontSize": "14px",
+    "fontWeight": "400",
+    "lineHeight": "14px",
+    "letterSpacing": "normal",
+    "textTransform": "uppercase",
+    "color": "rgba(242, 237, 215, 0.94)",
+    "background": "rgba(0, 0, 0, 0)",
+    "borderRadius": "0px",
+    "padding": "0px"
+  },
+  "bodyBg": "rgb(0, 0, 0)",
+  "fontsLoaded": [
+    "Open Sans",
+    "Actor",
+    "Cormorant Garamond",
+    "Montserrat",
+    "ETmodules",
+    "FontAwesome"
+  ]
+}

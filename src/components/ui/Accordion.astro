@@ -1,0 +1,30 @@
+---
+// Native details/summary accordion. Keyboard accessible without JS; the
+// small script animates height and keeps one item open per group when `single`.
+interface Props {
+  items: { q: string; a: string; id?: string }[];
+  single?: boolean;
+  dark?: boolean;
+  class?: string;
+  name?: string;
+}
+const { items, single = true, dark = false, class: cls = "", name } = Astro.props;
+---
+<div class:list={["accordion divide-y", dark ? "divide-bone/15" : "divide-stone/50", cls]} data-accordion data-single={single ? "" : undefined}>
+  {items.map((it) => (
+    <details class="group" id={it.id} name={single && name ? name : undefined}>
+      <summary class:list={["flex cursor-pointer list-none items-start justify-between gap-6 py-5 text-left font-display text-fluid-md leading-snug transition-colors", dark ? "text-bone hover:text-champagne" : "text-ink hover:text-gold-text"]}>
+        <span>{it.q}</span>
+        <span class:list={["mt-1 flex h-6 w-6 shrink-0 items-center justify-center rounded-pill border transition-transform duration-500 ease-out-expo group-open:rotate-45", dark ? "border-bone/30" : "border-stone"]} aria-hidden="true">
+          <svg width="10" height="10" viewBox="0 0 10 10" fill="none" stroke="currentColor" stroke-width="1.2"><path d="M5 1v8M1 5h8" /></svg>
+        </span>
+      </summary>
+      <div class="accordion-body">
+        <p class:list={["max-w-prose pb-6 pr-10 text-fluid-base", dark ? "text-stone" : "text-ink-soft"]}>{it.a}</p>
+      </div>
+    </details>
+  ))}
+</div>
+<style>
+  details summary::-webkit-details-marker { display: none; }
+</style>

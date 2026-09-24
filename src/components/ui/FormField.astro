@@ -1,0 +1,36 @@
+---
+// Labelled input/select/textarea with an inline error slot. Used by the
+// vanilla-JS forms (contact, support, gift card).
+interface Props {
+  name: string;
+  label: string;
+  type?: "text" | "email" | "tel" | "number" | "textarea" | "select";
+  required?: boolean;
+  autocomplete?: string;
+  options?: readonly string[] | string[];
+  rows?: number;
+  min?: number;
+  max?: number;
+  hint?: string;
+  value?: string;
+  class?: string;
+}
+const { name, label, type = "text", required = false, autocomplete, options = [], rows = 4, min, max, hint, value, class: cls = "" } = Astro.props;
+const id = `f-${name}`;
+const base = "mt-2 w-full rounded-md border border-stone/70 bg-bone px-4 text-fluid-base text-ink outline-none transition-colors focus:border-espresso aria-[invalid=true]:border-error";
+---
+<div class:list={["form-field", cls]}>
+  <label for={id} class="block text-fluid-sm font-semibold text-ink">{label}{!required && <span class="font-normal text-ink-muted"> (optional)</span>}</label>
+  {type === "textarea" ? (
+    <textarea id={id} name={name} rows={rows} required={required} class:list={[base, "py-3"]} aria-describedby={`${id}-err`}>{value}</textarea>
+  ) : type === "select" ? (
+    <select id={id} name={name} required={required} class:list={[base, "h-12"]} aria-describedby={`${id}-err`}>
+      <option value="">Choose…</option>
+      {options.map((o) => <option value={o} selected={o === value}>{o}</option>)}
+    </select>
+  ) : (
+    <input id={id} name={name} type={type} required={required} autocomplete={autocomplete} min={min} max={max} value={value} class:list={[base, "h-12"]} aria-describedby={`${id}-err`} />
+  )}
+  {hint && <p class="mt-1.5 text-fluid-xs text-ink-muted">{hint}</p>}
+  <p id={`${id}-err`} class="field-error mt-1.5 min-h-[1rem] text-fluid-xs text-error" role="alert"></p>
+</div>

@@ -1,0 +1,11 @@
+---
+interface Props { tone?: "gold" | "sage" | "ink" | "light"; class?: string }
+const { tone = "gold", class: cls = "" } = Astro.props;
+const tones = {
+  gold: "border-champagne/50 text-gold-text",
+  sage: "border-sage/60 text-sage-deep",
+  ink: "border-espresso/30 text-ink",
+  light: "border-bone/40 text-bone",
+};
+---
+<span class:list={["inline-flex items-center gap-1.5 rounded-pill border px-3 py-1 text-[0.6875rem] font-semibold uppercase tracking-eyebrow", tones[tone], cls]}><slot /></span>

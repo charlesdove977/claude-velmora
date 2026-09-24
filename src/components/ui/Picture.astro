@@ -1,0 +1,22 @@
+---
+// Responsive stock image. name maps to public/images/{name}-{w}.{avif,webp}.
+import { srcset, fallback } from "@/lib/images";
+interface Props {
+  name: string;
+  alt: string;
+  class?: string;
+  imgClass?: string;
+  sizes?: string;
+  loading?: "lazy" | "eager";
+  fetchpriority?: "high" | "low" | "auto";
+  width?: number;
+  height?: number;
+  ratio?: string;
+}
+const { name, alt, class: cls = "", imgClass = "", sizes = "(min-width: 1024px) 50vw, 100vw", loading = "lazy", fetchpriority = "auto", width = 1200, height = 800, ratio } = Astro.props;
+---
+<picture class:list={["block overflow-hidden", cls]} style={ratio ? `aspect-ratio:${ratio}` : undefined}>
+  <source type="image/avif" srcset={srcset(name, "avif")} sizes={sizes} />
+  <source type="image/webp" srcset={srcset(name, "webp")} sizes={sizes} />
+  <img src={fallback(name)} alt={alt} width={width} height={height} loading={loading} decoding="async" fetchpriority={fetchpriority} class:list={["h-full w-full object-cover", imgClass]} />
+</picture>

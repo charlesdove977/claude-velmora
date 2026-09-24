@@ -1,0 +1,33 @@
+---
+import Picture from "@/components/ui/Picture.astro";
+import { formatPrice, type Treatment, categories } from "@/data/treatments";
+interface Props { t: Treatment; index?: number; compact?: boolean }
+const { t, index = 0, compact = false } = Astro.props;
+---
+<a
+  href={`/treatments/${t.slug}`}
+  class="treatment-card reveal group relative block"
+  data-delay={index * 70}
+  data-tilt
+>
+  <div class="tilt-inner relative overflow-hidden rounded-md bg-sand" style={compact ? "aspect-ratio:4/3" : "aspect-ratio:4/5"}>
+    <Picture name={t.image} alt={t.imageAlt} class="h-full w-full" imgClass="transition-transform duration-[1200ms] ease-out-expo group-hover:scale-[1.04]" sizes="(min-width: 1024px) 33vw, (min-width: 640px) 50vw, 100vw" width={800} height={1000} />
+    <div class="absolute inset-0 bg-gradient-to-t from-espresso/70 via-espresso/10 to-transparent opacity-80 transition-opacity duration-700 group-hover:opacity-95"></div>
+    <div class="absolute left-4 top-4 rounded-pill border border-bone/30 bg-espresso/40 px-3 py-1 text-[0.6875rem] font-semibold uppercase tracking-eyebrow text-bone backdrop-blur-sm">{categories[t.category].label}</div>
+    <div class="absolute inset-x-0 bottom-0 p-5 text-bone md:p-6">
+      <div class="flex items-end justify-between gap-4">
+        <div>
+          <h3 class="font-display text-fluid-lg leading-tight">{t.name}</h3>
+          <p class="mt-2 max-w-[28ch] text-fluid-sm text-bone/80 opacity-0 translate-y-2 transition-all duration-700 ease-out group-hover:translate-y-0 group-hover:opacity-100 md:block hidden">{t.benefit}</p>
+        </div>
+        <div class="shrink-0 text-right">
+          <p class="text-[0.6875rem] uppercase tracking-eyebrow text-champagne">from</p>
+          <p class="font-display text-fluid-md">{formatPrice(t.priceFrom)}</p>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="mt-3 flex items-center justify-between text-fluid-sm text-ink-soft md:hidden">
+    <span>{t.benefit}</span>
+  </div>
+</a>

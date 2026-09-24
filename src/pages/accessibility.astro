@@ -1,0 +1,13 @@
+---
+import LegalPage from "@/components/ui/LegalPage.astro";
+import { site } from "@/config/site";
+const sections = [
+  { h: "Our commitment", p: [`${site.name} wants every visitor to be able to read, navigate and book on this site. We aim to meet WCAG 2.2 Level AA.`] },
+  { h: "What we have done", p: [
+    "Text and background colors are checked for at least a 4.5 to 1 contrast ratio. Every page has one heading structure, visible focus outlines and a skip link. Forms have labels and inline error messages announced to screen readers. Motion, including the 3D scenes and smooth scrolling, is disabled when your system asks for reduced motion. Images carry descriptive alternative text, and decorative images are hidden from assistive technology.",
+  ]},
+  { h: "The clinic", p: ["Our suite is on the second floor with elevator access, step-free entry from the garage, an accessible restroom, and treatment chairs that lower for transfers. Tell us in advance about any accommodation and we will arrange it."] },
+  { h: "Tell us", p: [`If any part of this site is hard to use, email ${site.email} or call ${site.phone}. We fix accessibility issues as a priority and will offer the information another way in the meantime.`] },
+];
+---
+<LegalPage title="Accessibility Statement" slug="accessibility" description="How this site and our clinic support visitors with disabilities, and how to reach us if something is hard to use." updated="September 24, 2026" sections={sections} />

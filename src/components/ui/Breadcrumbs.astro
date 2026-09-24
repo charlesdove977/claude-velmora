@@ -1,0 +1,18 @@
+---
+interface Props { items: { name: string; href: string }[]; dark?: boolean; class?: string }
+const { items, dark = false, class: cls = "" } = Astro.props;
+---
+<nav aria-label="Breadcrumb" class:list={["text-fluid-xs", dark ? "text-stone" : "text-ink-muted", cls]}>
+  <ol class="flex flex-wrap items-center gap-2">
+    {items.map((it, i) => (
+      <li class="flex items-center gap-2">
+        {i > 0 && <span aria-hidden="true" class="opacity-60">/</span>}
+        {i < items.length - 1 ? (
+          <a href={it.href} class:list={["transition-colors", dark ? "hover:text-bone" : "hover:text-ink"]}>{it.name}</a>
+        ) : (
+          <span aria-current="page" class:list={[dark ? "text-bone" : "text-ink"]}>{it.name}</span>
+        )}
+      </li>
+    ))}
+  </ol>
+</nav>

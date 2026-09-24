@@ -1,0 +1,60 @@
+---
+import BaseLayout from "@/layouts/BaseLayout.astro";
+import PageHero from "@/components/ui/PageHero.astro";
+import CtaBand from "@/components/ui/CtaBand.astro";
+import { aftercare, getAftercare } from "@/data/aftercare";
+import { site } from "@/config/site";
+import { breadcrumbLd } from "@/lib/seo";
+
+export function getStaticPaths() {
+  return aftercare.map((a) => ({ params: { slug: a.slug } }));
+}
+const a = getAftercare(Astro.params.slug!)!;
+const crumbs = [{ name: "Home", href: "/" }, { name: "Support", href: "/support" }, { name: a.name, href: `/support/aftercare/${a.slug}` }];
+const blocks = [
+  { title: "First 24 hours", items: a.first24 },
+  { title: "First week", items: a.firstWeek },
+  { title: "Avoid", items: a.avoid },
+];
+---
+<BaseLayout title={`${a.name}: what to do after your treatment`} description={`${a.intro} Covers ${a.applies}.`} jsonLd={[breadcrumbLd(crumbs)]} stickyBook={false}>
+  <PageHero eyebrow="Aftercare" title={a.name} lede={a.intro} crumbs={crumbs} compact>
+    <p class="reveal mt-4 text-fluid-sm text-ink-muted" data-delay="240">Applies to: {a.applies}</p>
+  </PageHero>
+  <section class="pb-section">
+    <div class="mx-auto grid max-w-content gap-10 px-4 md:px-8 lg:grid-cols-12 xl:px-12">
+      <div class="space-y-10 lg:col-span-8">
+        {blocks.map((b) => (
+          <div class="reveal">
+            <h2 class="font-display text-fluid-xl text-ink">{b.title}</h2>
+            <ul class="mt-4 space-y-3 text-fluid-base text-ink-soft">
+              {b.items.map((x) => <li class="flex gap-3"><span class="mt-[0.7em] h-px w-4 shrink-0 bg-champagne"></span>{x}</li>)}
+            </ul>
+          </div>
+        ))}
+        <div class="reveal rounded-md border border-error/40 bg-bone-deep p-6">
+          <h2 class="font-display text-fluid-xl text-ink">Call us right away if</h2>
+          <ul class="mt-4 space-y-3 text-fluid-base text-ink-soft">
+            {a.callUs.map((x) => <li class="flex gap-3"><span class="mt-[0.7em] h-px w-4 shrink-0 bg-error"></span>{x}</li>)}
+          </ul>
+          <p class="mt-5 text-fluid-sm text-ink"><a href={site.phoneHref} class="font-semibold underline decoration-champagne underline-offset-4">{site.phone}</a>. A provider is reachable every day for post-treatment concerns. For emergencies call 911.</p>
+        </div>
+      </div>
+      <aside class="lg:col-span-4">
+        <div class="sticky top-28 space-y-8">
+          <div class="rounded-md border border-stone/40 p-6">
+            <p class="eyebrow">What to have at home</p>
+            <ul class="mt-3 space-y-2 text-fluid-sm text-ink">{a.products.map((p) => <li>{p}</li>)}</ul>
+          </div>
+          <div>
+            <p class="eyebrow">Other guides</p>
+            <ul class="mt-3 space-y-2">
+              {aftercare.filter((x) => x.slug !== a.slug).map((x) => <li><a href={`/support/aftercare/${x.slug}`} class="text-fluid-sm text-ink-soft underline decoration-stone underline-offset-4 hover:text-ink">{x.name}</a></li>)}
+            </ul>
+          </div>
+        </div>
+      </aside>
+    </div>
+  </section>
+  <CtaBand title="Questions about your recovery?" body="Message a coordinator or call. We would rather hear from you early than late." primaryHref="/support#contact" primaryLabel="Message support" secondaryHref={site.phoneHref} secondaryLabel={`Call ${site.phone}`} />
+</BaseLayout>

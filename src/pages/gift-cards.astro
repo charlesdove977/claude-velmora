@@ -1,0 +1,66 @@
+---
+import BaseLayout from "@/layouts/BaseLayout.astro";
+import PageHero from "@/components/ui/PageHero.astro";
+import FormField from "@/components/ui/FormField.astro";
+import Button from "@/components/ui/Button.astro";
+import { site } from "@/config/site";
+import { breadcrumbLd } from "@/lib/seo";
+const crumbs = [{ name: "Home", href: "/" }, { name: "Gift cards", href: "/gift-cards" }];
+const amounts = [100, 150, 250, 400, 600, 1000];
+---
+<BaseLayout title="Gift Cards: Any Amount from $100" description="Give a consultation, a facial or a full treatment. Digital delivery by email or a printed card at the front desk. Never expires." jsonLd={[breadcrumbLd(crumbs)]} stickyBook={false}>
+  <PageHero eyebrow="Gift cards" title="The gift of being looked after" lede="Any amount from $100, applied to any treatment, membership or skincare. Delivered by email within one business day, or as a printed card in a linen envelope at the front desk. Never expires." image="hands-02" imageAlt="Hands holding a minimal skincare bottle" crumbs={crumbs} />
+  <section class="pb-section">
+    <div class="mx-auto grid max-w-content gap-10 px-4 md:px-8 lg:grid-cols-12 xl:px-12">
+      <div class="lg:col-span-4">
+        <p class="eyebrow reveal">How it works</p>
+        <ol class="reveal mt-4 space-y-4 text-fluid-sm text-ink-soft" data-delay="80">
+          <li class="flex gap-4"><span class="font-display text-fluid-md text-champagne">01</span><span>Send the request below. No payment is taken on this page.</span></li>
+          <li class="flex gap-4"><span class="font-display text-fluid-md text-champagne">02</span><span>A coordinator calls or emails within one business day to take payment securely.</span></li>
+          <li class="flex gap-4"><span class="font-display text-fluid-md text-champagne">03</span><span>The card is emailed to the recipient, or held for pickup, with your message.</span></li>
+        </ol>
+        <p class="reveal mt-6 text-fluid-xs text-ink-muted" data-delay="140">Gift cards are non-refundable and do not expire. Questions: {site.phone}.</p>
+      </div>
+      <form id="gift-form" class="reveal grid gap-5 lg:col-span-8" data-delay="100" novalidate>
+        <fieldset>
+          <legend class="block text-fluid-sm font-semibold text-ink">Amount</legend>
+          <div class="mt-2 flex flex-wrap gap-2" data-amounts>
+            {amounts.map((a) => <button type="button" class="amount-chip h-11 rounded-pill border border-stone/70 px-5 text-fluid-sm font-semibold text-ink-soft transition-colors hover:border-espresso hover:text-ink" data-amount={a}>${a}</button>)}
+          </div>
+          <FormField name="amount" label="Or enter an amount (USD)" type="number" required min={100} max={5000} value="250" hint="Minimum $100, maximum $5,000." class="mt-4 max-w-xs" />
+        </fieldset>
+        <div class="grid gap-5 sm:grid-cols-2">
+          <FormField name="purchaserName" label="Your name" required autocomplete="name" />
+          <FormField name="purchaserEmail" label="Your email" type="email" required autocomplete="email" />
+          <FormField name="recipientName" label="Recipient's name" required />
+          <FormField name="recipientEmail" label="Recipient's email" type="email" hint="Needed for email delivery." />
+        </div>
+        <fieldset>
+          <legend class="block text-fluid-sm font-semibold text-ink">Delivery</legend>
+          <div class="mt-2 flex gap-2">
+            <label class="delivery-opt flex h-12 flex-1 cursor-pointer items-center justify-center rounded-md border border-stone/70 text-fluid-sm text-ink has-[:checked]:border-espresso has-[:checked]:bg-espresso has-[:checked]:text-bone"><input type="radio" name="delivery" value="email" class="sr-only" checked />Email</label>
+            <label class="delivery-opt flex h-12 flex-1 cursor-pointer items-center justify-center rounded-md border border-stone/70 text-fluid-sm text-ink has-[:checked]:border-espresso has-[:checked]:bg-espresso has-[:checked]:text-bone"><input type="radio" name="delivery" value="pickup" class="sr-only" />Printed card, pickup</label>
+          </div>
+          <p id="f-delivery-err" class="field-error mt-1.5 min-h-[1rem] text-fluid-xs text-error" role="alert"></p>
+        </fieldset>
+        <FormField name="message" label="Gift message" type="textarea" rows={3} hint="Up to 300 characters, printed on the card." />
+        <input type="text" name="company_website" tabindex="-1" autocomplete="off" class="hidden" aria-hidden="true" />
+        <div><Button type="submit">Request gift card</Button></div>
+      </form>
+    </div>
+  </section>
+</BaseLayout>
+<script>
+  import { wireForm } from "@/scripts/forms";
+  import { giftCardSchema } from "@/lib/schemas";
+  const form = document.getElementById("gift-form") as HTMLFormElement | null;
+  if (form) {
+    const amount = form.querySelector<HTMLInputElement>('[name="amount"]')!;
+    form.querySelectorAll<HTMLButtonElement>(".amount-chip").forEach((b) => b.addEventListener("click", () => {
+      amount.value = b.dataset.amount!;
+      form.querySelectorAll(".amount-chip").forEach((x) => x.classList.toggle("bg-espresso", x === b));
+      form.querySelectorAll(".amount-chip").forEach((x) => x.classList.toggle("text-bone", x === b));
+    }));
+    wireForm(form, giftCardSchema, "/api/gift-card", "Request received", "A coordinator will contact you within one business day to take payment and send the card.");
+  }
+</script>

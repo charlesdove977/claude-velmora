@@ -1,0 +1,7 @@
+User-agent: *
+Allow: /
+Disallow: /styleguide
+Disallow: /api/
+Disallow: /book/confirmed
+
+Sitemap: https://velmora-aesthetics.com/sitemap-index.xml

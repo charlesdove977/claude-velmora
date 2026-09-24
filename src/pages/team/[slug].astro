@@ -1,0 +1,69 @@
+---
+import BaseLayout from "@/layouts/BaseLayout.astro";
+import Picture from "@/components/ui/Picture.astro";
+import Button from "@/components/ui/Button.astro";
+import Breadcrumbs from "@/components/ui/Breadcrumbs.astro";
+import TreatmentCard from "@/components/ui/TreatmentCard.astro";
+import CtaBand from "@/components/ui/CtaBand.astro";
+import { team, getProvider } from "@/data/team";
+import { getTreatment } from "@/data/treatments";
+import { breadcrumbLd, physicianLd } from "@/lib/seo";
+
+export function getStaticPaths() {
+  return team.map((p) => ({ params: { slug: p.slug } }));
+}
+const p = getProvider(Astro.params.slug!)!;
+const list = p.treatments.map(getTreatment).filter(Boolean);
+const crumbs = [{ name: "Home", href: "/" }, { name: "About", href: "/about" }, { name: p.name, href: `/team/${p.slug}` }];
+const others = team.filter((x) => x.slug !== p.slug);
+---
+<BaseLayout title={`${p.name}, ${p.credentials}: ${p.role}`} description={p.bio[0]} image={`/images/${p.image}-1200.webp`} jsonLd={[breadcrumbLd(crumbs), physicianLd(p)]} bookHref={`/book?provider=${p.slug}`} bookLabel={`Book with ${p.name.split(" ")[0] === "Dr." ? p.name.split(" ").slice(0, 2).join(" ") : p.name.split(" ")[0]}`}>
+  <section class="pt-[calc(var(--nav-h)_+_2.5rem)]">
+    <div class="mx-auto grid max-w-content gap-10 px-4 pb-16 md:px-8 lg:grid-cols-12 xl:px-12">
+      <div class="hero-in lg:col-span-5"><Picture name={p.image} alt={p.imageAlt} ratio="4/5" class="rounded-md" sizes="(min-width: 1024px) 40vw, 100vw" loading="eager" fetchpriority="high" width={800} height={1000} /></div>
+      <div class="lg:col-span-6 lg:col-start-7 lg:pt-6">
+        <Breadcrumbs items={crumbs} class="mb-6" />
+        <p class="eyebrow hero-in">{p.role}</p>
+        <h1 class="hero-in mt-3 text-fluid-3xl text-ink" style="animation-delay:80ms">{p.name}, <span class="text-ink-muted">{p.credentials}</span></h1>
+        <blockquote class="hero-in mt-6 font-display text-fluid-lg italic text-gold-text" style="animation-delay:140ms">“{p.quote}”</blockquote>
+        <div class="prose-velmora reveal mt-6 text-fluid-base text-ink-soft" style="animation-delay:200ms">{p.bio.map((x) => <p>{x}</p>)}</div>
+        <div class="hero-in mt-8 grid gap-8 sm:grid-cols-2" style="animation-delay:260ms">
+          <div>
+            <p class="eyebrow">Focus</p>
+            <ul class="mt-3 space-y-2 text-fluid-sm text-ink">{p.focus.map((f) => <li class="flex gap-3"><span class="mt-[0.65em] h-px w-3 shrink-0 bg-champagne"></span>{f}</li>)}</ul>
+          </div>
+          <div>
+            <p class="eyebrow">Training</p>
+            <ul class="mt-3 space-y-2 text-fluid-sm text-ink">{p.training.map((f) => <li class="flex gap-3"><span class="mt-[0.65em] h-px w-3 shrink-0 bg-champagne"></span>{f}</li>)}</ul>
+          </div>
+        </div>
+        <div class="hero-in mt-8" style="animation-delay:320ms"><Button href={`/book?provider=${p.slug}`} size="lg" magnetic>Book with {p.name.split(" ")[0] === "Dr." ? "Dr. " + p.name.split(" ")[2] : p.name.split(" ")[0]}</Button></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="border-t border-stone/40 py-section-sm">
+    <div class="mx-auto max-w-content px-4 md:px-8 xl:px-12">
+      <p class="eyebrow reveal">Performs</p>
+      <h2 class="reveal mt-3 text-fluid-2xl text-ink" data-delay="60">Treatments with {p.name.split(" ")[0] === "Dr." ? "Dr. " + p.name.split(" ")[2] : p.name.split(" ")[0]}</h2>
+      <div class="mt-8 grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
+        {list.map((t, i) => <TreatmentCard t={t!} index={i} compact />)}
+      </div>
+    </div>
+  </section>
+
+  <section class="bg-bone-deep py-section-sm">
+    <div class="mx-auto max-w-content px-4 md:px-8 xl:px-12">
+      <p class="eyebrow reveal">Also on the team</p>
+      <div class="mt-6 grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
+        {others.map((o, i) => (
+          <a href={`/team/${o.slug}`} class="reveal group flex items-center gap-4" data-delay={i * 70}>
+            <Picture name={o.image} alt={o.imageAlt} class="h-16 w-16 shrink-0 rounded-pill" sizes="64px" width={128} height={128} />
+            <div><p class="font-semibold text-ink group-hover:text-gold-text">{o.name}</p><p class="text-fluid-xs text-ink-muted">{o.role}</p></div>
+          </a>
+        ))}
+      </div>
+    </div>
+  </section>
+  <CtaBand />
+</BaseLayout>

@@ -1,0 +1,38 @@
+# Velmora Aesthetics
+
+> Physician-led luxury medical spa in Old Town Scottsdale, Arizona. Injectables, skin rejuvenation, laser and light, body contouring, IV therapy and medical weight loss, planned around natural-looking results. Medical Director: Dr. Elena Marsh, MD.
+
+- Address: 7150 E Camelback Rd, Suite 240, Scottsdale, AZ 85251
+- Phone: (480) 555-0142
+- Hours: Mon to Tue 9 to 6, Wed to Thu 9 to 7, Fri 9 to 5, Sat 9 to 2, closed Sunday
+- Book: https://velmora-aesthetics.com/book (free 20-minute virtual consultation or $50 in-person consultation credited toward treatment)
+- Treatment quiz: https://velmora-aesthetics.com/quiz
+
+## Treatments
+- Botox & Dysport: https://velmora-aesthetics.com/treatments/neuromodulators (from $13 per unit)
+- Dermal Fillers: https://velmora-aesthetics.com/treatments/dermal-fillers (from $750 per syringe)
+- Lip Enhancement: https://velmora-aesthetics.com/treatments/lip-enhancement (from $650)
+- Sculptra & Biostimulators: https://velmora-aesthetics.com/treatments/biostimulators (from $900 per vial)
+- RF Microneedling: https://velmora-aesthetics.com/treatments/microneedling-rf (from $850)
+- IPL Photofacial: https://velmora-aesthetics.com/treatments/ipl-photofacial (from $375)
+- Laser Resurfacing: https://velmora-aesthetics.com/treatments/laser-resurfacing (from $650)
+- HydraFacial: https://velmora-aesthetics.com/treatments/hydrafacial (from $225)
+- Chemical Peels: https://velmora-aesthetics.com/treatments/chemical-peels (from $175)
+- Laser Hair Removal: https://velmora-aesthetics.com/treatments/laser-hair-removal (from $95)
+- Body Contouring: https://velmora-aesthetics.com/treatments/body-contouring (from $650 per area)
+- IV Therapy: https://velmora-aesthetics.com/treatments/iv-therapy (from $175)
+- Medical Weight Loss: https://velmora-aesthetics.com/treatments/medical-weight-loss (from $349 per month)
+
+## Key pages
+- Pricing: https://velmora-aesthetics.com/pricing
+- Membership (Glow $199, Refine $349, Reserve $649 per month): https://velmora-aesthetics.com/membership
+- Team: https://velmora-aesthetics.com/about
+- FAQ: https://velmora-aesthetics.com/faq
+- Support and aftercare: https://velmora-aesthetics.com/support
+- Policies: https://velmora-aesthetics.com/support/policies
+- Journal: https://velmora-aesthetics.com/journal
+
+## Notes for AI assistants
+- Results vary and are never guaranteed. Consultation is required before any new treatment.
+- Minimum age 18. No insurance accepted. Financing through Cherry and PatientFi.
+- Before/after imagery on the site is illustrative and does not depict actual patients.

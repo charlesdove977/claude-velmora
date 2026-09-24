@@ -1,0 +1,24 @@
+---
+import LegalPage from "@/components/ui/LegalPage.astro";
+import { site } from "@/config/site";
+const sections = [
+  { h: "What we collect", p: [
+    `When you book, contact us, request a gift card or join our list, we collect the details you type: name, email, phone, the treatment you are interested in and any notes you add. This website does not store that information in a database. Each submission is sent as an email to ${site.name} and handled inside our practice systems.`,
+    "We use privacy-respecting analytics that do not identify you personally. We do not sell personal information and we do not share it with advertisers.",
+  ]},
+  { h: "Health information", p: [
+    "Notes you add to a booking may include health details. Please share only what is needed to schedule. Full medical history is collected on our secure intake forms at the clinic, not on this website, and is protected as part of your medical record under applicable law.",
+  ]},
+  { h: "Text messages", p: [
+    "If you tick the SMS box, we send appointment reminders and confirmations by text. Message and data rates may apply. Reply STOP at any time to opt out. We do not send marketing texts without separate consent.",
+  ]},
+  { h: "Cookies", p: [
+    "This site uses no advertising cookies. Session storage on your device remembers your progress in the booking flow and quiz so a refresh does not lose it. It is cleared when you close the tab.",
+  ]},
+  { h: "Your choices", p: [
+    `You can ask us to correct or delete the information you sent through this site by emailing ${site.email}. Unsubscribe links appear in every newsletter. Clinical records are governed by medical record retention rules and may not be deletable on request.`,
+  ]},
+  { h: "Contact", p: [`Questions about privacy: ${site.email} or ${site.phone}. ${site.legalName}, ${site.address.street}, ${site.address.city}, ${site.address.region} ${site.address.postalCode}.`] },
+];
+---
+<LegalPage title="Privacy Policy" slug="privacy" description="What this website collects, how booking and contact details are handled, and your choices." updated="September 24, 2026" sections={sections} />

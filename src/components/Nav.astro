@@ -1,0 +1,164 @@
+---
+import { site } from "@/config/site";
+import Logo from "@/components/Logo.astro";
+import Button from "@/components/ui/Button.astro";
+
+interface Props {
+  transparent?: boolean;
+}
+const { transparent = false } = Astro.props;
+const path = Astro.url.pathname;
+
+const links = [
+  { label: "Treatments", href: "/treatments" },
+  { label: "Concerns", href: "/concerns/lines-wrinkles" },
+  { label: "Results", href: "/results" },
+  { label: "Pricing", href: "/pricing" },
+  { label: "Membership", href: "/membership" },
+  { label: "About", href: "/about" },
+  { label: "Journal", href: "/journal" },
+];
+const isActive = (href: string) => path === href || (href !== "/" && path.startsWith(href.split("/").slice(0, 2).join("/")));
+---
+
+<header
+  id="site-nav"
+  class:list={["site-nav fixed inset-x-0 top-0 z-[50] transition-colors duration-500", transparent ? "is-transparent" : "is-solid"]}
+>
+  <div class="mx-auto flex h-[var(--nav-h)] max-w-content items-center justify-between px-4 md:px-8 xl:px-12">
+    <a href="/" class="nav-logo flex items-center gap-3" aria-label={`${site.name} home`}>
+      <Logo />
+    </a>
+
+    <nav class="hidden items-center gap-8 lg:flex" aria-label="Primary">
+      {links.map((l) => (
+        <a
+          href={l.href}
+          class:list={["nav-link relative text-fluid-sm font-medium tracking-wide transition-colors duration-300", isActive(l.href) && "is-active"]}
+          aria-current={isActive(l.href) ? "page" : undefined}
+        >
+          {l.label}
+        </a>
+      ))}
+    </nav>
+
+    <div class="hidden items-center gap-3 lg:flex">
+      <a href={site.phoneHref} class="nav-link text-fluid-sm font-medium tracking-wide">{site.phone}</a>
+      <Button href="/book" size="sm" magnetic>Book</Button>
+    </div>
+
+    <button
+      id="menu-toggle"
+      type="button"
+      class="nav-burger flex h-11 w-11 items-center justify-center rounded-pill lg:hidden"
+      aria-controls="mobile-menu"
+      aria-expanded="false"
+      aria-label="Open menu"
+    >
+      <span class="burger-lines relative block h-[14px] w-6">
+        <span class="absolute left-0 top-0 h-[1.5px] w-6 bg-current transition-transform duration-500 ease-out-expo"></span>
+        <span class="absolute left-0 top-[6.5px] h-[1.5px] w-6 bg-current transition-opacity duration-300"></span>
+        <span class="absolute bottom-0 left-0 h-[1.5px] w-6 bg-current transition-transform duration-500 ease-out-expo"></span>
+      </span>
+    </button>
+  </div>
+</header>
+
+<div id="mobile-menu" class="mobile-menu fixed inset-0 z-[60] bg-espresso text-bone" hidden>
+  <div class="flex h-[var(--nav-h)] items-center justify-between px-4">
+    <a href="/" aria-label={`${site.name} home`}><Logo class="text-bone" /></a>
+    <button id="menu-close" type="button" class="flex h-11 w-11 items-center justify-center rounded-pill text-bone" aria-label="Close menu">
+      <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M6 6l12 12M18 6L6 18" /></svg>
+    </button>
+  </div>
+  <nav class="flex h-[calc(100dvh_-_var(--nav-h))] flex-col justify-between overflow-y-auto px-6 pb-10 pt-6" aria-label="Mobile">
+    <ul class="space-y-1">
+      {links.map((l, i) => (
+        <li class="mobile-item" style={`--i:${i}`}>
+          <a href={l.href} class="font-display flex items-baseline justify-between border-b border-bone/10 py-4 text-fluid-xl text-bone">
+            <span>{l.label}</span>
+            <span class="text-champagne text-fluid-xs font-body">0{i + 1}</span>
+          </a>
+        </li>
+      ))}
+      <li class="mobile-item" style="--i:7">
+        <a href="/support" class="font-display flex items-baseline justify-between border-b border-bone/10 py-4 text-fluid-xl text-bone"><span>Support</span><span class="text-champagne text-fluid-xs font-body">08</span></a>
+      </li>
+    </ul>
+    <div class="mobile-item space-y-4 pt-8" style="--i:8">
+      <Button href="/book" variant="gold" full>Book a consultation</Button>
+      <Button href="/quiz" variant="ghost-light" full>Find your treatment</Button>
+      <p class="text-fluid-sm text-stone">
+        <a href={site.phoneHref} class="underline decoration-champagne/60 underline-offset-4">{site.phone}</a> · {site.address.neighborhood}
+      </p>
+    </div>
+  </nav>
+</div>
+
+<style>
+  .site-nav.is-solid,
+  .site-nav.is-scrolled {
+    background: color-mix(in srgb, var(--c-bone) 88%, transparent);
+    backdrop-filter: blur(14px);
+    -webkit-backdrop-filter: blur(14px);
+    color: var(--c-ink);
+    box-shadow: 0 1px 0 color-mix(in srgb, var(--c-stone) 45%, transparent);
+  }
+  .site-nav.is-transparent:not(.is-scrolled) {
+    color: var(--c-ink);
+    background: transparent;
+  }
+  .nav-link { color: var(--c-ink-soft); }
+  .nav-link:hover, .nav-link.is-active { color: var(--c-ink); }
+  .nav-link::after {
+    content: ""; position: absolute; left: 0; bottom: -6px; height: 1px; width: 100%;
+    background: var(--c-champagne); transform: scaleX(0); transform-origin: left;
+    transition: transform var(--dur-base) var(--ease-out-expo);
+  }
+  .nav-link:hover::after, .nav-link.is-active::after { transform: scaleX(1); }
+  .nav-burger { color: var(--c-ink); }
+  body.menu-open .nav-burger span span:nth-child(1) { transform: translateY(6.5px) rotate(45deg); }
+  body.menu-open .nav-burger span span:nth-child(2) { opacity: 0; }
+  body.menu-open .nav-burger span span:nth-child(3) { transform: translateY(-6.5px) rotate(-45deg); }
+  .mobile-menu[hidden] { display: none; }
+  .mobile-item { opacity: 0; transform: translateY(14px); }
+  .mobile-menu.is-open .mobile-item {
+    opacity: 1; transform: none;
+    transition: opacity 600ms var(--ease-out), transform 600ms var(--ease-out);
+    transition-delay: calc(60ms + var(--i) * 45ms);
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .mobile-item { opacity: 1; transform: none; transition: none; }
+  }
+</style>
+
+<script>
+  const toggle = document.getElementById("menu-toggle");
+  const close = document.getElementById("menu-close");
+  const menu = document.getElementById("mobile-menu");
+  let lastFocus: HTMLElement | null = null;
+
+  function open() {
+    if (!menu) return;
+    lastFocus = document.activeElement as HTMLElement;
+    menu.hidden = false;
+    requestAnimationFrame(() => menu.classList.add("is-open"));
+    document.body.classList.add("menu-open");
+    document.body.style.overflow = "hidden";
+    toggle?.setAttribute("aria-expanded", "true");
+    (menu.querySelector("a, button") as HTMLElement | null)?.focus();
+  }
+  function shut() {
+    if (!menu) return;
+    menu.classList.remove("is-open");
+    document.body.classList.remove("menu-open");
+    document.body.style.overflow = "";
+    toggle?.setAttribute("aria-expanded", "false");
+    window.setTimeout(() => { menu.hidden = true; }, 200);
+    lastFocus?.focus();
+  }
+  toggle?.addEventListener("click", () => (menu?.hidden ? open() : shut()));
+  close?.addEventListener("click", shut);
+  document.addEventListener("keydown", (e) => { if (e.key === "Escape" && menu && !menu.hidden) shut(); });
+  menu?.querySelectorAll("a").forEach((a) => a.addEventListener("click", shut));
+</script>

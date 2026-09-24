@@ -1,0 +1,33 @@
+---
+// Standard inner-page hero: eyebrow, h1, lede, optional image on the right.
+import Picture from "@/components/ui/Picture.astro";
+import Breadcrumbs from "@/components/ui/Breadcrumbs.astro";
+interface Props {
+  eyebrow?: string;
+  title: string;
+  lede?: string;
+  image?: string;
+  imageAlt?: string;
+  crumbs?: { name: string; href: string }[];
+  dark?: boolean;
+  compact?: boolean;
+}
+const { eyebrow, title, lede, image, imageAlt = "", crumbs, dark = false, compact = false } = Astro.props;
+---
+<section class:list={["relative overflow-hidden", dark ? "bg-espresso text-bone" : "bg-bone", compact ? "pt-[calc(var(--nav-h)_+_2.5rem)] pb-10" : "pt-[calc(var(--nav-h)_+_3.5rem)] pb-14 md:pb-20"]}>
+  {dark && <div class="grain absolute inset-0"></div>}
+  <div class:list={["relative mx-auto max-w-content px-4 md:px-8 xl:px-12", image && "grid gap-10 lg:grid-cols-12 lg:items-end"]}>
+    <div class:list={[image && "lg:col-span-7"]}>
+      {crumbs && <Breadcrumbs items={crumbs} dark={dark} class="mb-6" />}
+      {eyebrow && <p class:list={["eyebrow hero-in", dark && "text-champagne"]}>{eyebrow}</p>}
+      <h1 class:list={["hero-in mt-4 max-w-4xl", compact ? "text-fluid-2xl" : "text-fluid-3xl", dark ? "text-bone" : "text-ink"]} style="animation-delay:80ms">{title}</h1>
+      {lede && <p class:list={["hero-in mt-6 max-w-2xl text-fluid-md", dark ? "text-stone" : "text-ink-soft"]} style="animation-delay:180ms">{lede}</p>}
+      <slot />
+    </div>
+    {image && (
+      <div class="hero-in lg:col-span-5" style="animation-delay:120ms">
+        <Picture name={image} alt={imageAlt} ratio="4/3" class="rounded-md" sizes="(min-width: 1024px) 40vw, 100vw" loading="eager" fetchpriority="high" width={1200} height={900} />
+      </div>
+    )}
+  </div>
+</section>

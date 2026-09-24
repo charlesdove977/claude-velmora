@@ -1,0 +1,68 @@
+/* Velmora Aesthetics design tokens. Single source of truth.
+   tailwind.config.mjs maps every utility to these variables.
+   Contrast (WCAG): espresso on bone 14.96, ink-soft on bone 7.00,
+   ink-muted on bone 4.82, gold-text on bone 5.43, sage-deep on bone 5.19,
+   champagne on espresso 6.05, sage on espresso 5.75. Champagne on bone is
+   2.47 and is therefore decorative only (hairlines, large numerals). */
+:root {
+  /* Neutrals */
+  --c-bone: #f5f0e8;
+  --c-bone-deep: #ede6da;
+  --c-sand: #e7ddcf;
+  --c-stone: #bfb3a3;
+  --c-espresso: #221b17;
+  --c-espresso-soft: #2e2521;
+  --c-ink: #221b17;
+  --c-ink-soft: #5a4f47;
+  --c-ink-muted: #736760;
+  /* Accent */
+  --c-champagne: #b8946a;
+  --c-gold-text: #7a5c36;
+  /* Secondary */
+  --c-sage: #8e9a86;
+  --c-sage-deep: #5c6856;
+  --c-sage-mist: #e3e7df;
+  /* State */
+  --c-error: #9b3b2e;
+  --c-success: #4f6b4a;
+
+  /* Type */
+  --font-display: "Fraunces", "Iowan Old Style", "Palatino Linotype", Georgia, serif;
+  --font-body: "Manrope", "Avenir Next", "Segoe UI", system-ui, sans-serif;
+  --fs-xs: clamp(0.75rem, 0.72rem + 0.15vw, 0.8125rem);
+  --fs-sm: clamp(0.875rem, 0.85rem + 0.15vw, 0.9375rem);
+  --fs-base: clamp(1rem, 0.97rem + 0.2vw, 1.0625rem);
+  --fs-md: clamp(1.125rem, 1.05rem + 0.35vw, 1.3125rem);
+  --fs-lg: clamp(1.375rem, 1.2rem + 0.8vw, 1.875rem);
+  --fs-xl: clamp(1.75rem, 1.4rem + 1.5vw, 2.5rem);
+  --fs-2xl: clamp(2.25rem, 1.7rem + 2.4vw, 3.5rem);
+  --fs-3xl: clamp(2.75rem, 1.9rem + 3.8vw, 4.75rem);
+  --fs-4xl: clamp(3.25rem, 2rem + 5.5vw, 6.25rem);
+  --fs-5xl: clamp(3.75rem, 2.2rem + 7.5vw, 8rem);
+  --lh-tight: 1.02;
+  --lh-snug: 1.15;
+  --lh-body: 1.6;
+
+  /* Radii, shadow, motion */
+  --r-sm: 4px;
+  --r-md: 10px;
+  --r-lg: 20px;
+  --shadow-soft: 0 1px 2px rgba(34, 27, 23, 0.04), 0 12px 32px -12px rgba(34, 27, 23, 0.12);
+  --shadow-lift: 0 2px 4px rgba(34, 27, 23, 0.05), 0 28px 56px -20px rgba(34, 27, 23, 0.22);
+  --ease-out: cubic-bezier(0.22, 1, 0.36, 1);
+  --ease-out-expo: cubic-bezier(0.16, 1, 0.3, 1);
+  --dur-fast: 180ms;
+  --dur-base: 420ms;
+  --dur-slow: 800ms;
+  --dur-slower: 1200ms;
+
+  /* Layout */
+  --space-section: clamp(5rem, 4rem + 6vw, 10rem);
+  --space-section-sm: clamp(3rem, 2.5rem + 3vw, 5.5rem);
+  --gutter: 1rem;
+  --nav-h: 76px;
+  --z-nav: 50;
+  --z-menu: 60;
+  --z-modal: 70;
+  --z-toast: 80;
+}

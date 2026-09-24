@@ -1,0 +1,99 @@
+---
+import BaseLayout from "@/layouts/BaseLayout.astro";
+import PageHero from "@/components/ui/PageHero.astro";
+import Picture from "@/components/ui/Picture.astro";
+import Button from "@/components/ui/Button.astro";
+import CtaBand from "@/components/ui/CtaBand.astro";
+import { team, getProvider } from "@/data/team";
+import { site } from "@/config/site";
+import { breadcrumbLd, physicianLd } from "@/lib/seo";
+
+const md = getProvider(site.medicalDirector.slug)!;
+const crumbs = [{ name: "Home", href: "/" }, { name: "About", href: "/about" }];
+const principles = [
+  { t: "Natural first", b: "We dose conservatively and build over visits. It is easy to add and impossible to subtract." },
+  { t: "Physician oversight", b: "Every protocol is written and reviewed by our medical director. Every provider is licensed and trained on the devices they use." },
+  { t: "Transparent pricing", b: "Starting prices on every page, the exact number on your written plan, and nothing added without asking." },
+  { t: "Honest expectations", b: "We say what a treatment can and cannot do, how much it hurts, and how long you will be pink. Then you decide." },
+];
+---
+<BaseLayout title="About Velmora: Philosophy, Medical Director and Team" description="A physician-led med spa in Old Town Scottsdale founded in 2019 on one idea: medical precision with hotel calm. Meet Dr. Elena Marsh and the team." image="/images/space-01-1200.webp" jsonLd={[breadcrumbLd(crumbs), physicianLd(md)]}>
+  <PageHero eyebrow="About" title="Medical precision. Hotel calm." lede={`Founded in ${site.founded} by ${md.name}, Velmora exists because aesthetics deserves the same rigor as any other specialty, delivered in a room you actually want to sit in.`} image="space-01" imageAlt="Velmora reception with stone, linen and warm light" crumbs={crumbs} />
+
+  <section class="border-t border-stone/40 py-section-sm">
+    <div class="mx-auto grid max-w-content gap-12 px-4 md:px-8 lg:grid-cols-12 xl:px-12">
+      <div class="lg:col-span-5">
+        <p class="eyebrow reveal">The story</p>
+        <h2 class="reveal mt-3 text-fluid-2xl text-ink" data-delay="60">Why a physician opened a spa</h2>
+      </div>
+      <div class="prose-velmora reveal text-fluid-md text-ink-soft lg:col-span-7" data-delay="120">
+        <p>Dr. Marsh spent a decade in hospital medicine before moving into aesthetics. What she found was an industry split in two: clinics that felt like clinics, and salons that felt like sales floors. Neither explained treatments clearly, and both were quick to add product.</p>
+        <p>Velmora was built as the third option. A consultation before anything. A written plan with pricing. Conservative technique by licensed providers. A calm room, a good chair, and a coordinator who remembers your name. Seven years and more than twenty-four thousand treatments later, that is still the whole idea.</p>
+      </div>
+    </div>
+  </section>
+
+  <section class="bg-sand py-section-sm">
+    <div class="mx-auto max-w-content px-4 md:px-8 xl:px-12">
+      <p class="eyebrow reveal">Philosophy</p>
+      <h2 class="reveal mt-3 text-fluid-2xl text-ink" data-delay="60">Four things we will not compromise</h2>
+      <div class="mt-10 grid gap-px overflow-hidden rounded-md border border-stone/50 bg-stone/50 sm:grid-cols-2 lg:grid-cols-4">
+        {principles.map((p, i) => (
+          <div class="reveal bg-bone p-7" data-delay={i * 90}>
+            <p class="font-display text-fluid-2xl text-champagne">0{i + 1}</p>
+            <h3 class="mt-2 font-display text-fluid-lg text-ink">{p.t}</h3>
+            <p class="mt-3 text-fluid-sm text-ink-soft">{p.b}</p>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <section class="py-section-sm">
+    <div class="mx-auto grid max-w-content gap-10 px-4 md:grid-cols-12 md:items-center md:px-8 xl:px-12">
+      <div class="reveal-clip md:col-span-5"><Picture name={md.image} alt={md.imageAlt} ratio="4/5" class="rounded-md" sizes="(min-width: 768px) 40vw, 100vw" width={800} height={1000} /></div>
+      <div class="md:col-span-6 md:col-start-7">
+        <p class="eyebrow reveal">Medical director</p>
+        <h2 class="reveal mt-3 text-fluid-2xl text-ink" data-delay="60">{md.name}, {md.credentials}</h2>
+        <p class="reveal mt-2 text-fluid-sm text-ink-muted" data-delay="100">{md.role}</p>
+        <div class="prose-velmora reveal mt-6 text-fluid-base text-ink-soft" data-delay="160">{md.bio.map((p) => <p>{p}</p>)}</div>
+        <div class="reveal mt-6" data-delay="220"><Button href={`/team/${md.slug}`} variant="ghost">Full profile</Button></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="border-t border-stone/40 py-section-sm">
+    <div class="mx-auto max-w-content px-4 md:px-8 xl:px-12">
+      <p class="eyebrow reveal">The team</p>
+      <h2 class="reveal mt-3 text-fluid-2xl text-ink" data-delay="60">Five providers, one standard</h2>
+      <div class="mt-10 grid gap-6 sm:grid-cols-2 lg:grid-cols-5">
+        {team.map((p, i) => (
+          <a href={`/team/${p.slug}`} class="reveal group" data-delay={i * 80}>
+            <Picture name={p.image} alt={p.imageAlt} ratio="4/5" class="rounded-md" imgClass="transition-transform duration-[1200ms] ease-out-expo group-hover:scale-[1.03]" sizes="(min-width: 1024px) 20vw, (min-width: 640px) 50vw, 100vw" width={800} height={1000} />
+            <p class="mt-4 font-display text-fluid-md text-ink group-hover:text-gold-text">{p.name}, {p.credentials}</p>
+            <p class="mt-1 text-fluid-xs text-ink-muted">{p.role}</p>
+          </a>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <section class="bg-bone-deep py-section-sm">
+    <div class="mx-auto grid max-w-content gap-10 px-4 md:grid-cols-2 md:px-8 xl:px-12">
+      <div>
+        <p class="eyebrow reveal">Visit</p>
+        <h2 class="reveal mt-3 text-fluid-2xl text-ink" data-delay="60">{site.address.neighborhood}</h2>
+        <address class="reveal mt-4 not-italic text-fluid-base text-ink-soft" data-delay="120">
+          {site.address.street}<br />{site.address.city}, {site.address.region} {site.address.postalCode}<br />
+          <a href={site.phoneHref} class="underline decoration-champagne underline-offset-4">{site.phone}</a>
+        </address>
+        <div class="reveal mt-6 flex gap-3" data-delay="180"><Button href="/contact" variant="ghost">Contact and map</Button><Button href="/book">Book</Button></div>
+      </div>
+      <div class="grid grid-cols-2 gap-3">
+        <div class="reveal-clip"><Picture name="space-02" alt="Treatment room with soft daylight" ratio="4/5" class="rounded-md" sizes="25vw" width={600} height={750} /></div>
+        <div class="reveal-clip" data-delay="120"><Picture name="space-03" alt="Lounge chair beside a window" ratio="4/5" class="rounded-md" sizes="25vw" width={600} height={750} /></div>
+      </div>
+    </div>
+  </section>
+  <CtaBand />
+</BaseLayout>

@@ -1,0 +1,32 @@
+---
+import Button from "@/components/ui/Button.astro";
+interface Props {
+  title?: string;
+  body?: string;
+  primaryHref?: string;
+  primaryLabel?: string;
+  secondaryHref?: string;
+  secondaryLabel?: string;
+}
+const {
+  title = "Ready when you are.",
+  body = "Free 20-minute virtual consultation, or $50 in person credited toward treatment. No pressure to proceed the same day.",
+  primaryHref = "/book",
+  primaryLabel = "Book a consultation",
+  secondaryHref = "/quiz",
+  secondaryLabel = "Take the 60-second match",
+} = Astro.props;
+---
+<section class="relative overflow-hidden bg-espresso text-bone">
+  <div class="grain absolute inset-0"></div>
+  <div class="relative mx-auto flex max-w-content flex-col gap-8 px-4 py-section-sm md:flex-row md:items-center md:justify-between md:px-8 xl:px-12">
+    <div class="max-w-xl">
+      <h2 class="reveal font-display text-fluid-2xl">{title}</h2>
+      <p class="reveal mt-4 text-fluid-base text-stone" data-delay="100">{body}</p>
+    </div>
+    <div class="reveal flex flex-col gap-3 sm:flex-row" data-delay="200">
+      <Button href={primaryHref} variant="gold" size="lg" magnetic>{primaryLabel}</Button>
+      <Button href={secondaryHref} variant="ghost-light" size="lg">{secondaryLabel}</Button>
+    </div>
+  </div>
+</section>

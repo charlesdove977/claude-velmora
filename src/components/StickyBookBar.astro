@@ -1,0 +1,19 @@
+---
+import { site } from "@/config/site";
+interface Props { href: string; label: string }
+const { href, label } = Astro.props;
+---
+<div id="sticky-book" class="sticky-book fixed inset-x-0 bottom-0 z-[50] px-3 pb-3 md:hidden" aria-label="Quick booking">
+  <div class="flex items-center gap-2 rounded-pill border border-champagne/40 bg-espresso/95 p-1.5 pl-5 text-bone shadow-lift backdrop-blur">
+    <a href={site.phoneHref} class="flex-1 truncate text-[0.8125rem] font-medium tracking-wide text-stone" aria-label={`Call ${site.phone}`}>{site.phone}</a>
+    <a href={href} class="inline-flex h-11 items-center gap-2 rounded-pill bg-champagne px-5 text-[0.8125rem] font-semibold text-espresso">
+      {label}
+      <svg class="h-3.5 w-3.5" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><path d="M3 8h10M9 4l4 4-4 4" /></svg>
+    </a>
+  </div>
+</div>
+<style>
+  .sticky-book { transform: translateY(120%); transition: transform 600ms var(--ease-out-expo); }
+  .sticky-book.is-visible { transform: none; }
+  @media (prefers-reduced-motion: reduce) { .sticky-book { transition: none; } }
+</style>

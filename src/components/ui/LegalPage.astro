@@ -1,0 +1,20 @@
+---
+import BaseLayout from "@/layouts/BaseLayout.astro";
+import PageHero from "@/components/ui/PageHero.astro";
+import { breadcrumbLd } from "@/lib/seo";
+interface Props { title: string; description: string; updated: string; slug: string; sections: { h: string; p: string[] }[] }
+const { title, description, updated, slug, sections } = Astro.props;
+const crumbs = [{ name: "Home", href: "/" }, { name: title, href: `/${slug}` }];
+---
+<BaseLayout title={title} description={description} jsonLd={[breadcrumbLd(crumbs)]} stickyBook={false}>
+  <PageHero eyebrow="Legal" title={title} lede={description} crumbs={crumbs} compact>
+    <p class="mt-4 text-fluid-xs text-ink-muted">Last updated {updated}</p>
+  </PageHero>
+  <section class="pb-section">
+    <div class="mx-auto max-w-content px-4 md:px-8 xl:px-12">
+      <div class="prose-velmora mx-auto max-w-3xl text-fluid-base text-ink-soft [&>h2]:text-ink">
+        {sections.map((s) => (<><h2>{s.h}</h2>{s.p.map((x) => <p>{x}</p>)}</>))}
+      </div>
+    </div>
+  </section>
+</BaseLayout>

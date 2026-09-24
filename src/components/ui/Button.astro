@@ -1,0 +1,34 @@
+---
+// Button: primary (espresso), gold (champagne on dark), ghost (outline), ghost-light (outline on dark), link.
+interface Props {
+  href?: string;
+  type?: "button" | "submit";
+  variant?: "primary" | "gold" | "ghost" | "ghost-light" | "link";
+  size?: "sm" | "md" | "lg";
+  full?: boolean;
+  magnetic?: boolean;
+  class?: string;
+  id?: string;
+  arrow?: boolean;
+  [key: string]: unknown;
+}
+const { href, type = "button", variant = "primary", size = "md", full = false, magnetic = false, class: cls = "", id, arrow = true, ...rest } = Astro.props;
+
+const base = "group inline-flex items-center justify-center gap-2 rounded-pill font-body font-semibold tracking-wide transition-all duration-300 ease-out select-none";
+const sizes = { sm: "h-10 px-5 text-[0.8125rem]", md: "h-12 px-7 text-fluid-sm", lg: "h-14 px-9 text-fluid-base" };
+const variants = {
+  primary: "bg-espresso text-bone hover:bg-espresso-soft hover:shadow-lift",
+  gold: "bg-champagne text-espresso hover:brightness-105 hover:shadow-lift",
+  ghost: "border border-espresso/30 text-espresso hover:border-espresso hover:bg-espresso/[0.04]",
+  "ghost-light": "border border-bone/40 text-bone hover:border-bone hover:bg-bone/10",
+  link: "h-auto px-0 text-gold-text underline-offset-[6px] hover:underline",
+};
+const classes = [base, sizes[size], variants[variant], full && "w-full", cls].filter(Boolean).join(" ");
+const Tag = href ? "a" : "button";
+---
+<Tag href={href} type={href ? undefined : type} id={id} class={classes} data-magnetic={magnetic ? "" : undefined} {...rest}>
+  <span><slot /></span>
+  {arrow && variant !== "link" && (
+    <svg class="h-3.5 w-3.5 transition-transform duration-300 group-hover:translate-x-0.5" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><path d="M3 8h10M9 4l4 4-4 4" /></svg>
+  )}
+</Tag>

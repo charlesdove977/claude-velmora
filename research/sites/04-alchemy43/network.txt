@@ -1,0 +1,43 @@
+### Result
+[POST] https://process.iconnode.com/google-ads/ => [200] 
+[POST] https://p.ksrndkehqnwntyxlhgto.com/session/ => [200] 
+[POST] https://cmp.influx.mx/v1/consent-events => [201] 
+[POST] https://alchemy43.com/cdn-cgi/rum? => [204] 
+[POST] https://cmp.influx.mx/v1/consent-events => [201] 
+[GET] https://alchemy43.com/_static_/video/copy_BA62D691-669A-4648-8A3C-3CD32C41C697.MOV => [206] 
+[GET] https://alchemy43.com/_static_/video/copy_BA62D691-669A-4648-8A3C-3CD32C41C697.MOV => [206] 
+[GET] https://alchemy43.com/_static_/video/iStock-1890107767.mp4 => [206] 
+[GET] https://alchemy43.com/_static_/video/iStock-1890107767.mp4 => [206] 
+[GET] https://alchemy43.com/_static_/video/iStock-1890107767.mp4 => [206] 
+[GET] https://alchemy43.com/_static_/video/iStock-1890107767.mp4 => [206] 
+[GET] https://alchemy43.com/_static_/video/iStock-1890107767.mp4 => [206] 
+[GET] https://alchemy43.com/_static_/video/iStock-1890107767.mp4 => [206] 
+[GET] https://alchemy43.com/_static_/video/iStock-1890107767.mp4 => [206] 
+[GET] https://alchemy43.com/_static_/video/iStock-1890107767.mp4 => [206] 
+[GET] https://alchemy43.com/_static_/video/iStock-1890107767.mp4 => [206] 
+[GET] https://alchemy43.com/_static_/video/iStock-1890107767.mp4 => [206] 
+[POST] https://cmp.influx.mx/v1/consent-events => [201] 
+[POST] https://analytics.google.com/g/collect?v=2&tid=G-EVM8HSTW6N&gtm=45je69n0v883028433za200zd883028433xf1&_p=1790277220605&_gaz=1&gcd=13l3l3l3l1l1&npa=0&dma=0&_eu=AAAAAGAC&cid=5376043.1790277221&frm=0&pscdl=noapi&rcb=15&sr=1440x900&uaa=arm&uab=64&uafvl=Google%2520Chrome%3B153.0.8010.53%7CNot_A%2520Brand%3B8.0.0.0%7CChromium%3B153.0.8010.53&uam=&uamb=0&uap=macOS&uapv=26.6.2&uaw=0&ul=en-us&gaf=2&_s=1&tag_exp=115938466~115938468~118897920~118897930~120213116~120385423~120469145~120469153&sid=1790277220&sct=1&seg=0&dl=https%3A%2F%2Falchemy43.com%2F&dt=Alchemy%2043%20%7C%20Aesthetics%20and%20Wellness&en=page_view&_fv=1&_nsi=1&_ss=1&_ee=1&tfd=28521 => [204] 
+[GET] https://config.gorgias.chat/applications/01H0GY36DSS85NH2RABJ09W3DZ/agents => [200] 
+[GET] https://gorgias-convert.com/assistant/configs/shop/undefined?widget-app-id=30542 => [404] 
+[POST] https://analytics.google.com/g/collect?v=2&tid=G-EVM8HSTW6N&gtm=45je69n0v883028433za200zd883028433xf1&_p=1790277220605&_gaz=1&gcd=13l3l3l3l1l1&npa=0&dma=0&_eu=AAAAAGAC&cid=5376043.1790277221&frm=0&pscdl=noapi&rcb=15&sr=1440x900&uaa=arm&uab=64&uafvl=Google%2520Chrome%3B153.0.8010.53%7CNot_A%2520Brand%3B8.0.0.0%7CChromium%3B153.0.8010.53&uam=&uamb=0&uap=macOS&uapv=26.6.2&uaw=0&ul=en-us&gaf=2&_s=1&tag_exp=115938466~115938468~118897920~118897930~120213116~120385423~120469145~120469153&sid=1790277220&sct=1&seg=0&dl=https%3A%2F%2Falchemy43.com%2F&dt=Alchemy%2043%20%7C%20Aesthetics%20and%20Wellness&en=page_view&_fv=1&_nsi=1&_ss=1&_ee=1&tfd=28521 => [204] 
+[POST] https://www.google.com/rmkt/collect/855172160/?random=1790277221120&cv=11&fst=1790277221120&fmt=8&bg=ffffff&guid=ON&async=1&en=gtag.config&gtm=45be69n0v876387865za200zb883028433zd883028433xecxf1&gcd=13l3l3l3l1l1&dma=0&tag_exp=115938466~115938468~117776795~118897920~118897930~120213116~120385423~120420415~120469145~120469153&u_w=1440&u_h=900&url=https%3A%2F%2Falchemy43.com%2F&rcb=3&frm=0&tiba=Alchemy%2043%20%7C%20Aesthetics%20and%20Wellness&hn=www.googleadservices.com&npa=0&pscdl=noapi&auid=888142469.1790277221&uaa=arm&uab=64&uafvl=Google%2520Chrome%3B153.0.8010.53%7CNot_A%2520Brand%3B8.0.0.0%7CChromium%3B153.0.8010.53&uamb=0&uam=&uap=macOS&uapv=26.6.2&uaw=0&data=event%3Dgtag.config&ept=68&gcp=5 => [200] 
+[POST] https://www.google.com/ccm/collect?rcb=3&frm=0&apvc=1&auid=888142469.1790277221&dt=Alchemy%2043%20%7C%20Aesthetics%20and%20Wellness&tid=AW-855172160&en=page_view&dl=https%3A%2F%2Falchemy43.com%2F&scrsrc=www.googletagmanager.com&rnd=1654302386.1790277221&navt=n&npa=0&gtm=45be69n0v876387865za200zb883028433zd883028433xecxf1&gcd=13l3l3l3l1l1&dma=0&tag_exp=115938466~115938468~117776795~118897920~118897930~120213116~120385423~120420415~120469145~120469153&tft=1790277221136&tfd=28715&_gsid=B_E_uu0XQ8DL-w3cGkfqQPqnnB0VuD4HVA&tids=AW-855172160&fmt=8 => [200] 
+[POST] https://ad.doubleclick.net/ccm/s/collect?_gsid=B_E_uu0XQ8DL-w3cGkfqQPqnnB0VuD4HVA&auid=888142469.1790277221&gtm=45be69n0v876387865za200zb883028433zd883028433xecxf1&fmt=8 => [204] 
+[POST] https://www.google-analytics.com/g/collect?v=2&tid=G-S31LD1208J&gtm=45je69n0v9166743422za200zb883028433zd883028433xf1&_p=1790277220605&gcd=13l3l3l3l1l1&npa=0&dma=0&cid=5376043.1790277221&frm=0&ngs=1&pscdl=noapi&rcb=4&sr=1440x900&uaa=arm&uab=64&uafvl=Google%2520Chrome%3B153.0.8010.53%7CNot_A%2520Brand%3B8.0.0.0%7CChromium%3B153.0.8010.53&uam=&uamb=0&uap=macOS&uapv=26.6.2&uaw=0&ul=en-us&_s=1&tag_exp=115616985~115938466~115938469~118897920~118897930~120213116~120385423~120469145~120469153&sid=1790277221&sct=1&seg=0&dl=https%3A%2F%2Falchemy43.com%2F&dt=Alchemy%2043%20%7C%20Aesthetics%20and%20Wellness&en=page_view&_fv=1&_ss=1&_ee=1&tfd=28750 => [204] 
+[POST] https://analytics.google.com/g/collect?v=2&tid=G-Z5C2KQC926&gtm=45je69n0v9136262595za200zb883028433zd883028433xf1&_p=1790277220605&_gaz=1&gcd=13l3l3l3l1l1&npa=0&dma=0&_eu=EAAAAGAC&_ng=1&cid=5376043.1790277221&frm=0&ir=1&pscdl=noapi&rcb=17&sr=1440x900&uaa=arm&uab=64&uafvl=Google%2520Chrome%3B153.0.8010.53%7CNot_A%2520Brand%3B8.0.0.0%7CChromium%3B153.0.8010.53&uam=&uamb=0&uap=macOS&uapv=26.6.2&uaw=0&ul=en-us&gaf=2&_s=1&tag_exp=115938466~115938469~118897920~118897930~120213116~120385422~120469145~120469153&sid=1790277221&sct=1&seg=0&dl=https%3A%2F%2Falchemy43.com%2F&dt=Alchemy%2043%20%7C%20Aesthetics%20and%20Wellness&en=page_view&_fv=1&_ss=1&_ee=1&tfd=28783 => [204] 
+[POST] https://analytics.google.com/g/collect?v=2&tid=G-Z5C2KQC926&gtm=45je69n0v9136262595za200zb883028433zd883028433xf1&_p=1790277220605&_gaz=1&gcd=13l3l3l3l1l1&npa=0&dma=0&_eu=EAAAAGAC&_ng=1&cid=5376043.1790277221&frm=0&ir=1&pscdl=noapi&rcb=17&sr=1440x900&uaa=arm&uab=64&uafvl=Google%2520Chrome%3B153.0.8010.53%7CNot_A%2520Brand%3B8.0.0.0%7CChromium%3B153.0.8010.53&uam=&uamb=0&uap=macOS&uapv=26.6.2&uaw=0&ul=en-us&gaf=2&_s=1&tag_exp=115938466~115938469~118897920~118897930~120213116~120385422~120469145~120469153&sid=1790277221&sct=1&seg=0&dl=https%3A%2F%2Falchemy43.com%2F&dt=Alchemy%2043%20%7C%20Aesthetics%20and%20Wellness&en=page_view&_fv=1&_ss=1&_ee=1&tfd=28783 => [204] 
+[POST] https://www.google.com/ccm/collect?rcb=3&frm=0&apvc=1&auid=888142469.1790277221&dt=Alchemy%2043%20%7C%20Aesthetics%20and%20Wellness&tid=AW-855172160&en=page_view&dl=https%3A%2F%2Falchemy43.com%2F&scrsrc=www.googletagmanager.com&rnd=1654302386.1790277221&navt=n&npa=0&gtm=45be69n0v876387865za200zb883028433zd883028433xecxf1&gcd=13l3l3l3l1l1&dma=0&tag_exp=115938466~115938468~117776795~118897920~118897930~120213116~120385423~120420415~120469145~120469153&tft=1790277221136&tfd=28715&_gsid=B_E_uu0XQ8DL-w3cGkfqQPqnnB0VuD4HVA&tids=AW-855172160&fmt=8 => [200] 
+[POST] https://ad.doubleclick.net/ccm/s/collect?_gsid=B_E_uu0XQ8DL-w3cGkfqQPqnnB0VuD4HVA&auid=888142469.1790277221&gtm=45be69n0v876387865za200zb883028433zd883028433xecxf1&fmt=8 => [204] 
+[POST] https://www.google-analytics.com/g/collect?v=2&tid=G-S31LD1208J&gtm=45je69n0v9166743422za200zb883028433zd883028433xf1&_p=1790277220605&gcd=13l3l3l3l1l1&npa=0&dma=0&cid=5376043.1790277221&frm=0&ngs=1&pscdl=noapi&rcb=4&sr=1440x900&uaa=arm&uab=64&uafvl=Google%2520Chrome%3B153.0.8010.53%7CNot_A%2520Brand%3B8.0.0.0%7CChromium%3B153.0.8010.53&uam=&uamb=0&uap=macOS&uapv=26.6.2&uaw=0&ul=en-us&_s=1&tag_exp=115616985~115938466~115938469~118897920~118897930~120213116~120385423~120469145~120469153&sid=1790277221&sct=1&seg=0&dl=https%3A%2F%2Falchemy43.com%2F&dt=Alchemy%2043%20%7C%20Aesthetics%20and%20Wellness&en=page_view&_fv=1&_ss=1&_ee=1&tfd=28750 => [204] 
+[POST] https://www.google.com/rmkt/collect/855172160/?random=1790277221120&cv=11&fst=1790277221120&fmt=8&bg=ffffff&guid=ON&async=1&en=gtag.config&gtm=45be69n0v876387865za200zb883028433zd883028433xecxf1&gcd=13l3l3l3l1l1&dma=0&tag_exp=115938466~115938468~117776795~118897920~118897930~120213116~120385423~120420415~120469145~120469153&u_w=1440&u_h=900&url=https%3A%2F%2Falchemy43.com%2F&rcb=3&frm=0&tiba=Alchemy%2043%20%7C%20Aesthetics%20and%20Wellness&hn=www.googleadservices.com&npa=0&pscdl=noapi&auid=888142469.1790277221&uaa=arm&uab=64&uafvl=Google%2520Chrome%3B153.0.8010.53%7CNot_A%2520Brand%3B8.0.0.0%7CChromium%3B153.0.8010.53&uamb=0&uam=&uap=macOS&uapv=26.6.2&uaw=0&data=event%3Dgtag.config&ept=68&gcp=5 => [200] 
+
+FLAGS:
+  three=no
+  spline=no
+  gsap=no
+  lenis=no
+  locomotive=no
+  framer=no
+  swiper=yes
+  video=yes

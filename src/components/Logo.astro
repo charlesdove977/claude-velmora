@@ -1,0 +1,12 @@
+---
+import { site } from "@/config/site";
+interface Props { class?: string }
+const { class: cls = "" } = Astro.props;
+---
+<!-- Typographic wordmark in live HTML text so it paints with the fallback font
+     and swaps, instead of waiting on the webfont like SVG text does. -->
+<span class:list={["inline-flex items-baseline gap-2.5 whitespace-nowrap leading-none", cls]} role="img" aria-label={site.name}>
+  <span class="font-display text-[1.5rem] tracking-[0.06em]" aria-hidden="true">{site.shortName.toUpperCase()}</span>
+  <span class="mb-[0.35em] h-px w-2.5 bg-champagne" aria-hidden="true"></span>
+  <span class="font-body text-[0.5rem] font-semibold uppercase tracking-[0.22em] opacity-70" aria-hidden="true">Aesthetics</span>
+</span>

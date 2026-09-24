@@ -1,0 +1,27 @@
+---
+import BaseLayout from "@/layouts/BaseLayout.astro";
+import BookingFlow from "@/components/islands/BookingFlow";
+import { treatments, categories } from "@/data/treatments";
+import { team } from "@/data/team";
+import { site } from "@/config/site";
+import { breadcrumbLd } from "@/lib/seo";
+
+const bookTreatments = treatments.map((t) => ({ slug: t.slug, name: t.name, shortName: t.shortName, priceFrom: t.priceFrom, priceUnit: t.priceUnit, category: t.category, providers: t.providers }));
+const bookProviders = team.filter((p) => p.bookable).map((p) => ({ slug: p.slug, name: p.name, credentials: p.credentials, role: p.role, image: p.image }));
+const catLabels = Object.fromEntries(Object.entries(categories).map(([k, v]) => [k, v.label]));
+const crumbs = [{ name: "Home", href: "/" }, { name: "Book", href: "/book" }];
+---
+<BaseLayout title="Book a Consultation or Treatment" description="Choose a treatment or consultation, a provider, a date and time, and confirm in four steps. A coordinator confirms within one business hour." jsonLd={[breadcrumbLd(crumbs)]} stickyBook={false}>
+  <section class="bg-bone pt-[calc(var(--nav-h)_+_2.5rem)] pb-section">
+    <div class="mx-auto max-w-content px-4 md:px-8 xl:px-12">
+      <div class="max-w-2xl">
+        <p class="eyebrow">Book</p>
+        <h1 class="mt-3 text-fluid-3xl text-ink">Four steps. Then we call you.</h1>
+        <p class="mt-4 text-fluid-md text-ink-soft">This is a booking request, not a charge. A coordinator confirms within one business hour during opening hours, or first thing the next morning. Prefer to talk? <a href={site.phoneHref} class="underline decoration-champagne underline-offset-4">{site.phone}</a>.</p>
+      </div>
+      <div class="mt-12">
+        <BookingFlow client:load treatments={bookTreatments} providers={bookProviders} categories={catLabels} consultLabels={{ virtual: site.consult.virtualLabel, inPerson: site.consult.inPersonLabel }} phone={site.phone} />
+      </div>
+    </div>
+  </section>
+</BaseLayout>

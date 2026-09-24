@@ -1,0 +1,21 @@
+---
+import LegalPage from "@/components/ui/LegalPage.astro";
+import { site } from "@/config/site";
+const sections = [
+  { h: "Using this site", p: [
+    `This website is operated by ${site.legalName}. By using it you agree to these terms. Content is provided for general information about our services and does not create a provider-patient relationship until you are seen at the clinic.`,
+  ]},
+  { h: "Booking requests", p: [
+    "Submitting the booking form sends a request, not a confirmed appointment. An appointment is confirmed only when a coordinator contacts you. Deposits, cancellation windows and late policies are described on the policies page and apply to every appointment.",
+  ]},
+  { h: "Pricing", p: [
+    "Prices on this site are starting prices and typical ranges. The price on your written treatment plan is the price you pay. We may change list prices at any time without notice.",
+  ]},
+  { h: "Eligibility", p: [`All clients must be ${site.minimumAge} or older. Treatments require a consultation and may be declined at the provider's discretion.`] },
+  { h: "Intellectual property", p: ["Text, design and the typographic wordmark on this site belong to us. Photography is licensed stock used for illustration. Nothing here may be copied for commercial use without written permission."] },
+  { h: "No guarantees", p: ["Treatment outcomes vary from person to person. Nothing on this site guarantees a particular result. Please read the medical disclaimer."] },
+  { h: "Governing law", p: ["These terms are governed by the laws of the State of Arizona. Any dispute will be handled in the courts of Maricopa County."] },
+  { h: "Contact", p: [`${site.email} or ${site.phone}.`] },
+];
+---
+<LegalPage title="Terms of Use" slug="terms" description="The terms that apply to using this website, booking requests, pricing and eligibility." updated="September 24, 2026" sections={sections} />

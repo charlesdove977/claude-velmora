@@ -1,0 +1,78 @@
+---
+import BaseLayout from "@/layouts/BaseLayout.astro";
+import PageHero from "@/components/ui/PageHero.astro";
+import FormField from "@/components/ui/FormField.astro";
+import Button from "@/components/ui/Button.astro";
+import Picture from "@/components/ui/Picture.astro";
+import { site } from "@/config/site";
+import { breadcrumbLd } from "@/lib/seo";
+const crumbs = [{ name: "Home", href: "/" }, { name: "Contact", href: "/contact" }];
+const mapSrc = `https://www.google.com/maps?q=${encodeURIComponent(`${site.address.street}, ${site.address.city}, ${site.address.region} ${site.address.postalCode}`)}&output=embed`;
+---
+<BaseLayout title="Contact Velmora Aesthetics, Old Town Scottsdale" description={`Visit us at ${site.address.street}, Scottsdale. Call ${site.phone}, send a message, or book online. Hours, parking and directions.`} jsonLd={[breadcrumbLd(crumbs)]}>
+  <PageHero eyebrow="Contact" title="Find us in Old Town" lede="Second floor, north side of Camelback, with covered parking in the garage behind the building. Validated for two hours." crumbs={crumbs} compact />
+  <section class="pb-section">
+    <div class="mx-auto grid max-w-content gap-10 px-4 md:px-8 lg:grid-cols-12 xl:px-12">
+      <div class="space-y-8 lg:col-span-5">
+        <div class="reveal rounded-md border border-stone/40 p-7">
+          <p class="eyebrow">Visit</p>
+          <address class="mt-3 not-italic text-fluid-base text-ink">
+            {site.address.street}<br />{site.address.city}, {site.address.region} {site.address.postalCode}
+          </address>
+          <a href={site.address.mapsUrl} target="_blank" rel="noopener" class="mt-3 inline-block text-fluid-sm font-semibold text-gold-text underline-offset-[6px] hover:underline">Open in Google Maps</a>
+          <p class="eyebrow mt-7">Call or email</p>
+          <p class="mt-3 text-fluid-base"><a href={site.phoneHref} class="text-ink hover:text-gold-text">{site.phone}</a><br /><a href={`mailto:${site.email}`} class="text-ink hover:text-gold-text">{site.email}</a></p>
+          <p class="eyebrow mt-7">Hours</p>
+          <dl class="mt-3 space-y-1 text-fluid-sm text-ink-soft">
+            {site.hours.map((h) => <div class="flex justify-between"><dt>{h.day}</dt><dd>{h.open ? `${h.open.replace(/^0/, "")} to ${h.close?.replace(/^0/, "")}` : "Closed"}</dd></div>)}
+          </dl>
+        </div>
+        <div class="reveal overflow-hidden rounded-md border border-stone/40" data-delay="120">
+          <div class="relative" data-map>
+            <Picture name="desert-01" alt="Warm desert light near Old Town Scottsdale" ratio="4/3" sizes="(min-width: 1024px) 40vw, 100vw" />
+            <button type="button" class="absolute inset-0 flex items-end justify-center bg-gradient-to-t from-espresso/70 to-transparent p-5 text-fluid-sm font-semibold text-bone" data-map-load>Load interactive map (Google)</button>
+          </div>
+        </div>
+      </div>
+      <div class="lg:col-span-7">
+        <div class="reveal" data-delay="80">
+          <p class="eyebrow">Send a message</p>
+          <h2 class="mt-3 font-display text-fluid-2xl text-ink">We reply within one business hour</h2>
+          <p class="mt-3 text-fluid-base text-ink-soft">For booking, use the <a href="/book" class="underline decoration-champagne underline-offset-4">booking page</a>. For membership questions, mention the tier you are considering.</p>
+        </div>
+        <form id="contact-form" class="reveal mt-8 grid gap-5" data-delay="160" novalidate>
+          <div class="grid gap-5 sm:grid-cols-2">
+            <FormField name="name" label="Name" required autocomplete="name" />
+            <FormField name="email" label="Email" type="email" required autocomplete="email" />
+          </div>
+          <FormField name="phone" label="Phone" type="tel" autocomplete="tel" />
+          <FormField name="message" label="Message" type="textarea" required rows={6} />
+          <input type="text" name="company_website" tabindex="-1" autocomplete="off" class="hidden" aria-hidden="true" />
+          <div><Button type="submit">Send message</Button></div>
+        </form>
+      </div>
+    </div>
+  </section>
+</BaseLayout>
+<script define:vars={{ mapSrc }}>
+  window.__mapSrc = mapSrc;
+</script>
+<script>
+  import { wireForm } from "@/scripts/forms";
+  import { contactSchema } from "@/lib/schemas";
+  const form = document.getElementById("contact-form") as HTMLFormElement | null;
+  if (form) {
+    const params = new URLSearchParams(location.search);
+    if (params.get("topic") === "membership") {
+      const msg = form.querySelector<HTMLTextAreaElement>('[name="message"]');
+      if (msg && !msg.value) msg.value = `I am interested in the ${params.get("tier") ?? ""} membership. `.replace("  ", " ");
+    }
+    wireForm(form, contactSchema, "/api/contact", "Message sent", "A coordinator will reply within one business hour during opening hours.");
+  }
+  document.querySelector("[data-map-load]")?.addEventListener("click", (e) => {
+    const wrap = (e.currentTarget as HTMLElement).closest("[data-map]") as HTMLElement | null;
+    if (!wrap) return;
+    const src = (window as unknown as { __mapSrc: string }).__mapSrc;
+    wrap.innerHTML = `<iframe src="${src}" title="Map to Velmora Aesthetics" width="100%" height="360" style="border:0;display:block" loading="lazy" referrerpolicy="no-referrer-when-downgrade" allowfullscreen></iframe>`;
+  });
+</script>

@@ -1,0 +1,60 @@
+---
+import BaseLayout from "@/layouts/BaseLayout.astro";
+import PageHero from "@/components/ui/PageHero.astro";
+import Accordion from "@/components/ui/Accordion.astro";
+import CtaBand from "@/components/ui/CtaBand.astro";
+import { faqs, faqCategories, faqsByCategory, categoryAnchor } from "@/data/faq";
+import { breadcrumbLd, faqLd } from "@/lib/seo";
+const crumbs = [{ name: "Home", href: "/" }, { name: "FAQ", href: "/faq" }];
+const groups = faqCategories.map((c) => ({ name: c.name, anchor: categoryAnchor(c.name), items: faqsByCategory(c.name) })).filter((g) => g.items.length);
+---
+<BaseLayout title={`FAQ: ${faqs.length} Questions Answered`} description="Every question we are asked about booking, preparation, aftercare, billing, policies and safety, grouped and searchable." jsonLd={[breadcrumbLd(crumbs), faqLd(faqs)]}>
+  <PageHero eyebrow="FAQ" title="Ask us anything. Here is a start." lede={`${faqs.length} questions, grouped by topic. Filter as you type.`} crumbs={crumbs} compact>
+    <div class="reveal mt-6 max-w-lg" data-delay="240">
+      <label for="faq-filter" class="sr-only">Filter questions</label>
+      <input id="faq-filter" type="search" class="h-12 w-full rounded-pill border border-stone/70 bg-bone px-5 text-fluid-base text-ink outline-none focus:border-espresso" autocomplete="off" />
+    </div>
+    <nav class="reveal mt-5 flex flex-wrap gap-2" aria-label="Jump to group" data-delay="300">
+      {groups.map((g) => <a href={`#${g.anchor}`} class="rounded-pill border border-stone/60 px-3 py-1.5 text-fluid-xs text-ink-soft hover:border-espresso hover:text-ink">{g.name}</a>)}
+    </nav>
+  </PageHero>
+  <section class="pb-section" data-faq-page>
+    <div class="mx-auto max-w-content px-4 md:px-8 xl:px-12">
+      <div class="mx-auto max-w-3xl">
+        {groups.map((g) => (
+          <div id={g.anchor} class="faq-group scroll-mt-28 border-t border-stone/40 py-10 first:border-t-0">
+            <h2 class="font-display text-fluid-xl text-ink">{g.name}</h2>
+            <div class="mt-4"><Accordion items={g.items} single={false} /></div>
+          </div>
+        ))}
+        <p class="hidden py-10 text-fluid-base text-ink-soft" data-faq-empty>No question matches that. <a href="/support#contact" class="underline decoration-champagne underline-offset-4">Ask a coordinator</a>.</p>
+      </div>
+    </div>
+  </section>
+  <CtaBand />
+</BaseLayout>
+<script>
+  const input = document.getElementById("faq-filter") as HTMLInputElement | null;
+  const root = document.querySelector("[data-faq-page]");
+  const empty = root?.querySelector<HTMLElement>("[data-faq-empty]");
+  const groups = Array.from(root?.querySelectorAll<HTMLElement>(".faq-group") ?? []);
+  const apply = () => {
+    const q = (input?.value || "").toLowerCase().trim();
+    let any = false;
+    groups.forEach((g) => {
+      let n = 0;
+      g.querySelectorAll<HTMLDetailsElement>("details").forEach((d) => {
+        const ok = !q || (d.textContent || "").toLowerCase().includes(q);
+        d.classList.toggle("hidden", !ok);
+        if (ok) n++;
+        if (q && ok) d.open = true;
+      });
+      g.classList.toggle("hidden", n === 0);
+      if (n) any = true;
+    });
+    empty?.classList.toggle("hidden", any);
+  };
+  input?.addEventListener("input", apply);
+  // Open the question named in the hash
+  if (location.hash) { const d = document.querySelector<HTMLDetailsElement>(location.hash); if (d && d.tagName === "DETAILS") d.open = true; }
+</script>

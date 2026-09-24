@@ -1,0 +1,31 @@
+---
+import BaseLayout from "@/layouts/BaseLayout.astro";
+import PageHero from "@/components/ui/PageHero.astro";
+import CtaBand from "@/components/ui/CtaBand.astro";
+import { policies } from "@/data/policies";
+import { breadcrumbLd } from "@/lib/seo";
+const crumbs = [{ name: "Home", href: "/" }, { name: "Support", href: "/support" }, { name: "Policies", href: "/support/policies" }];
+---
+<BaseLayout title="Policies: Cancellation, Deposits, Refunds, Age" description="Velmora's cancellation, deposit, refund, age, late-arrival and privacy policies in plain words." jsonLd={[breadcrumbLd(crumbs)]} stickyBook={false}>
+  <PageHero eyebrow="Policies" title="The rules, in plain words" lede="Short, fair and the same for everyone. If something here does not fit your situation, call us and we will talk it through." crumbs={crumbs} compact>
+    <nav class="reveal mt-6 flex flex-wrap gap-2" aria-label="Jump to policy" data-delay="240">
+      {policies.map((p) => <a href={`#${p.id}`} class="rounded-pill border border-stone/60 px-3 py-1.5 text-fluid-xs text-ink-soft hover:border-espresso hover:text-ink">{p.title}</a>)}
+    </nav>
+  </PageHero>
+  <section class="pb-section">
+    <div class="mx-auto max-w-content px-4 md:px-8 xl:px-12">
+      <div class="mx-auto max-w-3xl divide-y divide-stone/40">
+        {policies.map((p) => (
+          <article id={p.id} class="reveal scroll-mt-28 py-10">
+            <h2 class="font-display text-fluid-xl text-ink">{p.title}</h2>
+            <p class="mt-2 text-fluid-md text-ink-soft">{p.summary}</p>
+            <ul class="mt-5 space-y-3 text-fluid-base text-ink-soft">
+              {p.points.map((x) => <li class="flex gap-3"><span class="mt-[0.7em] h-px w-4 shrink-0 bg-champagne"></span>{x}</li>)}
+            </ul>
+          </article>
+        ))}
+      </div>
+    </div>
+  </section>
+  <CtaBand />
+</BaseLayout>

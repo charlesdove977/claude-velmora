@@ -1,0 +1,25 @@
+---
+import BaseLayout from "@/layouts/BaseLayout.astro";
+import Button from "@/components/ui/Button.astro";
+import { site } from "@/config/site";
+const links = [
+  { label: "Treatments", href: "/treatments" },
+  { label: "Book a consultation", href: "/book" },
+  { label: "Pricing", href: "/pricing" },
+  { label: "Support", href: "/support" },
+];
+---
+<BaseLayout title="Page not found" description="That page does not exist. Here is where to go instead." noindex stickyBook={false}>
+  <section class="relative flex min-h-[100svh] items-center overflow-hidden bg-espresso text-bone">
+    <div class="grain absolute inset-0"></div>
+    <div class="absolute -right-24 top-1/2 h-[60vmin] w-[60vmin] -translate-y-1/2 rounded-full opacity-60" style="background: radial-gradient(circle at 35% 30%, #d9c2a0 0%, #b8946a 45%, #221b17 100%)" aria-hidden="true"></div>
+    <div class="relative mx-auto max-w-content px-4 md:px-8 xl:px-12">
+      <p class="eyebrow text-champagne">404</p>
+      <h1 class="mt-4 max-w-2xl text-fluid-3xl">This page is not on the menu.</h1>
+      <p class="mt-5 max-w-lg text-fluid-md text-stone">The link may be old, or the address mistyped. Nothing here is lost. Try one of these, or call {site.phone}.</p>
+      <div class="mt-8 flex flex-wrap gap-3">
+        {links.map((l, i) => <Button href={l.href} variant={i === 1 ? "gold" : "ghost-light"}>{l.label}</Button>)}
+      </div>
+    </div>
+  </section>
+</BaseLayout>

@@ -1,0 +1,144 @@
+---
+import BaseLayout from "@/layouts/BaseLayout.astro";
+import Accordion from "@/components/ui/Accordion.astro";
+import FormField from "@/components/ui/FormField.astro";
+import Button from "@/components/ui/Button.astro";
+import { faqs, faqCategories, topFaqs } from "@/data/faq";
+import { aftercare } from "@/data/aftercare";
+import { policies } from "@/data/policies";
+import { supportTopics } from "@/lib/schemas";
+import { site } from "@/config/site";
+import { breadcrumbLd, faqLd } from "@/lib/seo";
+
+// Search index: FAQ + aftercare + policies, searched client-side.
+const index = [
+  ...faqs.map((f) => ({ type: "FAQ", title: f.q, body: f.a, href: `/faq#${f.id}`, tag: f.category })),
+  ...aftercare.map((a) => ({ type: "Aftercare", title: a.name, body: `${a.applies}. ${a.intro} ${a.first24.join(" ")}`, href: `/support/aftercare/${a.slug}`, tag: a.applies })),
+  ...policies.map((p) => ({ type: "Policy", title: p.title, body: `${p.summary} ${p.points.join(" ")}`, href: `/support/policies#${p.id}`, tag: "Policies" })),
+];
+const crumbs = [{ name: "Home", href: "/" }, { name: "Support", href: "/support" }];
+const openDays = site.hours.filter((h) => h.open);
+---
+<BaseLayout title="Support: Help Center, Aftercare and Policies" description="Search answers on booking, preparation, aftercare, billing and policies. Reach a coordinator by form or phone with a one-business-hour response promise." jsonLd={[breadcrumbLd(crumbs), faqLd(topFaqs)]}>
+  <section class="bg-espresso pt-[calc(var(--nav-h)_+_3rem)] pb-16 text-bone">
+    <div class="mx-auto max-w-content px-4 md:px-8 xl:px-12">
+      <p class="eyebrow text-champagne">Support</p>
+      <h1 class="mt-3 max-w-2xl text-fluid-3xl">How can we help?</h1>
+      <div class="relative mt-8 max-w-2xl" data-support-search>
+        <label for="support-q" class="sr-only">Search help articles</label>
+        <input id="support-q" type="search" autocomplete="off" class="h-14 w-full rounded-pill border border-bone/30 bg-bone/10 pl-6 pr-14 text-fluid-base text-bone outline-none backdrop-blur focus:border-champagne" />
+        <svg class="pointer-events-none absolute right-5 top-1/2 h-5 w-5 -translate-y-1/2 text-stone" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><circle cx="11" cy="11" r="7" /><path d="M20 20l-3.5-3.5" /></svg>
+        <div id="support-results" class="absolute inset-x-0 top-full z-20 mt-2 hidden max-h-[60vh] overflow-y-auto rounded-md border border-stone/40 bg-bone p-2 text-ink shadow-lift" role="listbox" aria-label="Search results"></div>
+      </div>
+      <p class="mt-4 text-fluid-sm text-stone">Or call <a href={site.phoneHref} class="underline decoration-champagne underline-offset-4">{site.phone}</a>. A coordinator answers {openDays[0].day.slice(0, 3)} to {openDays[openDays.length - 1].day.slice(0, 3)}, and we reply to every message within one business hour.</p>
+    </div>
+  </section>
+
+  <section class="py-section-sm">
+    <div class="mx-auto max-w-content px-4 md:px-8 xl:px-12">
+      <div class="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+        {faqCategories.map((c, i) => (
+          <a href={c.href} class="reveal group rounded-md border border-stone/40 p-6 transition-colors hover:border-espresso" data-delay={i * 60}>
+            <p class="font-display text-fluid-lg text-ink group-hover:text-gold-text">{c.name}</p>
+            <p class="mt-2 text-fluid-sm text-ink-soft">{c.blurb}</p>
+          </a>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <section id="aftercare" class="scroll-mt-24 bg-bone-deep py-section-sm">
+    <div class="mx-auto max-w-content px-4 md:px-8 xl:px-12">
+      <p class="eyebrow reveal">Aftercare guides</p>
+      <h2 class="reveal mt-3 text-fluid-2xl text-ink" data-delay="60">One guide per treatment family</h2>
+      <div class="mt-8 grid gap-4 sm:grid-cols-2 lg:grid-cols-5">
+        {aftercare.map((a, i) => (
+          <a href={`/support/aftercare/${a.slug}`} class="reveal group rounded-md border border-stone/40 bg-bone p-5 transition-colors hover:border-espresso" data-delay={i * 60}>
+            <p class="font-display text-fluid-md text-ink group-hover:text-gold-text">{a.name.replace(" aftercare", "")}</p>
+            <p class="mt-2 text-fluid-xs text-ink-muted">{a.applies}</p>
+          </a>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <section class="py-section-sm">
+    <div class="mx-auto grid max-w-content gap-10 px-4 md:px-8 lg:grid-cols-12 xl:px-12">
+      <div class="lg:col-span-4">
+        <p class="eyebrow reveal">Top questions</p>
+        <h2 class="reveal mt-3 text-fluid-2xl text-ink" data-delay="60">Asked most often</h2>
+        <div class="reveal mt-5" data-delay="120"><Button href="/faq" variant="link">All {faqs.length} questions</Button></div>
+      </div>
+      <div class="reveal lg:col-span-8" data-delay="100"><Accordion items={topFaqs.slice(0, 8)} name="top-faq" /></div>
+    </div>
+  </section>
+
+  <section id="contact" class="scroll-mt-24 border-t border-stone/40 py-section-sm">
+    <div class="mx-auto grid max-w-content gap-10 px-4 md:px-8 lg:grid-cols-12 xl:px-12">
+      <div class="lg:col-span-4">
+        <p class="eyebrow reveal">Still need help?</p>
+        <h2 class="reveal mt-3 text-fluid-2xl text-ink" data-delay="60">Write to a coordinator</h2>
+        <p class="reveal mt-4 text-fluid-base text-ink-soft" data-delay="120">We answer within one business hour during opening hours. For anything urgent after a treatment, call {site.phone}. A provider is reachable every day for post-treatment concerns.</p>
+        <dl class="reveal mt-6 space-y-1 text-fluid-sm text-ink-soft" data-delay="180">
+          {site.hours.map((h) => <div class="flex justify-between"><dt>{h.day}</dt><dd>{h.open ? `${h.open.replace(/^0/, "")} to ${h.close?.replace(/^0/, "")}` : "Closed"}</dd></div>)}
+        </dl>
+      </div>
+      <form id="support-form" class="reveal grid gap-5 lg:col-span-8" data-delay="100" novalidate>
+        <div class="grid gap-5 sm:grid-cols-2">
+          <FormField name="name" label="Name" required autocomplete="name" />
+          <FormField name="email" label="Email" type="email" required autocomplete="email" />
+          <FormField name="phone" label="Phone" type="tel" autocomplete="tel" />
+          <FormField name="topic" label="Topic" type="select" required options={supportTopics} />
+        </div>
+        <FormField name="message" label="How can we help?" type="textarea" required rows={5} />
+        <input type="text" name="company_website" tabindex="-1" autocomplete="off" class="hidden" aria-hidden="true" />
+        <div><Button type="submit">Send message</Button></div>
+      </form>
+    </div>
+  </section>
+</BaseLayout>
+
+<script define:vars={{ index }}>
+  window.__supportIndex = index;
+</script>
+<script>
+  import { wireForm } from "@/scripts/forms";
+  import { supportSchema } from "@/lib/schemas";
+  const form = document.getElementById("support-form") as HTMLFormElement | null;
+  if (form) wireForm(form, supportSchema, "/api/support", "Message sent", "A coordinator will reply within one business hour during opening hours.");
+
+  // Fuzzy search: token match with prefix tolerance, scored by title hits.
+  type Item = { type: string; title: string; body: string; href: string; tag: string };
+  const items: Item[] = (window as unknown as { __supportIndex: Item[] }).__supportIndex || [];
+  const input = document.getElementById("support-q") as HTMLInputElement | null;
+  const out = document.getElementById("support-results");
+  const norm = (s: string) => s.toLowerCase().replace(/[^a-z0-9 ]/g, " ");
+  const score = (it: Item, tokens: string[]) => {
+    const t = norm(it.title), b = norm(it.body);
+    let s = 0;
+    for (const tok of tokens) {
+      if (t.includes(tok)) s += 5;
+      else if (t.split(" ").some((w) => w.startsWith(tok.slice(0, Math.max(3, tok.length - 2))))) s += 3;
+      if (b.includes(tok)) s += 2;
+      else if (b.split(" ").some((w) => w.startsWith(tok.slice(0, Math.max(3, tok.length - 2))))) s += 1;
+    }
+    return s;
+  };
+  const render = () => {
+    if (!input || !out) return;
+    const q = norm(input.value).trim();
+    const tokens = q.split(/\s+/).filter((x) => x.length > 1);
+    if (!tokens.length) { out.classList.add("hidden"); out.innerHTML = ""; return; }
+    const hits = items.map((it) => ({ it, s: score(it, tokens) })).filter((x) => x.s > 0).sort((a, b) => b.s - a.s).slice(0, 8);
+    out.classList.remove("hidden");
+    out.innerHTML = hits.length
+      ? hits.map(({ it }) => `<a role="option" href="${it.href}" class="block rounded-md px-4 py-3 hover:bg-bone-deep"><span class="text-[0.6875rem] font-semibold uppercase tracking-eyebrow text-gold-text">${it.type}</span><span class="mt-0.5 block font-display text-fluid-md text-ink"></span><span class="mt-0.5 block truncate text-fluid-xs text-ink-muted"></span></a>`).join("")
+      : `<p class="px-4 py-3 text-fluid-sm text-ink-soft">No matches. Try another word, or send us a message below.</p>`;
+    if (hits.length) out.querySelectorAll("a").forEach((a, i) => { const spans = a.querySelectorAll("span"); spans[1].textContent = hits[i].it.title; spans[2].textContent = hits[i].it.body; });
+  };
+  input?.addEventListener("input", render);
+  input?.addEventListener("focus", render);
+  document.addEventListener("click", (e) => { if (out && !out.contains(e.target as Node) && e.target !== input) out.classList.add("hidden"); });
+  const pre = new URLSearchParams(location.search).get("q");
+  if (pre && input) { input.value = pre; render(); }
+</script>

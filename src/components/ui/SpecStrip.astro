@@ -1,0 +1,20 @@
+---
+import type { Spec } from "@/data/treatments";
+interface Props { spec: Spec; dark?: boolean; class?: string }
+const { spec, dark = false, class: cls = "" } = Astro.props;
+const items = [
+  { label: "Duration", value: spec.duration },
+  { label: "Discomfort", value: spec.discomfort },
+  { label: "Downtime", value: spec.downtime },
+  { label: "Results onset", value: spec.onset },
+  { label: "Longevity", value: spec.longevity },
+];
+---
+<dl class:list={["spec-strip reveal grid grid-cols-2 gap-px overflow-hidden rounded-md border sm:grid-cols-3 lg:grid-cols-5", dark ? "border-bone/15 bg-bone/15" : "border-stone/50 bg-stone/50", cls]}>
+  {items.map((it) => (
+    <div class:list={["px-5 py-5", dark ? "bg-espresso" : "bg-bone"]}>
+      <dt class:list={["text-[0.6875rem] font-semibold uppercase tracking-eyebrow", dark ? "text-champagne" : "text-gold-text"]}>{it.label}</dt>
+      <dd class:list={["mt-2 font-display text-fluid-md leading-snug", dark ? "text-bone" : "text-ink"]}>{it.value}</dd>
+    </div>
+  ))}
+</dl>

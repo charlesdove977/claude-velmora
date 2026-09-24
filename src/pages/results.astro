@@ -1,0 +1,59 @@
+---
+import BaseLayout from "@/layouts/BaseLayout.astro";
+import PageHero from "@/components/ui/PageHero.astro";
+import BeforeAfter from "@/components/ui/BeforeAfter.astro";
+import CtaBand from "@/components/ui/CtaBand.astro";
+import { treatments, categories } from "@/data/treatments";
+import { breadcrumbLd } from "@/lib/seo";
+
+// Illustrative gallery. Each entry uses one of the two stock pairs and is
+// tagged by category so the filter works the way a real gallery would.
+const gallery = [
+  { before: "ba-01-before", after: "ba-01-after", cat: "injectables", label: "Neuromodulators, forehead and frown lines" },
+  { before: "ba-02-before", after: "ba-02-after", cat: "skin", label: "HydraFacial series, clarity and hydration" },
+  { before: "ba-01-before", after: "ba-01-after", cat: "laser", label: "IPL photofacial, sun spots and tone" },
+  { before: "ba-02-before", after: "ba-02-after", cat: "injectables", label: "Dermal filler, cheek support" },
+  { before: "ba-01-before", after: "ba-01-after", cat: "skin", label: "RF microneedling, texture and pores" },
+  { before: "ba-02-before", after: "ba-02-after", cat: "laser", label: "Fractional resurfacing, fine lines" },
+];
+const cats = Object.entries(categories).filter(([k]) => gallery.some((g) => g.cat === k));
+const crumbs = [{ name: "Home", href: "/" }, { name: "Results", href: "/results" }];
+---
+<BaseLayout title="Results Gallery: Before and After" description="Before and after comparisons across injectables, skin and laser. Illustrative imagery for this demo; a real gallery uses consented patient photos only." jsonLd={[breadcrumbLd(crumbs)]}>
+  <PageHero eyebrow="Results" title="Subtle, on purpose" lede="Drag each slider to compare. Every image on this page is illustrative stock, labeled as such. A real clinic shows only consented patient photos, and never guarantees a result." crumbs={crumbs} />
+  <section class="pb-section">
+    <div class="mx-auto max-w-content px-4 md:px-8 xl:px-12" data-gallery>
+      <div class="reveal flex flex-wrap items-center gap-2 border-y border-stone/40 py-5" role="group" aria-label="Filter results">
+        <span class="mr-2 text-fluid-xs uppercase tracking-eyebrow text-ink-muted">Show</span>
+        <button type="button" class="gchip is-active" data-cat="all">All</button>
+        {cats.map(([k, c]) => <button type="button" class="gchip" data-cat={k}>{c.label}</button>)}
+      </div>
+      <div class="mt-8 grid gap-6 md:grid-cols-2">
+        {gallery.map((g) => <div data-gitem data-cat={g.cat}><BeforeAfter before={g.before} after={g.after} label={g.label} /></div>)}
+      </div>
+      <div class="mt-12 rounded-md border border-champagne/40 bg-bone-deep p-7 text-fluid-sm text-ink-soft">
+        <p class="font-semibold text-ink">A note on honesty</p>
+        <p class="mt-2">Results vary by person, treatment and provider. Photos are taken in the same light, without makeup and without filters. We show typical results, not exceptional ones. Every treatment page lists what to expect and when.</p>
+        <ul class="mt-4 flex flex-wrap gap-2">
+          {treatments.slice(0, 6).map((t) => <li><a href={`/treatments/${t.slug}`} class="inline-block rounded-pill border border-stone/60 px-3 py-1.5 text-fluid-xs hover:border-espresso hover:text-ink">{t.name}</a></li>)}
+        </ul>
+      </div>
+    </div>
+  </section>
+  <CtaBand />
+</BaseLayout>
+<style>
+  .gchip { height: 2.5rem; padding: 0 1.1rem; border-radius: 999px; border: 1px solid color-mix(in srgb, var(--c-stone) 70%, transparent); font-size: var(--fs-sm); font-weight: 600; color: var(--c-ink-soft); transition: all 250ms var(--ease-out); }
+  .gchip:hover { border-color: var(--c-espresso); color: var(--c-ink); }
+  .gchip.is-active { background: var(--c-espresso); border-color: var(--c-espresso); color: var(--c-bone); }
+</style>
+<script>
+  document.querySelectorAll<HTMLElement>("[data-gallery]").forEach((root) => {
+    const chips = root.querySelectorAll<HTMLButtonElement>(".gchip");
+    const items = root.querySelectorAll<HTMLElement>("[data-gitem]");
+    chips.forEach((c) => c.addEventListener("click", () => {
+      chips.forEach((x) => x.classList.toggle("is-active", x === c));
+      items.forEach((it) => it.classList.toggle("hidden", c.dataset.cat !== "all" && it.dataset.cat !== c.dataset.cat));
+    }));
+  });
+</script>

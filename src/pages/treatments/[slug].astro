@@ -1,0 +1,190 @@
+---
+import BaseLayout from "@/layouts/BaseLayout.astro";
+import Picture from "@/components/ui/Picture.astro";
+import Button from "@/components/ui/Button.astro";
+import Breadcrumbs from "@/components/ui/Breadcrumbs.astro";
+import SpecStrip from "@/components/ui/SpecStrip.astro";
+import Accordion from "@/components/ui/Accordion.astro";
+import BeforeAfter from "@/components/ui/BeforeAfter.astro";
+import TreatmentCard from "@/components/ui/TreatmentCard.astro";
+import Badge from "@/components/ui/Badge.astro";
+import CtaBand from "@/components/ui/CtaBand.astro";
+import { treatments, getTreatment, categories, formatPrice } from "@/data/treatments";
+import { providersFor } from "@/data/team";
+import { getAftercare } from "@/data/aftercare";
+import { site } from "@/config/site";
+import { breadcrumbLd, faqLd, procedureLd } from "@/lib/seo";
+
+export function getStaticPaths() {
+  return treatments.map((t) => ({ params: { slug: t.slug } }));
+}
+const t = getTreatment(Astro.params.slug!)!;
+const providers = providersFor(t.slug);
+const pairs = t.pairsWith.map(getTreatment).filter(Boolean);
+const care = getAftercare(t.aftercare)!;
+const crumbs = [{ name: "Home", href: "/" }, { name: "Treatments", href: "/treatments" }, { name: t.name, href: `/treatments/${t.slug}` }];
+const bookHref = `/book?treatment=${t.slug}`;
+const timeline = [
+  { label: "Before", items: t.expect.before },
+  { label: "During", items: t.expect.during },
+  { label: "After", items: t.expect.after },
+];
+---
+<BaseLayout
+  title={`${t.name} in Scottsdale | from ${formatPrice(t.priceFrom)} ${t.priceUnit}`}
+  description={`${t.benefit} ${t.summary.slice(0, 120)}`}
+  image={`/images/${t.image}-1200.webp`}
+  jsonLd={[breadcrumbLd(crumbs), procedureLd(t), faqLd(t.faqs)]}
+  bookHref={bookHref}
+  bookLabel={`Book ${t.shortName}`}
+>
+  <!-- Hero -->
+  <section class="bg-bone pt-[calc(var(--nav-h)_+_2.5rem)]">
+    <div class="mx-auto grid max-w-content gap-10 px-4 pb-12 md:px-8 lg:grid-cols-12 lg:items-end xl:px-12">
+      <div class="lg:col-span-6">
+        <Breadcrumbs items={crumbs} class="mb-6" />
+        <div class="hero-in flex flex-wrap items-center gap-3">
+          <Badge>{categories[t.category].label}</Badge>
+          {t.membershipEligible && <Badge tone="sage">Member pricing</Badge>}
+        </div>
+        <h1 class="hero-in mt-5 text-fluid-3xl text-ink" style="animation-delay:80ms">{t.name}</h1>
+        <p class="hero-in mt-4 font-display text-fluid-lg italic text-gold-text" style="animation-delay:140ms">{t.benefit}</p>
+        <p class="hero-in mt-6 max-w-xl text-fluid-md text-ink-soft" style="animation-delay:200ms">{t.summary}</p>
+        <div class="hero-in mt-8 flex flex-wrap items-center gap-4" style="animation-delay:280ms">
+          <Button href={bookHref} size="lg" magnetic>Book {t.shortName}</Button>
+          <div>
+            <p class="text-fluid-xs uppercase tracking-eyebrow text-ink-muted">From</p>
+            <p class="font-display text-fluid-xl leading-none text-ink">{formatPrice(t.priceFrom)} <span class="text-fluid-sm text-ink-muted">{t.priceUnit}</span></p>
+          </div>
+        </div>
+      </div>
+      <div class="hero-in lg:col-span-6" style="animation-delay:100ms">
+        <Picture name={t.image} alt={t.imageAlt} ratio="4/3" class="rounded-md" sizes="(min-width: 1024px) 50vw, 100vw" loading="eager" fetchpriority="high" width={1200} height={900} />
+      </div>
+    </div>
+    <div class="mx-auto max-w-content px-4 pb-16 md:px-8 xl:px-12">
+      <SpecStrip spec={t.spec} />
+    </div>
+  </section>
+
+  <!-- What it treats + how it works -->
+  <section class="border-t border-stone/40 py-section-sm">
+    <div class="mx-auto grid max-w-content gap-12 px-4 md:px-8 lg:grid-cols-12 xl:px-12">
+      <div class="lg:col-span-4">
+        <p class="eyebrow reveal">What it treats</p>
+        <ul class="reveal mt-5 space-y-3" data-delay="80">
+          {t.treats.map((x) => (
+            <li class="flex items-start gap-3 text-fluid-base text-ink"><span class="mt-[0.7em] h-px w-4 shrink-0 bg-champagne"></span>{x}</li>
+          ))}
+        </ul>
+      </div>
+      <div class="lg:col-span-7 lg:col-start-6">
+        <p class="eyebrow reveal">How it works</p>
+        <div class="reveal prose-velmora mt-5 text-fluid-md text-ink-soft" data-delay="80">
+          {t.howItWorks.map((p) => <p>{p}</p>)}
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- What to expect timeline -->
+  <section class="bg-sand py-section-sm">
+    <div class="mx-auto max-w-content px-4 md:px-8 xl:px-12">
+      <p class="eyebrow reveal">What to expect</p>
+      <h2 class="reveal mt-3 text-fluid-2xl text-ink" data-delay="60">Before, during and after</h2>
+      <div class="mt-10 grid gap-px overflow-hidden rounded-md border border-stone/50 bg-stone/50 md:grid-cols-3">
+        {timeline.map((step, i) => (
+          <div class="reveal bg-bone p-7" data-delay={i * 100}>
+            <p class="font-display text-fluid-2xl text-champagne">0{i + 1}</p>
+            <h3 class="mt-1 font-display text-fluid-lg text-ink">{step.label}</h3>
+            <ul class="mt-4 space-y-3 text-fluid-sm text-ink-soft">
+              {step.items.map((x) => <li class="border-l border-champagne/50 pl-3">{x}</li>)}
+            </ul>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- Results -->
+  <section class="py-section-sm">
+    <div class="mx-auto max-w-content px-4 md:px-8 xl:px-12">
+      <div class="flex flex-col gap-4 md:flex-row md:items-end md:justify-between">
+        <div>
+          <p class="eyebrow reveal">Results</p>
+          <h2 class="reveal mt-3 text-fluid-2xl text-ink" data-delay="60">What subtle looks like</h2>
+        </div>
+        <p class="reveal max-w-md text-fluid-sm text-ink-muted">Illustrative imagery only. Results vary, and a consultation is required before any treatment.</p>
+      </div>
+      <div class="mt-8 grid gap-6 md:grid-cols-2">
+        <BeforeAfter before="ba-01-before" after="ba-01-after" label={`${t.name}, illustrative`} />
+        <div class="reveal flex flex-col justify-center rounded-md border border-stone/40 p-7" data-delay="120">
+          <p class="font-display text-fluid-lg text-ink">Providers who perform {t.shortName}</p>
+          <ul class="mt-5 divide-y divide-stone/40">
+            {providers.map((p) => (
+              <li>
+                <a href={`/team/${p.slug}`} class="group flex items-center gap-4 py-4">
+                  <Picture name={p.image} alt={p.imageAlt} class="h-14 w-14 shrink-0 rounded-pill" sizes="56px" width={112} height={112} />
+                  <div class="min-w-0">
+                    <p class="font-semibold text-ink group-hover:text-gold-text">{p.name}, {p.credentials}</p>
+                    <p class="truncate text-fluid-xs text-ink-muted">{p.role}</p>
+                  </div>
+                </a>
+              </li>
+            ))}
+          </ul>
+          <p class="mt-4 text-fluid-xs text-ink-muted">Every protocol is reviewed by {site.medicalDirector.name}.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Pricing detail -->
+  <section class="border-t border-stone/40 py-section-sm">
+    <div class="mx-auto grid max-w-content gap-10 px-4 md:px-8 lg:grid-cols-12 xl:px-12">
+      <div class="lg:col-span-4">
+        <p class="eyebrow reveal">Pricing</p>
+        <h2 class="reveal mt-3 text-fluid-2xl text-ink" data-delay="60">No surprises</h2>
+        <p class="reveal mt-4 text-fluid-base text-ink-soft" data-delay="120">Your written plan shows the exact number before we begin. Financing through {site.financing.join(" and ")}. {t.membershipEligible ? "Members save 10 to 20 percent." : ""}</p>
+        <div class="reveal mt-6" data-delay="180"><Button href="/pricing" variant="link">Full price list</Button></div>
+      </div>
+      <dl class="reveal divide-y divide-stone/40 border-y border-stone/40 lg:col-span-7 lg:col-start-6" data-delay="100">
+        {t.priceLines.map((l) => (
+          <div class="flex items-baseline justify-between gap-6 py-4">
+            <dt class="text-fluid-base text-ink">{l.label}</dt>
+            <dd class="shrink-0 font-display text-fluid-md text-ink">{l.price}</dd>
+          </div>
+        ))}
+      </dl>
+    </div>
+  </section>
+
+  <!-- FAQ -->
+  <section class="bg-bone-deep py-section-sm">
+    <div class="mx-auto grid max-w-content gap-10 px-4 md:px-8 lg:grid-cols-12 xl:px-12">
+      <div class="lg:col-span-4">
+        <p class="eyebrow reveal">Questions</p>
+        <h2 class="reveal mt-3 text-fluid-2xl text-ink" data-delay="60">Asked before every {t.shortName} visit</h2>
+        <p class="reveal mt-4 text-fluid-base text-ink-soft" data-delay="120">Aftercare for this treatment lives in the <a href={`/support/aftercare/${care.slug}`} class="underline decoration-champagne underline-offset-4">{care.name.toLowerCase()} guide</a>.</p>
+      </div>
+      <div class="reveal lg:col-span-7 lg:col-start-6" data-delay="100">
+        <Accordion items={t.faqs} name={`faq-${t.slug}`} />
+      </div>
+    </div>
+  </section>
+
+  <!-- Pairs well with -->
+  {pairs.length > 0 && (
+    <section class="py-section-sm">
+      <div class="mx-auto max-w-content px-4 md:px-8 xl:px-12">
+        <p class="eyebrow reveal">Pairs well with</p>
+        <h2 class="reveal mt-3 text-fluid-2xl text-ink" data-delay="60">Often planned together</h2>
+        <div class="mt-8 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+          {pairs.map((p, i) => <TreatmentCard t={p!} index={i} compact />)}
+        </div>
+      </div>
+    </section>
+  )}
+
+  <CtaBand title={`Book ${t.name.toLowerCase()} with a plan.`} primaryHref={bookHref} primaryLabel={`Book ${t.shortName}`} />
+</BaseLayout>

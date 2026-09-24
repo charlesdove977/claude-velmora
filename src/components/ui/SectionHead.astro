@@ -1,0 +1,20 @@
+---
+interface Props {
+  eyebrow?: string;
+  title: string;
+  lede?: string;
+  align?: "left" | "center";
+  dark?: boolean;
+  as?: "h1" | "h2" | "h3";
+  size?: "sm" | "md" | "lg";
+  class?: string;
+}
+const { eyebrow, title, lede, align = "left", dark = false, as: Tag = "h2", size = "md", class: cls = "" } = Astro.props;
+const sizes = { sm: "text-fluid-xl", md: "text-fluid-2xl", lg: "text-fluid-3xl" };
+---
+<div class:list={["reveal max-w-3xl", align === "center" && "mx-auto text-center", cls]}>
+  {eyebrow && <p class:list={["eyebrow", dark && "text-champagne"]}>{eyebrow}</p>}
+  <Tag class:list={["mt-3", sizes[size], dark ? "text-bone" : "text-ink"]}><slot name="title">{title}</slot></Tag>
+  {lede && <p class:list={["mt-5 text-fluid-md", dark ? "text-stone" : "text-ink-soft"]}>{lede}</p>}
+  <slot />
+</div>
