@@ -108,12 +108,12 @@ echo "$r" | grep -q "open=1 closed=1 stickybar=true" && ok "mobile menu + sticky
 
 # 3D renders on desktop
 pw resize 1440 900 >/dev/null 2>&1; pw goto "$BASE/" >/dev/null 2>&1
-r=$(pw --raw run-code "async page => { await page.waitForTimeout(4000); const canvas = await page.locator('.hero canvas').count(); const posterHidden = await page.locator('#hero-poster.is-hidden').count(); await page.screenshot({ path: '$V/hero-3d.png' }); return ('RESULT canvas=' + canvas + ' posterHidden=' + posterHidden); }" 2>/dev/null | grep -o 'RESULT[^"]*' | tail -1)
-echo "$r" | grep -q "canvas=1 posterHidden=1" && ok "hero 3D: $r" || bad "hero 3D: $r"
+r=$(pw --raw run-code "async page => { await page.waitForTimeout(4500); const live = await page.locator('.hero-canvas.is-live').count(); const rings = await page.locator('.lm-ring.is-live').count(); await page.screenshot({ path: '$V/hero-3d.png' }); return ('RESULT heroCanvasLive=' + live + ' metalRingsLive=' + rings); }" 2>/dev/null | grep -o 'RESULT[^"]*' | tail -1)
+echo "$r" | grep -q "heroCanvasLive=1 metalRingsLive=3" && ok "hero WebGL slider + liquid metal CTAs: $r" || bad "hero WebGL slider + liquid metal CTAs: $r"
 
 # Reduced motion -> poster only
-r=$(pw --raw run-code "async page => { await page.emulateMedia({ reducedMotion: 'reduce' }); await page.goto('$BASE/'); await page.waitForTimeout(3500); const canvas = await page.locator('.hero canvas').count(); const poster = await page.locator('#hero-poster:not(.is-hidden)').count(); await page.screenshot({ path: '$V/hero-reduced-motion.png' }); await page.emulateMedia({ reducedMotion: 'no-preference' }); return ('RESULT canvas=' + canvas + ' posterVisible=' + poster); }" 2>/dev/null | grep -o 'RESULT[^"]*' | tail -1)
-echo "$r" | grep -q "canvas=0 posterVisible=1" && ok "reduced motion poster fallback: $r" || bad "reduced motion poster fallback: $r"
+r=$(pw --raw run-code "async page => { await page.emulateMedia({ reducedMotion: 'reduce' }); await page.goto('$BASE/'); await page.waitForTimeout(3500); const live = await page.locator('.hero-canvas.is-live').count(); const rings = await page.locator('.lm-ring.is-live').count(); const img = await page.locator('.hero-slider picture img').first().isVisible(); await page.screenshot({ path: '$V/hero-reduced-motion.png' }); await page.emulateMedia({ reducedMotion: 'no-preference' }); return ('RESULT heroCanvasLive=' + live + ' metalRingsLive=' + rings + ' staticImageVisible=' + img); }" 2>/dev/null | grep -o 'RESULT[^"]*' | tail -1)
+echo "$r" | grep -q "heroCanvasLive=0 metalRingsLive=0 staticImageVisible=true" && ok "reduced motion static fallback: $r" || bad "reduced motion static fallback: $r"
 
 # API rate limit + honeypot
 rl=$(for i in 1 2 3 4 5 6; do curl -s -o /dev/null -w "%{http_code} " -X POST "$BASE/api/contact" -H 'Content-Type: application/json' -d '{"name":"QA","email":"qa@example.com","message":"rate limit probe message"}'; done)

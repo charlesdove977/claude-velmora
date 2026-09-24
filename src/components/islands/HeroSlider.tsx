@@ -51,7 +51,7 @@ const split = (text: string) => {
   const words = text.split(" ");
   return words.map((word, wi) => (
     <span key={wi} className="inline-block whitespace-nowrap">
-      {word.split("").map((ch, ci) => <span key={ci} className="lm-char inline-block" style={{ opacity: 0 }}>{ch}</span>)}
+      {word.split("").map((ch, ci) => <span key={ci} className="lm-char inline-block">{ch}</span>)}
       {wi < words.length - 1 ? " " : ""}
     </span>
   ));
@@ -65,6 +65,7 @@ export default function HeroSlider({ slides, eyebrow, note, children }: Props) {
   const [index, setIndex] = useState(0);
   const [progress, setProgress] = useState(0);
   const [mode, setMode] = useState<"static" | "css" | "gl">("static");
+  const [extra, setExtra] = useState(false); // non-first slide images, mounted after idle
   const state = useRef({ index: 0, busy: false, timer: 0 as number, prog: 0, reduce: false });
   const gl = useRef<{ go: (from: number, to: number, done: () => void) => void; dispose: () => void } | null>(null);
   const gsapRef = useRef<typeof import("gsap")["gsap"] | null>(null);
@@ -115,12 +116,13 @@ export default function HeroSlider({ slides, eyebrow, note, children }: Props) {
     s.reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
     const wantsGl = !s.reduce && window.matchMedia("(min-width: 1024px)").matches;
     setMode(wantsGl ? "gl" : "css");
+    const idle = (window as Window & { requestIdleCallback?: (cb: () => void, o?: { timeout: number }) => number }).requestIdleCallback;
+    if (idle) idle(() => setExtra(true), { timeout: 2500 }); else window.setTimeout(() => setExtra(true), 1200);
     let disposed = false;
     (async () => {
       try {
         const { gsap } = await import("gsap"); gsapRef.current = gsap;
       } catch {}
-      if (!disposed) requestAnimationFrame(() => animateIn(0));
       if (wantsGl && canvasRef.current && root.current) {
         try {
           const THREE = await import("three");
@@ -169,10 +171,10 @@ export default function HeroSlider({ slides, eyebrow, note, children }: Props) {
   return (
     <div ref={root} className="hero-slider absolute inset-0">
       {/* Backgrounds: CSS crossfade layers always present (poster + fallback); canvas on top when live. */}
-      {slides.map((s, i) => (
+      {slides.map((s, i) => (i === 0 || extra) && (
         <picture key={s.image} className="absolute inset-0 transition-opacity duration-[1400ms] ease-out" style={{ opacity: mode === "gl" ? (i === 0 ? 1 : 0) : i === index ? 1 : 0 }} aria-hidden={i !== index}>
-          <source type="image/avif" srcSet={`/images/${s.image}-640.avif 640w, /images/${s.image}-1200.avif 1200w, /images/${s.image}-1920.avif 1920w`} sizes="100vw" />
-          <img src={`/images/${s.image}-1200.webp`} srcSet={`/images/${s.image}-640.webp 640w, /images/${s.image}-1200.webp 1200w, /images/${s.image}-1920.webp 1920w`} sizes="100vw" alt={i === index ? s.alt : ""} width={1920} height={1280} loading={i === 0 ? "eager" : "lazy"} fetchPriority={i === 0 ? "high" : "auto"} decoding="async" className="h-full w-full object-cover" />
+          <source type="image/avif" srcSet={`/images/${s.image}-640.avif 640w, /images/${s.image}-1200.avif 1200w, /images/${s.image}-1920.avif 1920w`} sizes="(max-width: 767px) 60vw, 100vw" />
+          <img src={`/images/${s.image}-1200.webp`} srcSet={`/images/${s.image}-640.webp 640w, /images/${s.image}-1200.webp 1200w, /images/${s.image}-1920.webp 1920w`} sizes="(max-width: 767px) 60vw, 100vw" alt={i === index ? s.alt : ""} width={1920} height={1280} loading={i === 0 ? "eager" : "lazy"} fetchPriority={i === 0 ? "high" : "auto"} decoding="async" className="h-full w-full object-cover" />
         </picture>
       ))}
       <canvas ref={canvasRef} className="hero-canvas absolute inset-0 h-full w-full opacity-0 transition-opacity duration-700 [&.is-live]:opacity-100" aria-hidden="true" />
@@ -190,7 +192,7 @@ export default function HeroSlider({ slides, eyebrow, note, children }: Props) {
         <div className="max-w-2xl">
           <p className="eyebrow text-champagne">{eyebrow}</p>
           <h1 ref={titleRef} key={index} className="mt-5 min-h-[3.15em] max-w-[13ch] text-fluid-4xl text-bone [perspective:800px]" aria-label={slide.title}>{split(slide.title)}</h1>
-          <p ref={descRef} className="mt-6 min-h-[4.9em] max-w-lg text-fluid-md text-bone" style={{ opacity: 0 }}>{slide.description}</p>
+          <p ref={descRef} className="mt-6 min-h-[4.9em] max-w-lg text-fluid-md text-bone">{slide.description}</p>
           <div className="mt-9 flex flex-col gap-3 sm:flex-row">{children}</div>
           <p className="mt-5 text-fluid-xs text-bone/75">{note}</p>
         </div>
