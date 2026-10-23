@@ -4,6 +4,8 @@ Ultra-premium, 3D-driven, fully functional website for a physician-led luxury me
 
 Stack: Astro 5 (static pages + node adapter in middleware mode for `/api/*`, served by Express with compression), Tailwind, React islands only where interactive (booking flow, quiz, 3D), three.js via @react-three/fiber + drei, GSAP ScrollTrigger, Lenis, zod, Resend.
 
+Full build breakdown: [Claude Code vs Codex: build a website from one prompt](https://charlieautomates.com/blog/build-website-with-claude-code-one-prompt/)
+
 ## Run locally
 
 ```bash
@@ -83,3 +85,5 @@ See `verification/` for full-route screenshots at 1440 and 390, `verification/e2
 ## Compliance posture
 
 Medical copy never guarantees outcomes. Before/after images are stock and carry "Illustrative imagery. Not actual patient results." Testimonials are labeled illustrative. No PHI is stored on the server; form submissions are emailed and not written to disk. Minimum age 18. Medical disclaimer, privacy, terms and accessibility pages are linked from every footer.
+
+More free Claude Code tools: [charlieautomates.com](https://charlieautomates.com/free-resources/)
